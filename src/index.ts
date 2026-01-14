@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { logger } from './middleware/logger'
 import { errorHandler } from './middleware/errorHandler'
+import supplierSourcingRoutes from './routes/supplier-sourcing'
 
 const app = new Hono()
 
@@ -23,5 +24,8 @@ app.get('/health', (c) => {
     timestamp: new Date().toISOString()
   })
 })
+
+// API Routes
+app.route('/api/supplier-sourcing', supplierSourcingRoutes)
 
 export default app

@@ -1,0 +1,51 @@
+{
+  "projectName": "E-commerce Platform Development",
+  "projectDescription": "Looking for experienced suppliers to develop a full-featured e-commerce platform with payment integration, inventory management, and customer analytics.",
+  "budget": {
+    "min": 50000,
+    "max": 150000,
+    "currency": "USD"
+  },
+  "timeline": {
+    "startDate": "2024-02-01T00:00:00Z",
+    "endDate": "2024-08-01T00:00:00Z",
+    "urgency": "high"
+  },
+  "requirements": {
+    "technical": [
+      "React.js frontend development",
+      "Node.js backend development",
+      "PostgreSQL database design",
+      "RESTful API development",
+      "Payment gateway integration (Stripe/PayPal)",
+      "AWS cloud deployment",
+      "CI/CD pipeline setup"
+    ],
+    "business": [
+      "Experience with e-commerce platforms",
+      "Understanding of PCI compliance",
+      "Knowledge of inventory management systems",
+      "Experience with scalable architecture"
+    ],
+    "compliance": [
+      "GDPR compliance",
+      "PCI DSS compliance",
+      "SOC 2 certification preferred"
+    ]
+  },
+  "supplierPreferences": {
+    "location": ["United States", "Canada", "United Kingdom"],
+    "companySize": "medium",
+    "experience": {
+      "minYears": 5,
+      "industries": ["e-commerce", "retail", "fintech"]
+    },
+    "certifications": ["ISO 27001", "AWS Certified Partner", "Google Cloud Partner"]
+  },
+  "contactInfo": {
+    "name": "John Smith",
+    "email": "john.smith@company.com",
+    "phone": "+1-555-0123",
+    "company": "TechCorp Solutions Inc."
+  }
+}
