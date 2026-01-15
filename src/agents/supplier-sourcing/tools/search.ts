@@ -3,6 +3,7 @@ import { Calculator } from "@langchain/community/tools/calculator";
 import { DuckDuckGoSearch } from "@langchain/community/tools/duckduckgo_search";
 import { createAgent } from "langchain";
 import { z } from "zod";
+import { Supplier, SearchCriteria } from "../../../types";
 
 export class SearchAgent {
   private model: ChatOpenAI;
@@ -111,7 +112,7 @@ export class SearchAgent {
     category: string;
     location?: string;
     specifications: string[];
-  }) {
+  }): Promise<any> {
     if (!this.executor) {
       throw new Error("Agent not initialized. Call initialize() first.");
     }

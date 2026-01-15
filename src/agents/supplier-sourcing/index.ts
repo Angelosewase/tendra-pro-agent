@@ -9,55 +9,19 @@ import { dataIngestionTool } from "./tools/data-ingestion";
 import { profileManagerTool } from "./tools/profile-manager";
 import { recommendationTool } from "./tools/recommendation";
 import { SearchAgent } from "./tools/search";
+import { 
+  Supplier, 
+  ProjectRequirements, 
+  SupplierEvaluation, 
+  EvaluationScore, 
+  Recommendation 
+} from "../../types";
 
 export const SupplierSourcingStateSchema = z.object({
   messages: z.array(z.any()),
-  projectRequirements: z.object({
-    category: z.string(),
-    specifications: z.array(z.string()),
-    budget: z.object({
-      min: z.number(),
-      max: z.number(),
-      currency: z.string(),
-    }),
-    timeline: z.string(),
-    location: z.string().optional(),
-    quantity: z.number(),
-  }),
-  suppliers: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string(),
-      capabilities: z.array(z.string()),
-      location: z.string(),
-      rating: z.number(),
-      priceRange: z.object({
-        min: z.number(),
-        max: z.number(),
-        currency: z.string(),
-      }),
-      leadTime: z.string(),
-      certifications: z.array(z.string()),
-    })
-  ),
-  evaluation: z
-    .object({
-      scores: z.array(
-        z.object({
-          supplierId: z.string(),
-          score: z.number(),
-          criteria: z.array(z.string()),
-        })
-      ),
-      recommendations: z.array(
-        z.object({
-          supplierId: z.string(),
-          rank: z.number(),
-          reasoning: z.string(),
-        })
-      ),
-    })
-    .optional(),
+  projectRequirements: z.custom<ProjectRequirements>(),
+  suppliers: z.array(z.custom<Supplier>()),
+  evaluation: z.custom<SupplierEvaluation>().optional(),
 });
 
 export type SupplierSourcingState = z.infer<typeof SupplierSourcingStateSchema>;
@@ -341,7 +305,7 @@ export class SupplierSourcingAgent {
   }
 
   public async run(input: {
-    projectRequirements: SupplierSourcingState["projectRequirements"];
+    projectRequirements: ProjectRequirements;
     messages?: BaseMessage[];
   }): Promise<SupplierSourcingState> {
     const compiledGraph = this.graph.compile();
