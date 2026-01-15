@@ -1,39 +1,45 @@
 import { ChatOpenAI } from "@langchain/openai";
-import { OpenAIEmbeddings } from "@langchain/openai";
 import { initializeAgentExecutorWithOptions } from "@langchain/classic/agents";
 import { Calculator } from "@langchain/community/tools/calculator";
-import { WebBrowser } from "@langchain/classic/tools/webbrowser";
 import { DuckDuckGoSearch } from "@langchain/community/tools/duckduckgo_search";
 
 export class SearchAgent {
   private model: ChatOpenAI;
-  private embeddings: OpenAIEmbeddings;
   private executor: any;
 
   constructor(options?: { temperature?: number }) {
-    // Initialize OpenRouter model
+    const apiKey = process.env.OPEN_ROUTER_API_KEY;
+    
+    if (!apiKey) {
+      console.warn('⚠️  OPEN_ROUTER_API_KEY is not set in environment variables');
+    }
+
+    // FIX: LangChain needs OPENAI_API_KEY environment variable
+    if (apiKey) {
+      process.env.OPENAI_API_KEY = apiKey;
+    }
+
     this.model = new ChatOpenAI({
       temperature: options?.temperature ?? 0,
-      openAIApiKey: process.env.OPEN_ROUTER_API_KEY,
+      model: "xiaomi/mimo-v2-flash:free",
       configuration: {
         baseURL: "https://openrouter.ai/api/v1",
-      },
-    });
-
-    // Initialize embeddings with OpenRouter
-    this.embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPEN_ROUTER_API_KEY,
-      configuration: {
-        baseURL: "https://openrouter.ai/api/v1",
+        defaultHeaders: {
+          "HTTP-Referer": "http://localhost:3000",
+          "X-Title": "SearchAgent",
+        },
       },
     });
   }
 
   async initialize() {
+    if (!process.env.OPEN_ROUTER_API_KEY) {
+      throw new Error('OPEN_ROUTER_API_KEY environment variable is required');
+    }
+
     const tools = [
       new DuckDuckGoSearch({ maxResults: 5 }),
       new Calculator(),
-      new WebBrowser({ model: this.model, embeddings: this.embeddings }),
     ];
 
     this.executor = await initializeAgentExecutorWithOptions(
@@ -42,10 +48,11 @@ export class SearchAgent {
       {
         agentType: "zero-shot-react-description",
         verbose: true,
+        maxIterations: 3,
       }
     );
 
-    console.log("Search agent initialized.");
+    console.log("✓ Search agent initialized successfully");
   }
 
   async search(query: string) {
@@ -53,8 +60,23 @@ export class SearchAgent {
       throw new Error("Agent not initialized. Call initialize() first.");
     }
 
-    console.log(`Executing search with query: "${query}"...`);
+    if (!query || query.trim().length === 0) {
+      throw new Error("Search query cannot be empty");
+    }
+
+    console.log(`\n🔍 Executing search with query: "${query}"...`);
     const result = await this.executor.invoke({ input: query });
+    console.log("✓ Search completed successfully");
     return result;
+  }
+
+  async healthCheck(): Promise<boolean> {
+    try {
+      const testResponse = await this.model.invoke("Say 'OK'");
+      return testResponse.content.toString().includes("OK");
+    } catch (error) {
+      console.error("Health check failed:", error);
+      return false;
+    }
   }
 }
