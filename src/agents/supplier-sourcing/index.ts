@@ -8,6 +8,7 @@ import { z } from "zod";
 import { dataIngestionTool } from "./tools/data-ingestion";
 import { profileManagerTool } from "./tools/profile-manager";
 import { recommendationTool } from "./tools/recommendation";
+import { SearchAgent } from "./tools/search";
 
 export const SupplierSourcingStateSchema = z.object({
   messages: z.array(z.any()),
@@ -103,13 +104,16 @@ export class SupplierSourcingAgent {
         specifications: projectRequirements.specifications,
       });
 
+      const searchEnhanced = response.searchCriteria?.searchEnhanced || false;
+      const message = searchEnhanced 
+        ? `Found ${response.suppliers.length} potential suppliers for ${projectRequirements.category} using enhanced search`
+        : `Found ${response.suppliers.length} potential suppliers for ${projectRequirements.category}`;
+
       return {
         suppliers: response.suppliers,
         messages: [
           ...state.messages,
-          new SystemMessage(
-            `Found ${response.suppliers.length} potential suppliers for ${projectRequirements.category}`
-          ),
+          new SystemMessage(message),
         ],
       };
     } catch (error) {
