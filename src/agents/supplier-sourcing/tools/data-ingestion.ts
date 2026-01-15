@@ -18,46 +18,35 @@ export const dataIngestionTool = tool(
       await searchAgent.initialize();
       
       // Search for suppliers using the search agent
-      const searchResult = await searchAgent.searchSuppliers({
+      // This now returns the suppliers array directly thanks to our fix
+      const suppliers = await searchAgent.searchSuppliers({
         category,
         location,
         specifications
       });
       
       console.log("Search agent completed supplier search");
+      console.log(`Raw suppliers data:`, suppliers);
       
       let foundSuppliers: Supplier[] = [];
       
-      if (searchResult && searchResult.output) {
-        const searchOutput = searchResult.output.toString();
-        console.log("Search output:", searchOutput);
-        try {
-          const parsedResult = typeof searchOutput === 'string' ? JSON.parse(searchOutput) : searchOutput;
-          
-          if (parsedResult && parsedResult.suppliers && Array.isArray(parsedResult.suppliers)) {
-            foundSuppliers = parsedResult.suppliers.map((supplier: any, index: number) => ({
-              id: supplier.id || `supplier-${Date.now()}-${index}`,
-              name: supplier.name || 'Unknown Supplier',
-              capabilities: supplier.capabilities || [],
-              location: supplier.location || 'Unknown Location',
-              rating: supplier.rating || 0,
-              priceRange: {
-                min: supplier.priceRange?.min || 0,
-                max: supplier.priceRange?.max || 0,
-                currency: supplier.priceRange?.currency || 'USD'
-              },
-              leadTime: supplier.leadTime || 'Unknown',
-              certifications: supplier.certifications || []
-            }));
-          } else {
-            console.warn("No suppliers array found in search results, using empty array");
-            foundSuppliers = [];
-          }
-        } catch (parseError) {
-          console.error("Failed to parse search results as JSON:", parseError);
-          console.warn("Search agent returned unexpected format, returning empty results");
-          foundSuppliers = [];
-        }
+      if (Array.isArray(suppliers) && suppliers.length > 0) {
+        foundSuppliers = suppliers.map((supplier: any, index: number) => ({
+          id: supplier.id || `supplier-${Date.now()}-${index}`,
+          name: supplier.name || 'Unknown Supplier',
+          capabilities: Array.isArray(supplier.capabilities) ? supplier.capabilities : [],
+          location: supplier.location || 'Unknown Location',
+          rating: typeof supplier.rating === 'number' ? Math.min(5, Math.max(0, supplier.rating)) : 0,
+          priceRange: {
+            min: typeof supplier.priceRange?.min === 'number' ? supplier.priceRange.min : 0,
+            max: typeof supplier.priceRange?.max === 'number' ? supplier.priceRange.max : 0,
+            currency: supplier.priceRange?.currency || 'USD'
+          },
+          leadTime: supplier.leadTime || 'Unknown',
+          certifications: Array.isArray(supplier.certifications) ? supplier.certifications : []
+        }));
+      } else {
+        console.warn("No suppliers found or invalid format");
       }
       
       console.log(`Search completed with ${foundSuppliers.length} suppliers found`);
@@ -70,7 +59,6 @@ export const dataIngestionTool = tool(
           specifications,
           totalFound: foundSuppliers.length,
           searchEnhanced: true,
-          searchResults: searchResult?.output || "No search results available"
         }
       };
       
