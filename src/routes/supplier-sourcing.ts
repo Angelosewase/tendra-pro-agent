@@ -1,129 +1,56 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import * as z from 'zod'
+import { supplierSourcingAgent } from '../agents/supplier-sourcing'
+import { ProjectRequirements } from '../types/supplier'
 
 const app = new Hono()
 
-// Schema for project input requirements
+// Explicit schema for project requirements - no assumptions
 const projectRequirementsSchema = z.object({
-  projectName: z.string().min(1, 'Project name is required'),
-  projectDescription: z.string().min(1, 'Project description is required'),
+  category: z.string().min(1, 'Category is required'),
+  specifications: z.array(z.string()).min(1, 'At least one specification is required'),
   budget: z.object({
     min: z.number().positive('Minimum budget must be positive'),
     max: z.number().positive('Maximum budget must be positive'),
     currency: z.string().default('USD')
   }),
-  timeline: z.object({
-    startDate: z.string().datetime('Invalid start date format'),
-    endDate: z.string().datetime('Invalid end date format'),
-    urgency: z.enum(['low', 'medium', 'high']).default('medium')
-  }),
-  requirements: z.object({
-    technical: z.array(z.string()).default([]),
-    business: z.array(z.string()).default([]),
-    compliance: z.array(z.string()).default([])
-  }),
-  supplierPreferences: z.object({
-    location: z.array(z.string()).default([]),
-    companySize: z.enum(['small', 'medium', 'large', 'enterprise']).optional(),
-    experience: z.object({
-      minYears: z.number().min(0).default(0),
-      industries: z.array(z.string()).default([])
-    }).optional(),
-    certifications: z.array(z.string()).default([])
-  }).optional(),
-  contactInfo: z.object({
-    name: z.string().min(1, 'Contact name is required'),
-    email: z.string().email('Valid email is required'),
-    phone: z.string().optional(),
-    company: z.string().min(1, 'Company name is required')
-  })
+  timeline: z.string().min(1, 'Timeline is required'),
+  location: z.string().optional(),
+  quantity: z.number().positive('Quantity must be positive').default(1)
 })
 
-// POST /api/supplier-sourcing/project-requirements
-app.post('/project-requirements', zValidator('json', projectRequirementsSchema), async (c) => {
+app.post('/analyze', zValidator('json', projectRequirementsSchema), async (c) => {
   try {
-    const data = c.req.valid('json')
+    const projectRequirements = c.req.valid('json')
     
-    // TODO: Store project requirements in database
-    // TODO: Trigger supplier matching algorithm
-    // TODO: Send confirmation email
+    const result = await supplierSourcingAgent.run({
+      projectRequirements
+    })
     
     return c.json({
       success: true,
-      message: 'Project requirements submitted successfully',
+      message: 'Supplier analysis completed successfully',
       data: {
-        projectId: `proj_${Date.now()}`, // Temporary ID generation
-        status: 'submitted',
-        submittedAt: new Date().toISOString(),
-        requirements: data
-      }
-    }, 201)
-    
-  } catch (error) {
-    console.error('Error submitting project requirements:', error)
-    return c.json({
-      success: false,
-      message: 'Failed to submit project requirements',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, 500)
-  }
-})
-
-// GET /api/supplier-sourcing/project-requirements/:id
-app.get('/project-requirements/:id', async (c) => {
-  try {
-    const projectId = c.req.param('id')
-    
-    // TODO: Retrieve project requirements from database
-    
-    return c.json({
-      success: true,
-      data: {
-        projectId,
-        status: 'found',
-        // Mock data - replace with actual database query
-        requirements: {
-          projectName: 'Sample Project',
-          projectDescription: 'This is a sample project',
-          budget: { min: 10000, max: 50000, currency: 'USD' },
-          timeline: { 
-            startDate: '2024-01-01T00:00:00Z', 
-            endDate: '2024-06-01T00:00:00Z', 
-            urgency: 'medium' 
-          }
+        projectRequirements,
+        suppliers: result.suppliers,
+        evaluation: result.evaluation,
+        summary: {
+          totalSuppliers: result.suppliers.length,
+          topRecommendations: result.evaluation?.recommendations?.slice(0, 3) || [],
+          processingMessages: result.messages.map(msg => ({
+            type: msg.constructor.name,
+            content: msg.content
+          }))
         }
       }
     })
     
   } catch (error) {
-    console.error('Error retrieving project requirements:', error)
+    console.error('Error running supplier sourcing agent:', error)
     return c.json({
       success: false,
-      message: 'Failed to retrieve project requirements',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, 500)
-  }
-})
-
-// GET /api/supplier-sourcing/project-requirements
-app.get('/project-requirements', async (c) => {
-  try {
-    // TODO: Retrieve all project requirements from database
-    
-    return c.json({
-      success: true,
-      data: {
-        projects: [], // Mock empty array - replace with actual database query
-        total: 0
-      }
-    })
-    
-  } catch (error) {
-    console.error('Error retrieving project requirements:', error)
-    return c.json({
-      success: false,
-      message: 'Failed to retrieve project requirements',
+      message: 'Failed to analyze suppliers',
       error: error instanceof Error ? error.message : 'Unknown error'
     }, 500)
   }

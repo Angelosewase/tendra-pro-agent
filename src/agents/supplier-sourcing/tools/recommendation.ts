@@ -34,7 +34,7 @@ const RecommendationSchema = z.object({
     criteria: z.array(z.string()),
   })).optional().describe("Pre-computed evaluation scores"),
   topN: z.number().optional().describe("Number of top recommendations to return (default: 5)"),
-  recommendationStrategy: z.enum(["balanced", "cost_focused", "quality_focused", "speed_focused"]).optional().describe("Recommendation strategy to use"),
+  recommendationStrategy: z.enum(["balanced", "cost-focused", "quality-focused", "location-focused"]).optional().describe("Recommendation strategy to use"),
 });
 
 export const recommendationTool = tool(
@@ -97,14 +97,14 @@ export const recommendationTool = tool(
       if (!supplier) return scoreObj;
       
       switch (recommendationStrategy) {
-        case "cost_focused":
+        case "cost-focused":
           // Prioritize lower price ranges
           if (supplier.priceRange.min <= projectRequirements.budget.max * 0.7) {
             adjustedScore += 10;
           }
           break;
           
-        case "quality_focused":
+        case "quality-focused":
           // Prioritize higher ratings and certifications
           if (supplier.rating >= 4.5) {
             adjustedScore += 15;
@@ -114,11 +114,11 @@ export const recommendationTool = tool(
           }
           break;
           
-        case "speed_focused":
-          // Prioritize shorter lead times (2-3 weeks is considered fast)
-          if (supplier.leadTime.includes("2 weeks") || supplier.leadTime.includes("3 weeks") || 
-              supplier.leadTime.includes("2-") || supplier.leadTime.includes("3-")) {
-            adjustedScore += 15;
+        case "location-focused":
+          // Prioritize location matches
+          if (projectRequirements.location && 
+              supplier.location.toLowerCase().includes(projectRequirements.location.toLowerCase())) {
+            adjustedScore += 20;
           }
           break;
           
@@ -162,15 +162,15 @@ export const recommendationTool = tool(
         }
         
         // Add strategy-specific insights
-        if (recommendationStrategy === "cost_focused" && supplier.priceRange.min <= projectRequirements.budget.max * 0.7) {
+        if (recommendationStrategy === "cost-focused" && supplier.priceRange.min <= projectRequirements.budget.max * 0.7) {
           strengths.push("Cost-effective option");
         }
-        if (recommendationStrategy === "quality_focused" && supplier.rating >= 4.5) {
+        if (recommendationStrategy === "quality-focused" && supplier.rating >= 4.5) {
           strengths.push("Premium quality supplier");
         }
-        if (recommendationStrategy === "speed_focused" && (supplier.leadTime.includes("2 weeks") || supplier.leadTime.includes("3 weeks") || 
-            supplier.leadTime.includes("2-") || supplier.leadTime.includes("3-"))) {
-          strengths.push("Fast delivery capability");
+        if (recommendationStrategy === "location-focused" && projectRequirements.location && 
+            supplier.location.toLowerCase().includes(projectRequirements.location.toLowerCase())) {
+          strengths.push("Preferred location match");
         }
         
         // Add considerations
@@ -220,7 +220,7 @@ export async function generateRecommendations(params: {
   projectRequirements: any;
   evaluationScores?: any[];
   topN?: number;
-  recommendationStrategy?: "balanced" | "cost_focused" | "quality_focused" | "speed_focused";
+  recommendationStrategy?: "balanced" | "cost-focused" | "quality-focused" | "location-focused";
 }) {
   return await recommendationTool.invoke(params);
 }
