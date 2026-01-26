@@ -1,433 +1,203 @@
-# RFB YAML Template
-# This template is structured to capture all information needed to generate a complete Request for Bid (RFB) document.
-# Fill in the placeholders (denoted by []) with specific information for your RFB.
-
 metadata:
-  document_type: "Request for Bid (RFB)"
-  purpose: "For competitive bidding on commodities or services where lowest responsive bid typically wins."
-  usage_notes:
-    - "Use for procurement where requirements are clearly defined and price is primary factor."
-    - "Typically used for commodities and standardized services."
-    - "Mandatory requirements must be met without exception."
-    - "Lowest responsive, responsible bidder typically wins."
+  document_type: Request for Bid (RFB)
+  purpose: For competitive bidding on commodities or services where lowest responsive bid typically wins.
 
 header:
-  title: "[TITLE]"
-  number: "[NUMBER]"
-  issued_date: "[DATE]"
-  responses_due: "[DATE/TIME]"
-  agency_logo: "INSERT AGENCY LOGO"
-  agency_name: "[AGENCY NAME]"
+  title: [TITLE]
+  number: [NUMBER]
+  issued_date: [DATE]
+  responses_due: [DATE/TIME]
+  agency_name: [AGENCY NAME]
 
 section_1_introduction:
-  definitions:
-    agency: "An office, department, agency, institution of higher education, association, society or other body in state government created or authorized to be created by the constitution or any law, which is entitled to expend moneys appropriated by law, including the legislature and the courts, but not including an authority."
-    authorized_users: "Includes any state agency, university campus, or other state or local public body authorized to use contracts."
-    bid: "A price quotation specifically given to a prospective purchaser by a prospective seller; a bid is an offer to sell."
-    bidder: "A person or firm that responds to this Request for Bid."
-    commodity: "A tangible article of trade or item of merchandise; goods, products, materials, supplies, or finished products."
-    contract: "The written agreement between the successful bidder and the state covering the commodities and services to be performed."
-    contract_administrator: "The agency employee responsible for oversight of the implementation, administration, and completion of the contract."
-    contractor: "The person or entity that has been awarded the contract."
-    disabled_veteran_owned_business: "A business that has been certified by the Department of Administration."
-    minority_owned_business_enterprise: "A business that has been certified by the Department of Administration."
-    municipality: "Any Wisconsin county, city, village, town, school district, or other public body having authority to award public contracts."
-    notice_of_intent_to_award: "A writing issued by the procuring agency notifying all bidders of intent to award."
-    purchasing_card: "A charge card issued to authorized state employees."
-    procurement_specialist: "The individual responsible for overseeing and administering the procurement process."
-    procuring_agency: "The state agency conducting the purchasing transactions."
-    services: "An intangible product, including actions, recommendations, plans, research, customizations, modifications, documentation, and maintenance."
-    specification: "A descriptive statement of the physical, functional and performance characteristics required."
   purpose_and_scope:
-    description: "The [PROCURING AGENCY NAME] requests bids for the purchase of [COMMODITY/SERVICE], and intends to use the results of this process to award a contract."
-    guarantees: "No guarantee to purchase any specific quantity or dollar amount. Bids requiring minimum orders will be rejected."
-  overview:
-    placeholder: "[PLACEHOLDER - Overview of procuring agency, background, and objectives]"
+    description: [PROCURING AGENCY NAME], [COMMODITY/SERVICE]
+  overview: [PLACEHOLDER - Overview of procuring agency, background, and objectives]
   contract_term:
-    initial_term: "[TERM] years"
-    renewal_options: "[NUMBER] additional [RENEWAL]-year periods"
-    effective_date: "Date of execution or purchase order date if no formal contract"
-    contract_documents: "RFB documents, awarded bidder's response, and purchase order become the contract"
-  contract_modifications:
-    restriction: "Contract shall not be used for purchases outside original scope."
-    requirements: "Modifications must be in writing and signed by both parties."
-  order_of_precedence:
-    with_formal_contract:
-      - "Final Signed Contract with clarifications"
-      - "Bid Response as accepted by the State"
-      - "Request for Bid"
-    with_purchase_order:
-      - "Official Purchase Order"
-      - "Bid Response as accepted by the State"
-      - "Request for Bid"
+    initial_term: [TERM]
+    renewal_options: [NUMBER], [RENEWAL]
   cooperative_purchasing:
-    available_to_municipalities: "[Yes/No]"
-    requirements: "Contractor must confirm municipality status, provide documentation, and report usage."
+    available_to_municipalities: [Yes/No]
   responding_to_bid_requirements:
-    mandatory_requirements: "Must be minimally met without exception."
-    qualification_documentation: "Bidder must submit appropriate supporting documentation."
-    itemized_requirements: "Bidder must affirmatively respond to all requirements."
-    disqualification: "Failure to meet mandatory requirements disqualifies bid."
-    state_discretion: "State may select closest bid if no bidder meets all requirements."
-
-section_2_bidder_qualifications:
-  note: "All bidder qualifications in this section are mandatory and shall be met at no additional cost above the pricing provided in the bid."
-  # Specific qualifications to be defined per RFB
+    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
 
 section_3_mandatory_specifications:
-  note: "All requirements in this section are mandatory and shall be met at no additional cost above the pricing provided in the bid."
   technical_requirements:
-    response_format: "[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]"
+    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
   performance_and_support_requirements:
-    response_format: "[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]"
+    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
 
 section_4_special_terms_and_conditions:
-  negotiation_right: "State reserves right to negotiate special terms and conditions in its best interest."
-  bidder_response: "Bidders shall accept all terms or submit point-by-point exceptions with alternative language."
-  orders:
-    placeholder: "[PLACEHOLDER - Order terms and conditions]"
+  orders: [PLACEHOLDER - Order terms and conditions]
   delivery_requirements:
-    timeframe: "[ASAP/On or Before DATE/By DATE]"
-    consequence: "Failure to accept may disqualify bid."
+    timeframe: [ASAP/On or Before DATE/By DATE]
   duplicates_and_over_shipments:
-    removal_timeframe: "[DAYS] business days"
-    state_disposal: "If not removed, state may dispose at its discretion."
-  return_policy:
-    placeholder: "[PLACEHOLDER - Return policy for defective or damaged goods]"
-  new_and_discontinued_items:
-    placeholder: "[PLACEHOLDER - Policy for new and discontinued items]"
-  random_product_sampling:
-    placeholder: "[PLACEHOLDER - Random product sampling requirements]"
-  acceptance_testing:
-    placeholder: "[PLACEHOLDER - Acceptance testing requirements]"
-  background_checks:
-    authority: "State reserves right to conduct background checks."
-    determination: "State is sole determinant of impact on ability to perform."
-  reporting:
-    placeholder: "[PLACEHOLDER - Reporting requirements]"
-  contract_audit_requirements:
-    placeholder: "[PLACEHOLDER - Contract audit requirements]"
-  liquidated_damages:
-    description: "[PLACEHOLDER - Liquidated damages for performance failures]"
-  tobacco_free_environment:
-    placeholder: "[PLACEHOLDER - Tobacco-free environment requirements]"
-  fraternization_work_rules:
-    note: "All contractors working on-site are subject to departmental rules."
+    removal_timeframe: [DAYS]
+  return_policy: [PLACEHOLDER - Return policy for defective or damaged goods]
+  new_and_discontinued_items: [PLACEHOLDER - Policy for new and discontinued items]
+  random_product_sampling: [PLACEHOLDER - Random product sampling requirements]
+  acceptance_testing: [PLACEHOLDER - Acceptance testing requirements]
+  reporting: [PLACEHOLDER - Reporting requirements]
+  contract_audit_requirements: [PLACEHOLDER - Contract audit requirements]
+  liquidated_damages: [PLACEHOLDER - Liquidated damages for performance failures]
+  tobacco_free_environment: [PLACEHOLDER - Tobacco-free environment requirements]
   payment_terms:
-    condition: "Payment will not be made until [PRODUCT OR SERVICE] meets all specifications and has been accepted by [PROCURING AGENCY]."
-  third_party_financing:
-    requirement: "Bidders using third-party financing shall identify company, quote interest rate, and include copy of lease/rental contract."
+    condition: [PRODUCT OR SERVICE], [PROCURING AGENCY]
   safety_data_sheets:
-    requirement: "Contractor shall include appropriate SDS with initial shipment and updates."
-    online_access: "Online access permitted but not sufficient alone."
     delivery_address:
-      agency: "[Agency Name]"
-      contact: "[Agency Division, Bureau Program Manager Name, Title Agency Address]"
-      address: "[Agency Address]"
-      city_state_zip: "[City, State and Zip Code]"
+      agency: [Agency Name]
+      contact: [Agency Division, Bureau Program Manager Name, Title Agency Address]
+      address: [Agency Address]
+      city_state_zip: [City, State and Zip Code]
   certificates_of_insurance:
-    option_1_commodity:
-      requirement: "Upon request, provide copies of insurance policies/certificates."
-      company_rating: "Minimum AM Best rating of A- unless otherwise approved."
-      notification: "Immediate notice required for modifications or cancellations."
     option_2_service:
-      timeframe: "[NUMBER] days from Notice of Intent to Award"
-      extension: "[NUMBER] additional days to comply"
-      consequence: "Failure may result in cancellation of award."
+      timeframe: [NUMBER]
+      extension: [NUMBER]
       delivery_address:
-        agency: "[Agency Name]"
-        contact: "[Agency Division, Bureau Program Manager Name, Title Agency Address]"
-        address: "[Agency Address]"
-        city_state_zip: "[City, State and Zip Code]"
-  high_risk_certificates:
-    placeholder: "[PLACEHOLDER - High risk insurance coverage requirements]"
-  access_to_secure_facilities:
-    placeholder: "[PLACEHOLDER - Access to secure facilities requirements]"
-  cancellation_and_termination:
-    termination_for_cause:
-      state_notice: "30 calendar days written notice with right to cure"
-      contractor_notice: "120 calendar days notice with right to cure"
-    termination_for_convenience:
-      state_notice: "30 calendar days notice"
-      contractor_notice: "120 calendar days notice"
-      compensation: "Contractor entitled to compensation for fees owed and partially completed services."
-      refund: "State entitled to refund for goods/services paid but not received."
-    contract_cancellation:
-      grounds:
-        - "Failure to perform material obligation"
-        - "Bankruptcy or insolvency"
-        - "Unsatisfied judgment or lien"
-        - "Assignment for benefit of creditors"
-        - "Failure to follow tax requirements"
-        - "Delinquent tax liability"
-        - "Failure to submit non-discrimination plan"
-        - "Failure to follow non-discrimination requirements"
-        - "Federal debarment"
-        - "Exclusion from federal contracts"
-        - "Failure to maintain insurance, permits, licenses"
-        - "Failure to maintain confidentiality"
-        - "Performance threatens health or safety"
+        agency: [Agency Name]
+        contact: [Agency Division, Bureau Program Manager Name, Title Agency Address]
+        address: [Agency Address]
+        city_state_zip: [City, State and Zip Code]
+  high_risk_certificates: [PLACEHOLDER - High risk insurance coverage requirements]
+  access_to_secure_facilities: [PLACEHOLDER - Access to secure facilities requirements]
 
 section_5_cost_structure:
-  placeholder: "[PLACEHOLDER - Cost structure details]"
-  method_of_bid:
-    requirement: "Submit net unit price and extended net total for each item."
-    currency: "Prices in U.S. dollars unless otherwise indicated."
-    calculation_rule: "Unit price prevails in event of calculation errors."
+  cost_structure: [PLACEHOLDER - Cost structure details]
   fob_destination_options:
     option_1_freight_prepaid:
-      description: "FOB Destination, Freight Prepaid and Allowed"
-      includes: "All packing, freight, insurance charges, installation/operation manuals"
-      delivery_location: "[ADDRESS]"
-      consequence: "Failure to bid FOB DESTINATION will disqualify bid."
+      delivery_location: [ADDRESS]
     option_2_installed:
-      description: "FOB Destination, Freight Prepaid Included and Installed"
-      includes: "All packing, freight, insurance, set-up, operation manuals, instructional charges"
-      installation_locations: "[ADDRESS/ADDRESSES]"
-      requirements: "Set in place, demonstrated, approved, debris removed, sites restored"
-      waste_removal: "Universal and Hazardous Waste removed in accordance with regulations"
-      consequence: "Failure to bid FOB Destination Freight Prepaid Included and Installed will disqualify bid."
-  price_sheet_instructions:
-    requirement: "Bidders shall complete attached Price Sheet(s)."
-    alteration: "No alteration permitted unless instructions indicate otherwise."
-  requesting_price_adjustments:
-    placeholder: "[PLACEHOLDER - Price adjustment request procedures]"
+      installation_locations: [ADDRESS/ADDRESSES]
+  requesting_price_adjustments: [PLACEHOLDER - Price adjustment request procedures]
 
 section_6_bid_procedure:
-  placeholder: "[PLACEHOLDER - General bid procedure instructions]"
+  bid_procedure: [PLACEHOLDER - General bid procedure instructions]
   calendar_of_events:
     events:
-      - event: "Date of Issue of the RFB"
-        date_time: "[DATE and TIME]"
-      - event: "Site Visit"
-        date_time: "[DATE and TIME]"
-      - event: "Bidder Conference"
-        date_time: "[DATE and TIME]"
-      - event: "Date Questions Due"
-        date_time: "[DATE and TIME]"
-      - event: "Responses to Questions Posted"
-        date_time: "[DATE and TIME]"
-      - event: "Bids Due from Bidders"
-        date_time: "[DATE and TIME]"
-      - event: "Anticipated Award Date"
-        date_time: "[DATE and TIME]"
-      - event: "Contract Start Date"
-        date_time: "[DATE and TIME]"
-    amendment_note: "Changes posted on Wisconsin eSupplier Portal."
+      - event: Date of Issue of the RFB
+        date_time: [DATE and TIME]
+      - event: Site Visit
+        date_time: [DATE and TIME]
+      - event: Bidder Conference
+        date_time: [DATE and TIME]
+      - event: Date Questions Due
+        date_time: [DATE and TIME]
+      - event: Responses to Questions Posted
+        date_time: [DATE and TIME]
+      - event: Bids Due from Bidders
+        date_time: [DATE and TIME]
+      - event: Anticipated Award Date
+        date_time: [DATE and TIME]
+      - event: Contract Start Date
+        date_time: [DATE and TIME]
   correspondence:
-    question_deadline: "[DATE]"
-    notification_requirement: "Bidder must immediately notify of ambiguities, errors, conflicts, discrepancies, omissions, or deficiencies."
-    contact_method: "Email preferred: [EMAIL ADDRESS]"
+    question_deadline: [DATE]
+    contact_method: [EMAIL ADDRESS]
     contact_information:
       usps_address:
-        agency: "[AGENCY NAME]"
-        division: "[AGENCY DIVISION]"
-        address: "[AGENCY ADDRESS]"
+        agency: [AGENCY NAME]
+        division: [AGENCY DIVISION]
+        address: [AGENCY ADDRESS]
       common_carrier_address:
-        agency: "[AGENCY NAME]"
-        division: "[AGENCY DIVISION]"
-        address: "[AGENCY ADDRESS]"
-    reference_requirement: "All communication must refer to Request for Bid #[RFB#] and be directed to [CONTACT NAME]."
-    communication_restriction: "No contact with state employees except [CONTACT NAME] from RFB release until notice of intent to award."
-    current_contractors: "May continue communication regarding current contract performance only."
+        agency: [AGENCY NAME]
+        division: [AGENCY DIVISION]
+        address: [AGENCY ADDRESS]
+    reference_requirement: [RFB#], [CONTACT NAME]
   reasonable_accommodations:
-    requirement: "Procuring agency shall provide reasonable accommodations for qualified individuals with disabilities."
-    contact: "[CONTACT NAME] [CONTACT PHONE NUMBER] [EMAIL]"
-  eSupplier_portal_registration:
-    requirement: "Only registered bidders receive official notices."
-    registration_url: "https://eSupplier.wi.gov"
-    notification: "Email notices for bids over $50,000."
-    vendor_net_url: "https://VendorNet.wi.gov"
+    contact: [CONTACT NAME], [CONTACT PHONE NUMBER], [EMAIL]
   pre_bid_site_visit:
-    requirement: "[SHALL/ARE ENCOURAGED TO] visit job site"
-    attendance_requirement: "[SHALL/IS NOT REQUIRED TO] attend for bid consideration"
-    dates: "[DATE(S)]"
-    contact: "[CONTACT PERSON] at [PHONE NUMBER]"
+    requirement: [SHALL/ARE ENCOURAGED TO]
+    attendance_requirement: [SHALL/IS NOT REQUIRED TO]
+    dates: [DATE(S)]
+    contact: [CONTACT PERSON], [PHONE NUMBER]
   bidder_conference:
     details:
-      time: "[TIME]"
-      date: "[DATE]"
-      room: "[ROOM]"
-      location: "[LOCATION]"
-    attendance_requirement: "[SHALL/IS NOT REQUIRED TO] attend for bid consideration"
-    amendment_note: "Answers and changes posted as amendment to RFB on Wisconsin eSupplier Portal."
-    cancellation_right: "Procuring agency reserves right to cancel if no questions received."
+      time: [TIME]
+      date: [DATE]
+      room: [ROOM]
+      location: [LOCATION]
+    attendance_requirement: [SHALL/IS NOT REQUIRED TO]
   bid_submission_options:
-    number_of_options: "[NUMBER]"
-  portal_submission:
-    preferred_method: "Wisconsin eSupplier Portal Bid Submittal (Strongly Preferred)"
-    note: "Must click 'Submit' not just 'Save'"
+    number_of_options: [NUMBER]
   hard_copy_submission:
-    requirement: "Submit original signed bid, [COPIES] hard copies, and [ELECTRONIC] copy"
+    requirement: [COPIES], [ELECTRONIC]
     delivery_addresses:
       usps:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
       common_carrier:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
-    deadline: "[DATE] [TIME] CT"
-    packaging_requirements:
-      - "BIDDER NAME AND ADDRESS"
-      - "RFB TITLE"
-      - "RFB NUMBER"
-      - "RFB DUE DATE AND TIME"
-    hand_delivery_note: "Allow ample time for security clearance."
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
+    deadline: [DATE], [TIME]
   emailed_bids:
-    requirement: "Must be received prior to bid opening deadline."
-    confirmation: "Bidder responsible for confirming receipt."
-    email_address: "[EMAIL ADDRESS]"
-    follow_up: "Required form (DOA-[XXXX]) must be signed and returned within 1 business day."
-    disclaimer: "Proof of transmission doesn't constitute proof of receipt."
-  bid_response_format:
-    signed_request_form: "Include signed required form (DOA-XXXX) with certifications."
-    terms_and_conditions: "State of Wisconsin Standard Terms and Conditions (DOA-3054) and Supplemental Terms and Conditions (DOA-3681)."
-    additional_information: "Include all essential explanatory documentation."
-    cost_information: "Provide price information on Cost Sheet Attachment."
-    bid_response_form: "Include completed Bid Response Qualifications and Requirements Attachment."
-    alteration_prohibition: "No alteration of bid forms or appendices permitted."
-  incurring_costs:
-    disclaimer: "Neither State of Wisconsin nor procuring agency is liable for bidder costs."
+    email_address: [EMAIL ADDRESS]
+    follow_up: [XXXX]
 
 section_7_bid_acceptance_and_award:
-  placeholder: "[PLACEHOLDER - General acceptance and award information]"
+  acceptance_and_award: [PLACEHOLDER - General acceptance and award information]
   bid_opening:
-    public: true
-    date: "[DATE]"
-    time: "[TIME]"
-    location: "[LOCATION]"
-    disclosure: "Names of all bidders may be read aloud."
+    date: [DATE]
+    time: [TIME]
+    location: [LOCATION]
   bid_review:
-    reviewer: "[PROCURING AGENCY]'s Procurement Manager"
-    compliance_determination: "[PROCURING AGENCY] shall be sole judge of compliance."
+    reviewer: [PROCURING AGENCY]
+    compliance_determination: [PROCURING AGENCY]
   bid_acceptance:
-    mandatory_noncompliance: "Bids not complying with Mandatory Requirements or Specifications will be rejected."
-    terms_noncompliance: "Bids not complying with Special Terms and Conditions may be rejected."
-    agency_discretion: "[PROCURING AGENCY] retains right to accept or reject any or all bids."
+    agency_discretion: [PROCURING AGENCY]
   method_of_award:
-    basis: "Lowest price, responsive, responsible bidder."
-    currency: "Prices in US dollars unless otherwise indicated."
-    calculation_rule: "Unit price prevails in event of calculation errors."
-    quantity_restriction: "Bids requiring specific quantity or dollar amount will be disqualified."
-    award_type: "[ONE/MULTIPLE; ONE OR MULTIPLE] bidders"
-    best_interest: "State is sole determinant of its best interests."
-    award_criteria: "Based on [LOW COST FACTOR], by [VARIABLES]."
-    notations: "[NOTATIONS]"
+    award_type: [ONE/MULTIPLE; ONE OR MULTIPLE]
+    award_criteria: [LOW COST FACTOR], [VARIABLES]
+    notations: [NOTATIONS]
   samples:
-    requirement: "Submit sample(s) at no cost to verify compliance."
-    labeling: "Clearly labeled as 'Sample' with bidder's name, RFB number, due date, and item number."
-    delivery_deadline: "[TIME] on [DATE]"
+    delivery_deadline: [TIME], [DATE]
     delivery_address:
-      name: "[NAME]"
-      address: "[ADDRESS]"
-    review_process: "All samples reviewed identically."
-    noncompliance: "Samples not meeting specifications will be rejected and bid disqualified."
-    return_request: "Bidder may request return at own expense within 30 days of Notice of Award."
-    retention: "Procuring agency retains successful bidder's sample."
-    consistency_requirement: "Must supply same product, quality, manufacturer as sample for contract duration."
+      name: [NAME]
+      address: [ADDRESS]
   bidder_references:
     option_1_form:
-      requirement: "Complete DOA-[XXXX]"
-      number_of_references: "[NUMBER]"
-      timeframe: "Last [NUMBER] years"
-      information_required:
-        - "Company name"
-        - "Address"
-        - "Contact person"
-        - "Email address"
-        - "Telephone number"
-        - "Brief description of product/service"
-      contact_discretion: "Procuring agency determines which references to contact."
+      requirement: [XXXX]
+      number_of_references: [NUMBER]
+      timeframe: [NUMBER]
     option_2_client_list:
-      requirement: "Provide client list"
-      timeframe: "Last [HISTORY]"
-      information_required: "Same as Option 1"
-  use_of_subcontractors:
-    responsibility: "Contractor responsible for subcontractor performance."
-    identification: "Bidder shall identify potential subcontractors."
-    approval_requirement: "All subcontractors must be approved in writing by procuring agency."
-    substitution_process: "Proposed substitution requires 30-day prior written notice with qualifications, reason, and effective date."
-    consequence: "Failure to notify may result in contract cancellation."
-  supplier_diversity:
-    placeholder: "[PLACEHOLDER - Supplier diversity requirements]"
-  minority_owned_business_enterprise:
-    certification: "Certified by Wisconsin Department of Administration"
-    price_preference: "Permissive 5% price preference"
-    encouragement: "Contractor urged to use MBEs for subcontracts"
-    reporting: "Quarterly information required including certified businesses, contract amount, and spend"
-    directory_url: "https://wisdp.wi.gov/search.aspx"
-  veteran_owned_business:
-    certification: "Certified by Department of Veterans Affairs (DVA)"
-    price_preference: "No price preference"
-    contact_url: "http://dva.state.wi.us"
-  disabled_veteran_owned_business:
-    certification: "Certified by Wisconsin Department of Administration"
-    price_preference: "Permissive 5% price preference"
-    encouragement: "Contractor urged to use DVBs for subcontracts"
-    reporting: "Quarterly information required"
-    directory_url: "https://wisdp.wi.gov/search.aspx"
-  woman_owned_business_enterprise:
-    certification: "Certified by Wisconsin Department of Administration"
-    price_preference: "No price preference"
-    marketing_value: "Serves as additional marketing tool"
-    directory_url: "https://wisdp.wi.gov/search.aspx"
-  debarment:
-    requirement: "Certification required that organization and principals are not debarred, suspended, proposed for debarment, declared ineligible, or voluntarily excluded."
-    website: "https://www.sam.gov/portal/SAM/"
-    reference: "Section 15.0 of Standard Terms and Conditions (DOA-3054)"
-  award_notification:
-    requirement: "All responding bidders notified in writing of intent to contract."
-  protest_and_appeals:
-    placeholder: "[PLACEHOLDER - Protest and appeals process]"
+      timeframe: [HISTORY]
+  supplier_diversity: [PLACEHOLDER - Supplier diversity requirements]
+  protest_and_appeals: [PLACEHOLDER - Protest and appeals process]
   protests:
-    applicability: "Only for requests for bids for services over $50,000"
-    notice_of_intent_deadline: "5 business days after Notice of Intent to Award"
-    actual_protest_deadline: "10 business days after Notice of Intent to Award"
     filing_addresses:
       primary_us_mail:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
       primary_delivery:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
       copy_us_mail:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
       copy_delivery:
-        name: "[NAME]"
-        agency: "[AGENCY]"
-        division: "[DIVISION]"
-        address: "[ADDRESS]"
-        city_state_zip: "[CITY, STATE, ZIP]"
-  appeals:
-    deadline: "5 business days after procuring agency's protest decision"
-    recipient: "Secretary of the Department of Administration"
-    address:
-      name: "Secretary"
-      agency: "Wisconsin Department of Administration"
-      address: "101 E Wilson Street, 10th Floor, PO Box 7864"
-      city_state_zip: "Madison, WI 53703-7864"
-    copy_requirement: "Copy filed with head of procuring agency"
+        name: [NAME]
+        agency: [AGENCY]
+        division: [DIVISION]
+        address: [ADDRESS]
+        city_state_zip: [CITY, STATE, ZIP]
 
 section_8_required_forms:
-  note: "Forms marked with 'X' must be completed and returned with bid response."
-  placeholder: "[PLACEHOLDER - List of required forms]"
+  required_forms: [PLACEHOLDER - List of required forms]
 
 attachments:
-  price_sheet: "[Attachment letter]"
-  bid_response_qualifications: "[Attachment letter]"
+  price_sheet: [Attachment letter]
+  bid_response_qualifications: [Attachment letter]

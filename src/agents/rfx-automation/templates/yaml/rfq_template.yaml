@@ -1,289 +1,144 @@
-# RFQ YAML Template
-# This template is structured to capture all information needed to generate a complete Request for Quote (RFQ) document.
-# Fill in the placeholders (denoted by []) with specific information for your RFQ.
-
-metadata:
-  document_type: "Request for Quote (RFQ)"
-  purpose: "For purchasing 'stock standard' or 'off-the-shelf' goods or services where price is the most important factor."
-  usage_notes:
-    - "Use for procurements where requirements are clear and price is the main evaluation criterion."
-    - "For complex contracts or when seeking innovation/quality standards, consider using RFP template instead."
-    - "Delete all instructions (in comments or marked sections) before publishing."
-    - "Customize all placeholder text specific to your procurement."
-
 header:
-  agency_name: "[Insert full legal name of government agency/buyer]"
-  procurement_title: "[Insert name of procurement]"
-  reference_number: "[Procurement reference number]"
-  rfa_released_date: "[DD MM YY]"
-  deadline_questions: "[TIME DD MM YY]"
-  deadline_quotes: "[TIME DD MM YY]"
+  agency_name: [Insert full legal name of government agency/buyer]
+  procurement_title: [Insert name of procurement]
+  reference_number: [Procurement reference number]
+  rfa_released_date: [DD MM YY]
+  deadline_questions: [TIME DD MM YY]
+  deadline_quotes: [TIME DD MM YY]
   buyer_contact:
-    name: "[Name of buyer contact]"
-    website: "[Website]"
-    street_address: "[Street address]"
-    city: "[City]"
+    name: [Name of buyer contact]
+    website: [Website]
+    street_address: [Street address]
+    city: [City]
 
 section_1_opportunity:
-  summary: |
-    [Short, concise summary to help suppliers decide if they are the right fit. Keep to 1-2 pages maximum.]
+  summary: [Short, concise summary to help suppliers decide if they are the right fit. Keep to 1-2 pages maximum.]
   what_we_need:
-    description: |
-      [Summarize what you are looking to procure in 1-2 paragraphs. Include background if relevant.]
+    description: [Summarize what you are looking to procure in 1-2 paragraphs. Include background if relevant.]
   what_we_dont_want:
-    included: "[Yes/No]"
-    description: "[Include only if there are outcomes or tasks you don't want]"
+    included: [Yes/No]
+    description: [Include only if there are outcomes or tasks you don't want]
   timeframe:
-    description: "[Approximate timeframe for delivery]"
+    description: [Approximate timeframe for delivery]
   why_quote:
-    motivation: "[Motivate suppliers to quote. What is the opportunity for the supplier?]"
+    motivation: [Motivate suppliers to quote. What is the opportunity for the supplier?]
 
 section_2_key_information:
   timeline:
     events:
-      - event: "Deadline for Questions from Respondents"
-        date_time: "[time] [DD MM YY]"
-      - event: "Deadline for us to answer questions"
-        date: "[DD MM YY]"
-      - event: "Deadline for Quotes"
-        date_time: "[time] [DD MM YY]"
-        note: "This is the final submission deadline"
-      - event: "Expected start date of Contract"
-        date: "[DD MM YY]"
-    additional_items: "[Add any other timeline items, clearly indicating which are indicative only]"
+      - event: Deadline for Questions from Respondents
+        date_time: [time] [DD MM YY]
+      - event: Deadline for us to answer questions
+        date: [DD MM YY]
+      - event: Deadline for Quotes
+        date_time: [time] [DD MM YY]
+      - event: Expected start date of Contract
+        date: [DD MM YY]
+    additional_items: [Add any other timeline items, clearly indicating which are indicative only]
   contact_information:
-    method: "[Contact through Point of Contact via email or Government Electronic Tenders Service (GETS)]"
+    method: [Contact through Point of Contact via email or Government Electronic Tenders Service (GETS)]
     point_of_contact:
-      name: "[Name of contact person]"
-      title_role: "[Title/role and unit they work in]"
-      email: "[Email address]"
-      gets_note: "[Delete if not applicable, e.g., if all contact is via GETS]"
-  submission_instructions:
-    steps:
-      - "Read and understand the RFQ"
-      - "Understand Requirements in Section 2"
-      - "Understand evaluation approach in Section 3"
-      - "Ask questions before deadline"
-      - "Use Response Form to submit Quote"
-      - "Complete and sign declaration"
-      - "Check all information is provided correctly"
-      - "Submit before deadline"
-    resources_url: "https://www.procurement.govt.nz/procurement"
+      name: [Name of contact person]
+      title_role: [Title/role and unit they work in]
+      email: [Email address]
+      gets_note: [Delete if not applicable, e.g., if all contact is via GETS]
   submission_address:
-    method: "[Email address or GETS in-box address]"
-    note: "We will not accept Quotes sent by post or delivered to our office."
-    two_envelope_system: "[Optional: Include if using two-envelope system]"
+    method: [Email address or GETS in-box address]
+    two_envelope_system: [Optional: Include if using two-envelope system]
   rfa_terms:
-    offer_validity_period: "[Number] calendar months from Deadline for Quotes"
-    terms_note: "The RFQ is subject to the RFQ Terms."
+    offer_validity_period: [Number]
   changes_process:
-    method: "[Placing notice on GETS or contacting Respondents by email]"
-    gets_subscription_note: "If subscribed through GETS, you will receive automatic notifications."
+    method: [Placing notice on GETS or contacting Respondents by email]
 
 section_3_requirements:
-  # Instructions: Describe what you want to purchase. Copy from procurement plan.
-  # Avoid describing by design characteristics or brand names.
-  # Include specific legislation/standards if applicable.
-  # Include economic benefits to New Zealand requirements.
-  economic_benefits_note: |
-    All procurements are required to deliver economic benefits to New Zealand,
-    proportional to the value of the contract. For complex economic benefits,
-    consider using RFP instead.
   what_we_are_buying:
     items:
-      - type: "[goods/services/both]"
-        description: "[Description with quantities if possible]"
-      # Add more items as needed
+      - type: [goods/services/both]
+        description: [Description with quantities if possible]
   supplier_requirements:
-    track_record: "[Describe required experience or track record]"
-    capability: "[Describe required skills or capability]"
-    capacity: "[Describe required processes, timeline or capacity]"
-    solution: "[Describe specific solution(s) required]"
-    timeframe: "[Describe delivery timeframe]"
-    economic_benefits: "[Describe economic benefits required]"
+    track_record: [Describe required experience or track record]
+    capability: [Describe required skills or capability]
+    capacity: [Describe required processes, timeline or capacity]
+    solution: [Describe specific solution(s) required]
+    timeframe: [Describe delivery timeframe]
+    economic_benefits: [Describe economic benefits required]
   key_deliverables:
     items:
-      - description: "[First key deliverable/milestone/outcome]"
-        indicative_date: "[Delivery date]"
-      # Add more deliverables as needed
+      - description: [First key deliverable/milestone/outcome]
+        indicative_date: [Delivery date]
   contract_term:
-    commencement: "[Month and year]"
+    commencement: [Month and year]
     terms:
-      - description: "Initial term of the Contract"
-        years: "[Number of years]"
-      - description: "Options for us to extend the Contract"
-        details: "[e.g., up to two extensions of one year each]"
-      - description: "Maximum term of the Contract"
-        years: "[Number of years]"
-    standing_arrangement: "[Optional: Include if requiring standing arrangement for additional orders]"
+      - description: Initial term of the Contract
+        years: [Number of years]
+      - description: Options for us to extend the Contract
+        details: [e.g., up to two extensions of one year each]
+      - description: Maximum term of the Contract
+        years: [Number of years]
+    standing_arrangement: [Optional: Include if requiring standing arrangement for additional orders]
   delivery_locations:
     locations:
-      - location: "[Address]"
-        delivery_details: "[What is being delivered here?]"
-      # Add more locations as needed
-  useful_links:
-    - url: "https://www.procurement.govt.nz"
-      description: "Procurement resources and information"
+      - location: [Address]
+        delivery_details: [What is being delivered here?]
 
 section_4_evaluation_approach:
-  # Instructions: Describe how you will evaluate Quotes.
-  # Copy from procurement plan.
-  # Ensure alignment with Requirements and Response Form questions.
-  public_value_note: |
-    Public Value means the best available result for New Zealand for the money spent,
-    using resources effectively, economically and responsibly. This means selecting
-    the best possible outcome for total cost of ownership, not necessarily the lowest price.
   preconditions:
-    included: "[Yes/No]"
+    included: [Yes/No]
     conditions:
-      - number: "1"
-        description: "[Pre-condition that must be met]"
-      # Add more preconditions as needed
-    note: "Quotes failing to meet pre-conditions will not be considered further."
+      - number: 1
+        description: [Pre-condition that must be met]
   evaluation_model:
     options:
-      - name: "Lowest price conforming"
-        description: "Use where price is the main criterion"
-        selected: "[Yes/No]"
-      - name: "Simple score"
-        description: "Use where all criteria are of equal weight"
-        selected: "[Yes/No]"
-      - name: "Weighted attribute"
-        description: "Use where different criteria have different weights"
-        selected: "[Yes/No]"
-    overall_assessment_note: |
-      All Quotes meeting pre-conditions are evaluated using the chosen model.
-      Scores assist in decision, but ultimately selection is based on best overall public value.
+      - name: Lowest price conforming
+        selected: [Yes/No]
+      - name: Simple score
+        selected: [Yes/No]
+      - name: Weighted attribute
+        selected: [Yes/No]
     two_envelope_system:
-      used: "[Yes/No]"
-      description: "[Include if price could significantly vary and skew evaluation]"
+      used: [Yes/No]
+      description: [Include if price could significantly vary and skew evaluation]
   economic_benefits_evaluation:
-    description: "[Details of economic benefits sought in this procurement]"
-    rules_note: |
-      For contracts over $100,000 (goods/services) or $9 million (construction),
-      Rule 8.1 applies and economic benefits must be sought.
+    description: [Details of economic benefits sought in this procurement]
   evaluation_criteria:
-    # Note: If using weightings, include Weighting column. If equal weight, delete column.
     criteria:
-      - criterion: "Price"
-        weighting: "[xx%]"
-      - criterion: "Suitability of goods/service"
-        weighting: "[xx%]"
-      - criterion: "Capability of the Respondent to deliver"
-        weighting: "[xx%]"
-      - criterion: "Capacity of the Respondent to deliver"
-        weighting: "[xx%]"
-      - criterion: "Timeframe"
-        weighting: "[xx%]"
-      - criterion: "Economic Benefits to New Zealand"
-        weighting: "[≥10%]"
-    total_weighting: "100%"
-  scoring_scale:
-    ratings:
-      - rating: "EXCELLENT"
-        definition: "Respondent demonstrates exceptional ability, understanding, experience and skills. Quote identifies factors offering potential added value with supporting evidence."
-        score: "9-10"
-      - rating: "GOOD"
-        definition: "Respondent demonstrates above average ability, understanding, experience and skills. Quote identifies minor additional benefits with supporting evidence."
-        score: "7-8"
-      - rating: "ACCEPTABLE"
-        definition: "Respondent demonstrates ability to meet criteria with supporting evidence."
-        score: "5-6"
-      - rating: "RESERVATIONS"
-        definition: "Satisfies minimum of criteria but not all. Reservations about adequate meeting of criteria. Little supporting evidence."
-        score: "3-4"
-      - rating: "SERIOUS RESERVATIONS"
-        definition: "Extremely limited or no supporting evidence. Minimum effort made to meet criteria."
-        score: "1-2"
-      - rating: "UNACCEPTABLE"
-        definition: "Does not comply or meet criteria at all. Insufficient information to demonstrate criteria."
-        score: "0"
-  price_verification:
-    note: "If a Respondent offers substantially lower price, we may require additional evidence to verify capability."
+      - criterion: Price
+        weighting: [xx%]
+      - criterion: Suitability of goods/service
+        weighting: [xx%]
+      - criterion: Capability of the Respondent to deliver
+        weighting: [xx%]
+      - criterion: Capacity of the Respondent to deliver
+        weighting: [xx%]
+      - criterion: Timeframe
+        weighting: [xx%]
+      - criterion: Economic Benefits to New Zealand
+        weighting: [≥10%]
   due_diligence:
     checks:
-      - "[Reference check Respondent organization and named personnel]"
-      - "[Check against Companies Office, NZBN]"
-      - "[Interview Respondents]"
-      - "[Test products]"
-      - "[Inspect audited accounts for last three financial years]"
-      - "[Undertake credit check]"
-    note: "Delete or add checks as applicable."
+      - [Reference check Respondent organization and named personnel]
+      - [Check against Companies Office, NZBN]
+      - [Interview Respondents]
+      - [Test products]
+      - [Inspect audited accounts for last three financial years]
+      - [Undertake credit check]
 
 section_5_proposed_contract:
-  # Instructions: Insert Proposed Contract here.
-  # Use Government Model Contract format where possible.
-  contract_type: "[Specify type of contract]"
-  attachment_method: "[Attached here or submitted via GETS]"
-  terms_note: |
-    In submitting your Quote, you must indicate if you wish to question/negotiate
-    any terms. If no position stated, you will be deemed to accept all terms.
+  contract_type: [Specify type of contract]
+  attachment_method: [Attached here or submitted via GETS]
 
 section_6_rfa_terms:
-  # Standard RFQ Terms - reference external document
-  terms_document: "RFQ Terms and Conditions"
-  date: "[Date]"
-  url: "[URL to RFQ Terms document]"
-
-section_7_supplier_response_form:
-  # Based on second template structure
-  structure:
-    part_a: "RFQ Summary"
-    part_b: "Draft Contract"
-    part_c: "Supplier Response Form"
-  response_form_sections:
-    section_1:
-      name: "Supplier General Information"
-      subsections:
-        - "Supplier Identification"
-        - "Supplier Supplementary Information"
-        - "Supplier Location and Contact"
-        - "Insurance Details"
-    section_2:
-      name: "Supplier Response to Evaluation Criteria"
-      subsections:
-        - "Mandatory Criteria"
-        - "Weighted Criteria"
-        - "Industry Participation Policy (if applicable)"
-        - "Non-Weighted Criteria"
-        - "Acceptance of Proposed Contract"
-        - "References"
-    section_3:
-      name: "Supplier Declaration"
-      note: "Must be signed by authorized person"
-  mandatory_questions_requirement: |
-    For procurements valued above $55,000 (GST inclusive), all questions in
-    Part C Section 1 must be applied.
+  terms_document: RFQ Terms and Conditions
+  date: [Date]
+  url: [URL to RFQ Terms document]
 
 section_8_government_policies:
   policies:
-    - name: "Employment of Ex-Government Employees"
-      description: "Restrictions on engaging former public sector employees who received separation packages."
-    - name: "Disclosure of Government Contracts"
-      description: "Contracts may be disclosed to public upon request."
-    - name: "Allocation of Risk - Liability"
-      description: "Supplier liability capped at [multiple] x contract value based on risk assessment."
-    - name: "State Federal Cooperation on Trade Practice Matters"
-      description: "Requires signed declaration in response form."
+    - name: Allocation of Risk - Liability
+      description: [multiple]
 
 appendix:
-  proposed_contract: "[Attach Proposed Contract document]"
+  proposed_contract: [Attach Proposed Contract document]
   additional_attachments:
-    - name: "[Attachment 1 name]"
-      description: "[Description]"
-    # Add more attachments as needed
-
-instructions_for_buyer:
-  checklist:
-    - "Write a procurement plan"
-    - "Check this is the right template"
-    - "Review customized sections"
-    - "Complete all sections"
-    - "Delete all buyer instructions (red text)"
-    - "Un-shade customized areas (yellow)"
-    - "Delete 'Instructions for the Buyer' page"
-  important_notes:
-    - "Section 1: Do not change names/sequence of sub-headings or paragraph numbering"
-    - "Sections 2-4: Do not change Section headings, but can create own sub-headings"
-    - "Work with procurement/legal teams for compliance"
-    - "For assistance: procurementplanning@mbie.govt.nz"
+    - name: [Attachment 1 name]
+      description: [Description]
