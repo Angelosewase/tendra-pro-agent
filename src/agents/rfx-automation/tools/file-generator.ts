@@ -28,7 +28,7 @@ export class FileGenerator {
   constructor(
     outputDir: string = "./output",
     templatesDir: string = "./templates",
-    htmlTemplatesDir: string = "./html-templates",
+    htmlTemplatesDir: string = "./templates/html",
   ) {
     this.outputDir = outputDir;
     this.templatesDir = templatesDir;
@@ -43,7 +43,54 @@ export class FileGenerator {
     }
   }
 
-  public async generatePDF(
+  public async generateRFBPDF(
+    placeholderValues: PlaceholderValues,
+    filename: string,
+    pdfOptions: PDFOptions = {},
+    fillOptions: FillOptions = {}
+  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
+    try {
+      // Use PlaceholderFiller to fill the RFB template
+      const fillResult = this.placeholderFiller.fillRFBTemplate(
+        placeholderValues,
+        fillOptions,
+      );
+
+      if (!fillResult.success || !fillResult.filledData) {
+        return { success: false, fillResult };
+      }
+
+      // Generate PDF from filled template data
+      const filePath = await this.generatePDF(
+        fillResult.filledData,
+        'rfb_template.html',
+        filename,
+        pdfOptions,
+      );
+
+      return { success: true, filePath, fillResult };
+    } catch (error) {
+      return {
+        success: false,
+        fillResult: {
+          success: false,
+          errors: [error instanceof Error ? error.message : "Unknown error"],
+        },
+      };
+    }
+  }
+
+  public getRFBPlaceholders(): string[] {
+    return this.placeholderFiller.getRFBPlaceholders();
+  }
+
+  public validateRFBData(
+    values: PlaceholderValues
+  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    return this.placeholderFiller.validateRFBValues(values);
+  }
+
+  private async generatePDF(
     templateData: TemplateData,
     templateFile: string,
     filename: string,
@@ -127,46 +174,6 @@ export class FileGenerator {
 
     flatten(data);
     return flattened;
-  }
-
-  public async generatePDFFromYAML(
-    yamlTemplateId: string,
-    htmlTemplateFile: string,
-    placeholderValues: PlaceholderValues,
-    filename: string,
-    pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {},
-  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
-    try {
-      // Use PlaceholderFiller to fill the YAML template
-      const fillResult = this.placeholderFiller.fillTemplate(
-        yamlTemplateId,
-        placeholderValues,
-        fillOptions,
-      );
-
-      if (!fillResult.success || !fillResult.filledData) {
-        return { success: false, fillResult };
-      }
-
-      // Generate PDF from filled template data
-      const filePath = await this.generatePDF(
-        fillResult.filledData,
-        htmlTemplateFile,
-        filename,
-        pdfOptions,
-      );
-
-      return { success: true, filePath, fillResult };
-    } catch (error) {
-      return {
-        success: false,
-        fillResult: {
-          success: false,
-          errors: [error instanceof Error ? error.message : "Unknown error"],
-        },
-      };
-    }
   }
 
   public listAvailableTemplates(): string[] {

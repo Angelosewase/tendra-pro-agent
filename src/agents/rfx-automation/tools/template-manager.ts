@@ -1,6 +1,7 @@
 import * as yaml from "yaml";
 import * as fs from "fs";
 import * as path from "path";
+import { PlaceholderFiller } from "./fill-placeholders";
 
 export interface TemplateData {
   metadata: {
@@ -21,7 +22,7 @@ export interface TemplateData {
 
 export interface SerializedTemplate {
   templateId: string;
-  templateType: string;
+  templateType: 'rfb';
   placeholders: string[];
   metadata: {
     version: string;
@@ -32,8 +33,10 @@ export interface SerializedTemplate {
 export class TemplateManager {
   private templates: Map<string, SerializedTemplate> = new Map();
   private templateData: Map<string, TemplateData> = new Map();
+  private placeholderFiller: PlaceholderFiller;
 
   constructor() {
+    this.placeholderFiller = new PlaceholderFiller(this);
     this.loadTemplates();
   }
 
@@ -45,14 +48,13 @@ export class TemplateManager {
       return;
     }
 
-    const files = fs
-      .readdirSync(templatesDir)
-      .filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"));
-
-    files.forEach((file) => {
-      const filePath = path.join(templatesDir, file);
-      this.loadTemplate(filePath);
-    });
+    // Load only RFB template
+    const rfbTemplatePath = path.join(templatesDir, "yaml", "rfb_template.yaml");
+    if (fs.existsSync(rfbTemplatePath)) {
+      this.loadTemplate(rfbTemplatePath);
+    } else {
+      console.warn("RFB template not found:", rfbTemplatePath);
+    }
   }
 
   private loadTemplate(filePath: string): void {
@@ -68,12 +70,12 @@ export class TemplateManager {
       const parsedYaml = yaml.parse(fileContent) as TemplateData;
 
       const templateId = path.basename(filePath, path.extname(filePath));
-      const placeholders = this.extractPlaceholders(parsedYaml);
+      const placeholders = this.placeholderFiller['extractPlaceholdersFromData'](parsedYaml);
       const sections = this.extractSections(parsedYaml);
 
       const serializedTemplate: SerializedTemplate = {
         templateId,
-        templateType: this.determineTemplateType(parsedYaml),
+        templateType: 'rfb',
         placeholders,
         metadata: {
           version: "1.0.0",
@@ -116,28 +118,17 @@ export class TemplateManager {
     );
   }
 
-  private determineTemplateType(data: TemplateData): string {
-    if (data.metadata?.document_type) {
-      return data.metadata.document_type.toLowerCase().replace(/\s+/g, "_");
-    }
-    return "unknown";
+  public getRFBTemplate(): SerializedTemplate | undefined {
+    return this.templates.get("rfb_template");
   }
 
-  public getTemplate(templateId: string): SerializedTemplate | undefined {
-    return this.templates.get(templateId);
+  public getRFBTemplateData(): TemplateData | undefined {
+    return this.templateData.get("rfb_template");
   }
 
-  public getTemplateData(templateId: string): TemplateData | undefined {
-    return this.templateData.get(templateId);
-  }
-
-  public getAllTemplates(): SerializedTemplate[] {
-    return Array.from(this.templates.values());
-  }
-
-  public serializeTemplate(templateId: string): string | null {
-    const template = this.templates.get(templateId);
-    const data = this.templateData.get(templateId);
+  public serializeRFBTemplate(): string | null {
+    const template = this.templates.get("rfb_template");
+    const data = this.templateData.get("rfb_template");
     if (!template || !data) {
       return null;
     }
@@ -148,32 +139,14 @@ export class TemplateManager {
     }, null, 2);
   }
 
-  public deserializeTemplate(
-    serializedData: string,
-  ): { template: SerializedTemplate; data: TemplateData } | null {
-    try {
-      const parsed = JSON.parse(serializedData);
-      if (parsed.template && parsed.data) {
-        return {
-          template: parsed.template as SerializedTemplate,
-          data: parsed.data as TemplateData
-        };
-      }
-      return null;
-    } catch (error) {
-      console.error("Error deserializing template:", error);
-      return null;
-    }
-  }
-
-  public validateTemplate(templateId: string): {
+  public validateRFBTemplate(): {
     valid: boolean;
     errors: string[];
   } {
-    const template = this.templates.get(templateId);
-    const data = this.templateData.get(templateId);
+    const template = this.templates.get("rfb_template");
+    const data = this.templateData.get("rfb_template");
     if (!template || !data) {
-      return { valid: false, errors: [`Template ${templateId} not found`] };
+      return { valid: false, errors: ["RFB template not found"] };
     }
 
     const errors: string[] = [];
@@ -187,7 +160,7 @@ export class TemplateManager {
     }
 
     // Validate placeholder format
-    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-]+$/.test(p));
+    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
     if (invalidPlaceholders.length > 0) {
       errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
     }
