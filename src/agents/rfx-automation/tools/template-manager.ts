@@ -22,7 +22,7 @@ export interface TemplateData {
 
 export interface SerializedTemplate {
   templateId: string;
-  templateType: 'rfb';
+  templateType: 'rfb' | 'rfi';
   placeholders: string[];
   metadata: {
     version: string;
@@ -48,12 +48,20 @@ export class TemplateManager {
       return;
     }
 
-    // Load only RFB template
+    // Load RFB template
     const rfbTemplatePath = path.join(templatesDir, "yaml", "rfb_template.yaml");
     if (fs.existsSync(rfbTemplatePath)) {
       this.loadTemplate(rfbTemplatePath);
     } else {
       console.warn("RFB template not found:", rfbTemplatePath);
+    }
+
+    // Load RFI template
+    const rfiTemplatePath = path.join(templatesDir, "yaml", "rfi_template.yaml");
+    if (fs.existsSync(rfiTemplatePath)) {
+      this.loadTemplate(rfiTemplatePath);
+    } else {
+      console.warn("RFI template not found:", rfiTemplatePath);
     }
   }
 
@@ -111,10 +119,19 @@ export class TemplateManager {
     return Array.from(new Set(placeholders));
   }
 
+  private determineTemplateType(data: TemplateData): 'rfb' | 'rfi' {
+    // Check if it's an RFI template (has section_1, section_2, section_3 structure)
+    if (data.section_1 && data.section_2 && data.section_3) {
+      return 'rfi';
+    }
+    // Default to RFB
+    return 'rfb';
+  }
+
   private extractSections(data: any): string[] {
     return Object.keys(data).filter(
       (key) =>
-        key.startsWith("section_") || key === "metadata" || key === "header",
+        key.startsWith("section_") || key === "metadata" || key === "header" || key === "appendix",
     );
   }
 
@@ -126,9 +143,30 @@ export class TemplateManager {
     return this.templateData.get("rfb_template");
   }
 
+  public getRFITemplate(): SerializedTemplate | undefined {
+    return this.templates.get("rfi_template");
+  }
+
+  public getRFITemplateData(): TemplateData | undefined {
+    return this.templateData.get("rfi_template");
+  }
+
   public serializeRFBTemplate(): string | null {
     const template = this.templates.get("rfb_template");
     const data = this.templateData.get("rfb_template");
+    if (!template || !data) {
+      return null;
+    }
+
+    return JSON.stringify({
+      template,
+      data
+    }, null, 2);
+  }
+
+  public serializeRFITemplate(): string | null {
+    const template = this.templates.get("rfi_template");
+    const data = this.templateData.get("rfi_template");
     if (!template || !data) {
       return null;
     }
@@ -157,6 +195,43 @@ export class TemplateManager {
 
     if (!data.header) {
       errors.push("Missing header section");
+    }
+
+    // Validate placeholder format
+    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
+    if (invalidPlaceholders.length > 0) {
+      errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  public validateRFITemplate(): {
+    valid: boolean;
+    errors: string[];
+  } {
+    const template = this.templates.get("rfi_template");
+    const data = this.templateData.get("rfi_template");
+    if (!template || !data) {
+      return { valid: false, errors: ["RFI template not found"] };
+    }
+
+    const errors: string[] = [];
+
+    if (!data.header) {
+      errors.push("Missing header section");
+    }
+
+    if (!data.section_1) {
+      errors.push("Missing section_1");
+    }
+
+    if (!data.section_2) {
+      errors.push("Missing section_2");
+    }
+
+    if (!data.section_3) {
+      errors.push("Missing section_3");
     }
 
     // Validate placeholder format

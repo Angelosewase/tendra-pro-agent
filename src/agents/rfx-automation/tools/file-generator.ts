@@ -80,14 +80,61 @@ export class FileGenerator {
     }
   }
 
+  public async generateRFIPDF(
+    placeholderValues: PlaceholderValues,
+    filename: string,
+    pdfOptions: PDFOptions = {},
+    fillOptions: FillOptions = {}
+  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
+    try {
+      // Use PlaceholderFiller to fill the RFI template
+      const fillResult = this.placeholderFiller.fillRFITemplate(
+        placeholderValues,
+        fillOptions,
+      );
+
+      if (!fillResult.success || !fillResult.filledData) {
+        return { success: false, fillResult };
+      }
+
+      // Generate PDF from filled template data
+      const filePath = await this.generatePDF(
+        fillResult.filledData,
+        'rfi_template.html',
+        filename,
+        pdfOptions,
+      );
+
+      return { success: true, filePath, fillResult };
+    } catch (error) {
+      return {
+        success: false,
+        fillResult: {
+          success: false,
+          errors: [error instanceof Error ? error.message : "Unknown error"],
+        },
+      };
+    }
+  }
+
   public getRFBPlaceholders(): string[] {
     return this.placeholderFiller.getRFBPlaceholders();
+  }
+
+  public getRFIPlaceholders(): string[] {
+    return this.placeholderFiller.getRFIPlaceholders();
   }
 
   public validateRFBData(
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
     return this.placeholderFiller.validateRFBValues(values);
+  }
+
+  public validateRFIData(
+    values: PlaceholderValues
+  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    return this.placeholderFiller.validateRFIValues(values);
   }
 
   private async generatePDF(
