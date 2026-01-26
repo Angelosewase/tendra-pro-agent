@@ -1,0 +1,191 @@
+import puppeteer from "puppeteer";
+import * as fs from "fs";
+import * as path from "path";
+import { TemplateData } from "./template-manager";
+import {
+  PlaceholderFiller,
+  PlaceholderValues,
+  FillOptions,
+} from "./fill-placeholders";
+
+export interface PDFOptions {
+  format?: "A4" | "Letter";
+  margin?: {
+    top?: string;
+    right?: string;
+    bottom?: string;
+    left?: string;
+  };
+  printBackground?: boolean;
+}
+
+export class FileGenerator {
+  private outputDir: string;
+  private templatesDir: string;
+  private htmlTemplatesDir: string;
+  private placeholderFiller: PlaceholderFiller;
+
+  constructor(
+    outputDir: string = "./output",
+    templatesDir: string = "./templates",
+    htmlTemplatesDir: string = "./html-templates",
+  ) {
+    this.outputDir = outputDir;
+    this.templatesDir = templatesDir;
+    this.htmlTemplatesDir = htmlTemplatesDir;
+    this.placeholderFiller = new PlaceholderFiller();
+    this.ensureOutputDir();
+  }
+
+  private ensureOutputDir(): void {
+    if (!fs.existsSync(this.outputDir)) {
+      fs.mkdirSync(this.outputDir, { recursive: true });
+    }
+  }
+
+  public async generatePDF(
+    templateData: TemplateData,
+    templateFile: string,
+    filename: string,
+    options: PDFOptions = {},
+  ): Promise<string> {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    try {
+      const html = this.loadTemplate(templateFile, templateData);
+      await page.setContent(html, { waitUntil: "networkidle0" });
+
+      const pdfOptions = {
+        path: path.join(this.outputDir, filename),
+        format: options.format || "A4",
+        margin: {
+          top: options.margin?.top || "20mm",
+          right: options.margin?.right || "20mm",
+          bottom: options.margin?.bottom || "20mm",
+          left: options.margin?.left || "20mm",
+          ...options.margin,
+        },
+        printBackground: options.printBackground ?? true,
+      };
+
+      await page.pdf(pdfOptions);
+      return path.join(this.outputDir, filename);
+    } finally {
+      await browser.close();
+    }
+  }
+
+  private loadTemplate(templateFile: string, data: TemplateData): string {
+    const templatePath = path.join(this.htmlTemplatesDir, templateFile);
+
+    if (!fs.existsSync(templatePath)) {
+      throw new Error(`HTML template file not found: ${templatePath}`);
+    }
+
+    let html = fs.readFileSync(templatePath, "utf8");
+
+    // Use PlaceholderFiller to replace placeholders
+    const flatData = this.flattenTemplateData(data);
+    
+    // Create a simple template structure for the HTML content
+    const htmlTemplateData = {
+      content: html,
+      metadata: { document_type: "", purpose: "", usage_notes: [] },
+      header: { title: "", number: "", issued_date: "", responses_due: "", agency_logo: "", agency_name: "" }
+    } as unknown as TemplateData;
+    
+    const fillResult = this.placeholderFiller.fillTemplateData(
+      htmlTemplateData,
+      flatData,
+      { preserveUnknownPlaceholders: true },
+    );
+
+    return (fillResult.filledData?.content as string) || html;
+  }
+
+  private flattenTemplateData(data: TemplateData): PlaceholderValues {
+    const flattened: PlaceholderValues = {};
+
+    const flatten = (obj: any, prefix: string = "") => {
+      Object.entries(obj).forEach(([key, value]) => {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+
+        if (typeof value === "string") {
+          flattened[newKey] = value;
+        } else if (Array.isArray(value)) {
+          flattened[newKey] = value
+            .map((item) =>
+              typeof item === "string" ? item : JSON.stringify(item),
+            )
+            .join(", ");
+        } else if (typeof value === "object" && value !== null) {
+          flatten(value, newKey);
+        }
+      });
+    };
+
+    flatten(data);
+    return flattened;
+  }
+
+  public async generatePDFFromYAML(
+    yamlTemplateId: string,
+    htmlTemplateFile: string,
+    placeholderValues: PlaceholderValues,
+    filename: string,
+    pdfOptions: PDFOptions = {},
+    fillOptions: FillOptions = {},
+  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
+    try {
+      // Use PlaceholderFiller to fill the YAML template
+      const fillResult = this.placeholderFiller.fillTemplate(
+        yamlTemplateId,
+        placeholderValues,
+        fillOptions,
+      );
+
+      if (!fillResult.success || !fillResult.filledData) {
+        return { success: false, fillResult };
+      }
+
+      // Generate PDF from filled template data
+      const filePath = await this.generatePDF(
+        fillResult.filledData,
+        htmlTemplateFile,
+        filename,
+        pdfOptions,
+      );
+
+      return { success: true, filePath, fillResult };
+    } catch (error) {
+      return {
+        success: false,
+        fillResult: {
+          success: false,
+          errors: [error instanceof Error ? error.message : "Unknown error"],
+        },
+      };
+    }
+  }
+
+  public listAvailableTemplates(): string[] {
+    if (!fs.existsSync(this.htmlTemplatesDir)) {
+      return [];
+    }
+
+    return fs
+      .readdirSync(this.htmlTemplatesDir)
+      .filter((file) => file.endsWith(".html") || file.endsWith(".htm"));
+  }
+
+  public listYAMLTemplates(): string[] {
+    if (!fs.existsSync(this.templatesDir)) {
+      return [];
+    }
+
+    return fs
+      .readdirSync(this.templatesDir)
+      .filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"));
+  }
+}

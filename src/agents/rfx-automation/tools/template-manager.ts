@@ -58,6 +58,13 @@ export class TemplateManager {
   private loadTemplate(filePath: string): void {
     try {
       const fileContent = fs.readFileSync(filePath, "utf8");
+      
+      // Skip empty files
+      if (!fileContent.trim()) {
+        console.warn(`Skipping empty template file: ${filePath}`);
+        return;
+      }
+      
       const parsedYaml = yaml.parse(fileContent) as TemplateData;
 
       const templateId = path.basename(filePath, path.extname(filePath));
