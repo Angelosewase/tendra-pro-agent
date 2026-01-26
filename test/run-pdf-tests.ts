@@ -12,25 +12,15 @@ async function runPDFTests() {
 
   // Test data
   const testValues: PlaceholderValues = {
-    'header.buyer_name': 'Test Government Agency',
-    'header.procurement_title': 'Software Development Services',
-    'header.reference_number': 'RFP-2024-001',
-    'header.rfp_released_date': '15 Jan 2024',
-    'header.deadline_questions': '25 Jan 2024',
-    'header.deadline_proposals': '05 Feb 2024',
-    'header.buyer_contact.name': 'John Doe',
-    'header.buyer_contact.website': 'https://test.govt.nz',
-    'header.buyer_contact.street_address': '123 Test Street',
-    'header.buyer_contact.city': 'Wellington',
-    'metadata.document_type': 'Request for Proposal (RFP)',
-    'metadata.purpose': 'For procurement where innovative solutions are sought and price is not the only evaluation criterion.',
-    'section_1_opportunity.summary': 'We need a modern software solution for our government services.',
-    'section_1_opportunity.what_we_need.description': 'A comprehensive software platform that can handle our operations.',
-    'section_1_opportunity.what_we_dont_wanted.included': 'No',
-    'section_1_opportunity.what_we_dont_wanted.description': 'We do not want legacy systems.',
-    'section_1_opportunity.whats_important.description': 'Innovation, cost-effectiveness, and scalability are important.',
-    'section_1_opportunity.why_bid.motivation': 'This is an opportunity to make a significant impact on public services.',
-    'section_1_opportunity.about_us.description': 'We are a government agency dedicated to serving the public.',
+    'Insert name of the Buyer': 'Test Government Agency',
+    'Insert name of procurement': 'Software Development Services',
+    'Procurement reference number': 'RFP-2024-001',
+    'DD MM YY': '15 Jan 2024',
+    'TIME DD MM YY': '25 Jan 2024',
+    'Name of Buyer': 'John Doe',
+    'Website': 'https://test.govt.nz',
+    'Street address': '123 Test Street',
+    'City': 'Wellington',
   };
 
   try {

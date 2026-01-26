@@ -22,7 +22,7 @@ export interface TemplateData {
 
 export interface SerializedTemplate {
   templateId: string;
-  templateType: 'rfb' | 'rfi' | 'rfp';
+  templateType: "rfb" | "rfi" | "rfp" | "rfq";
   placeholders: string[];
   metadata: {
     version: string;
@@ -49,7 +49,11 @@ export class TemplateManager {
     }
 
     // Load RFB template
-    const rfbTemplatePath = path.join(templatesDir, "yaml", "rfb_template.yaml");
+    const rfbTemplatePath = path.join(
+      templatesDir,
+      "yaml",
+      "rfb_template.yaml",
+    );
     if (fs.existsSync(rfbTemplatePath)) {
       this.loadTemplate(rfbTemplatePath);
     } else {
@@ -57,7 +61,11 @@ export class TemplateManager {
     }
 
     // Load RFI template
-    const rfiTemplatePath = path.join(templatesDir, "yaml", "rfi_template.yaml");
+    const rfiTemplatePath = path.join(
+      templatesDir,
+      "yaml",
+      "rfi_template.yaml",
+    );
     if (fs.existsSync(rfiTemplatePath)) {
       this.loadTemplate(rfiTemplatePath);
     } else {
@@ -65,85 +73,84 @@ export class TemplateManager {
     }
 
     // Load RFP template
-    const rfpTemplatePath = path.join(templatesDir, "yaml", "rfp_template.yaml");
+    const rfpTemplatePath = path.join(
+      templatesDir,
+      "yaml",
+      "rfp_template.yaml",
+    );
     if (fs.existsSync(rfpTemplatePath)) {
       this.loadTemplate(rfpTemplatePath);
     } else {
       console.warn("RFP template not found:", rfpTemplatePath);
+    }
+
+    // Load RFQ template
+    const rfqTemplatePath = path.join(
+      templatesDir,
+      "yaml",
+      "rfq_template.yaml",
+    );
+    if (fs.existsSync(rfqTemplatePath)) {
+      this.loadTemplate(rfqTemplatePath);
+    } else {
+      console.warn("RFQ template not found:", rfqTemplatePath);
     }
   }
 
   private loadTemplate(filePath: string): void {
     try {
       const fileContent = fs.readFileSync(filePath, "utf8");
-      
+
       // Skip empty files
       if (!fileContent.trim()) {
         console.warn(`Skipping empty template file: ${filePath}`);
         return;
       }
-      
-      const parsedYaml = yaml.parse(fileContent) as TemplateData;
 
-      const templateId = path.basename(filePath, path.extname(filePath));
-      const placeholders = this.placeholderFiller['extractPlaceholdersFromData'](parsedYaml);
-      const sections = this.extractSections(parsedYaml);
+      const data = yaml.parse(fileContent) as TemplateData;
+      const templateId = path.basename(filePath, ".yaml");
+
+      // Determine template type based on file name
+      const templateType = this.determineTemplateTypeFromFileName(templateId);
+
+      // Extract placeholders from the loaded data
+      const placeholders =
+        this.placeholderFiller["extractPlaceholdersFromData"](data);
+      const sections = this.extractSections(data);
 
       const serializedTemplate: SerializedTemplate = {
         templateId,
-        templateType: 'rfb',
+        templateType,
         placeholders,
         metadata: {
-          version: "1.0.0",
+          version: "1.0",
           sections,
         },
       };
 
       this.templates.set(templateId, serializedTemplate);
-      this.templateData.set(templateId, parsedYaml);
-      console.log(`Loaded template: ${templateId}`);
+      this.templateData.set(templateId, data);
     } catch (error) {
       console.error(`Error loading template ${filePath}:`, error);
     }
   }
 
-  private extractPlaceholders(data: unknown, placeholders: string[] = []): string[] {
-    if (typeof data === "string") {
-      // Only match valid identifiers: letters, numbers, underscores, hyphens
-      const matches = data.match(/\[([A-Za-z0-9_\-]+)\]/g);
-      if (matches) {
-        // Extract just the key without brackets
-        const keys = matches.map(match => match.slice(1, -1));
-        placeholders.push(...keys);
-      }
-    } else if (Array.isArray(data)) {
-      data.forEach((item) => this.extractPlaceholders(item, placeholders));
-    } else if (typeof data === "object" && data !== null) {
-      Object.values(data).forEach((value) =>
-        this.extractPlaceholders(value, placeholders),
-      );
-    }
-
-    return Array.from(new Set(placeholders));
-  }
-
-  private determineTemplateType(data: TemplateData): 'rfb' | 'rfi' | 'rfp' {
-    // Check if it's an RFI template (has section_1, section_2, section_3 structure)
-    if (data.section_1 && data.section_2 && data.section_3) {
-      return 'rfi';
-    }
-    // Check if it's an RFP template (has section_1_opportunity, section_2_key_information, etc.)
-    if (data.section_1_opportunity && data.section_2_key_information) {
-      return 'rfp';
-    }
-    // Default to RFB
-    return 'rfb';
+  private determineTemplateTypeFromFileName(
+    templateId: string,
+  ): "rfb" | "rfi" | "rfp" | "rfq" {
+    if (templateId.includes("rfi")) return "rfi";
+    if (templateId.includes("rfp")) return "rfp";
+    if (templateId.includes("rfq")) return "rfq";
+    return "rfb"; // default
   }
 
   private extractSections(data: any): string[] {
     return Object.keys(data).filter(
       (key) =>
-        key.startsWith("section_") || key === "metadata" || key === "header" || key === "appendix",
+        key.startsWith("section_") ||
+        key === "metadata" ||
+        key === "header" ||
+        key === "appendix",
     );
   }
 
@@ -171,6 +178,14 @@ export class TemplateManager {
     return this.templateData.get("rfp_template");
   }
 
+  public getRFQTemplate(): SerializedTemplate | undefined {
+    return this.templates.get("rfq_template");
+  }
+
+  public getRFQTemplateData(): TemplateData | undefined {
+    return this.templateData.get("rfq_template");
+  }
+
   public serializeRFBTemplate(): string | null {
     const template = this.templates.get("rfb_template");
     const data = this.templateData.get("rfb_template");
@@ -178,10 +193,14 @@ export class TemplateManager {
       return null;
     }
 
-    return JSON.stringify({
-      template,
-      data
-    }, null, 2);
+    return JSON.stringify(
+      {
+        template,
+        data,
+      },
+      null,
+      2,
+    );
   }
 
   public serializeRFITemplate(): string | null {
@@ -191,10 +210,14 @@ export class TemplateManager {
       return null;
     }
 
-    return JSON.stringify({
-      template,
-      data
-    }, null, 2);
+    return JSON.stringify(
+      {
+        template,
+        data,
+      },
+      null,
+      2,
+    );
   }
 
   public serializeRFPTemplate(): string | null {
@@ -204,10 +227,31 @@ export class TemplateManager {
       return null;
     }
 
-    return JSON.stringify({
-      template,
-      data
-    }, null, 2);
+    return JSON.stringify(
+      {
+        template,
+        data,
+      },
+      null,
+      2,
+    );
+  }
+
+  public serializeRFQTemplate(): string | null {
+    const template = this.templates.get("rfq_template");
+    const data = this.templateData.get("rfq_template");
+    if (!template || !data) {
+      return null;
+    }
+
+    return JSON.stringify(
+      {
+        template,
+        data,
+      },
+      null,
+      2,
+    );
   }
 
   public validateRFBTemplate(): {
@@ -231,9 +275,13 @@ export class TemplateManager {
     }
 
     // Validate placeholder format
-    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
+    const invalidPlaceholders = template.placeholders.filter(
+      (p) => !/^[A-Za-z0-9_\-\.]+$/.test(p),
+    );
     if (invalidPlaceholders.length > 0) {
-      errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
+      errors.push(
+        `Invalid placeholder format: ${invalidPlaceholders.join(", ")}`,
+      );
     }
 
     return { valid: errors.length === 0, errors };
@@ -268,9 +316,13 @@ export class TemplateManager {
     }
 
     // Validate placeholder format
-    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
+    const invalidPlaceholders = template.placeholders.filter(
+      (p) => !/^[A-Za-z0-9_\-\.]+$/.test(p),
+    );
     if (invalidPlaceholders.length > 0) {
-      errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
+      errors.push(
+        `Invalid placeholder format: ${invalidPlaceholders.join(", ")}`,
+      );
     }
 
     return { valid: errors.length === 0, errors };
@@ -301,12 +353,97 @@ export class TemplateManager {
     }
 
     // Validate placeholder format
-    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
+    const invalidPlaceholders = template.placeholders.filter(
+      (p) => !/^[A-Za-z0-9_\-\.]+$/.test(p),
+    );
     if (invalidPlaceholders.length > 0) {
-      errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
+      errors.push(
+        `Invalid placeholder format: ${invalidPlaceholders.join(", ")}`,
+      );
     }
 
     return { valid: errors.length === 0, errors };
   }
 
+  public validateRFQTemplate(): {
+    valid: boolean;
+    errors: string[];
+  } {
+    const template = this.templates.get("rfq_template");
+    const data = this.templateData.get("rfq_template");
+    if (!template || !data) {
+      return { valid: false, errors: ["RFQ template not found"] };
+    }
+
+    const errors: string[] = [];
+
+    if (!data.header) {
+      errors.push("Missing header section");
+    }
+
+    if (!data.section_1_opportunity) {
+      errors.push("Missing section_1_opportunity");
+    }
+
+    if (!data.section_2_key_information) {
+      errors.push("Missing section_2_key_information");
+    }
+
+    // Validate placeholder format
+    const invalidPlaceholders = template.placeholders.filter(
+      (p) => !/^[A-Za-z0-9_\-\.]+$/.test(p),
+    );
+    if (invalidPlaceholders.length > 0) {
+      errors.push(
+        `Invalid placeholder format: ${invalidPlaceholders.join(", ")}`,
+      );
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  // Generic methods that work with any template ID
+  public getAllTemplates(): SerializedTemplate[] {
+    return Array.from(this.templates.values());
+  }
+
+  public getTemplate(templateId: string): SerializedTemplate | undefined {
+    return this.templates.get(templateId);
+  }
+
+  public getTemplateData(templateId: string): TemplateData | undefined {
+    return this.templateData.get(templateId);
+  }
+
+  public validateTemplate(templateId: string): { valid: boolean; errors: string[] } {
+    const template = this.templates.get(templateId);
+    const data = this.templateData.get(templateId);
+    
+    if (!template || !data) {
+      return { valid: false, errors: [`${templateId} template not found`] };
+    }
+
+    const errors: string[] = [];
+
+    // Basic validation - check for required sections
+    if (!data.header) {
+      errors.push("Missing header section");
+    }
+
+    if (!data.metadata) {
+      errors.push("Missing metadata section");
+    }
+
+    // Validate placeholder format
+    const invalidPlaceholders = template.placeholders.filter(
+      (p) => !/^[A-Za-z0-9_\-\.]+$/.test(p),
+    );
+    if (invalidPlaceholders.length > 0) {
+      errors.push(
+        `Invalid placeholder format: ${invalidPlaceholders.join(", ")}`,
+      );
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
 }

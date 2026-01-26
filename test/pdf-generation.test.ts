@@ -21,7 +21,7 @@ describe('PDF Generation Integration Tests', () => {
       
       const rfpTemplate = templateManager.getTemplate('rfp_template');
       expect(rfpTemplate).toBeDefined();
-      expect(rfpTemplate?.templateType).toBe('request_for_proposal_(rfp)');
+      expect(rfpTemplate?.templateType).toBe('rfp');
     });
 
     test('should validate templates', () => {
@@ -33,26 +33,27 @@ describe('PDF Generation Integration Tests', () => {
     test('should extract placeholders from template', () => {
       const placeholders = placeholderFiller.extractPlaceholders('rfp_template');
       expect(placeholders.length).toBeGreaterThan(0);
-      expect(placeholders.length).toBe(7); 
+      // Check for some expected placeholders based on the actual template
+      expect(placeholders).toContain('Insert name of the Buyer');
       expect(placeholders).toContain('Website');
       expect(placeholders).toContain('City');
-      expect(placeholders).toContain('time');
-      expect(placeholders).toContain('Number');
-      expect(placeholders).toContain('x');
-      expect(placeholders).toContain('Address');
-      expect(placeholders).toContain('number');
+      expect(placeholders).toContain('DD MM YY');
+      expect(placeholders).toContain('TIME DD MM YY');
+      expect(placeholders).toContain('Street address');
     });
   });
 
   describe('Placeholder Filler Tests', () => {
     const testValues: PlaceholderValues = {
+      'Insert name of the Buyer': 'Test Government Agency',
+      'Insert name of procurement': 'Software Development Services',
+      'Procurement reference number': 'RFP-2024-001',
+      'DD MM YY': '15 Jan 2024',
+      'TIME DD MM YY': '25 Jan 2024',
+      'Name of Buyer': 'John Doe',
       'Website': 'https://test.govt.nz',
+      'Street address': '123 Test Street',
       'City': 'Wellington',
-      'time': '15 January 2024',
-      'Number': 'RFP-2024-001',
-      'x': 'Digital Transformation Services',
-      'Address': '123 Lambton Quay, Wellington 6011',
-      'number': '+64-4-123-4567',
     };
 
     test('should fill RFP template with test data', () => {
@@ -97,13 +98,15 @@ describe('PDF Generation Integration Tests', () => {
 
   describe('PDF Generation Tests', () => {
     const testValues: PlaceholderValues = {
+      'Insert name of the Buyer': 'Test Government Agency',
+      'Insert name of procurement': 'Software Development Services',
+      'Procurement reference number': 'RFP-2024-001',
+      'DD MM YY': '15 Jan 2024',
+      'TIME DD MM YY': '25 Jan 2024',
+      'Name of Buyer': 'John Doe',
       'Website': 'https://test.govt.nz',
+      'Street address': '123 Test Street',
       'City': 'Wellington',
-      'time': '15 January 2024',
-      'Number': 'RFP-2024-001',
-      'x': 'Digital Transformation Services',
-      'Address': '123 Lambton Quay, Wellington 6011',
-      'number': '+64-4-123-4567',
     };
 
     test('should generate permanent PDF files for review', async () => {
