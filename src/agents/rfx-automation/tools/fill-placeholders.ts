@@ -61,6 +61,24 @@ export class PlaceholderFiller {
     return this.fillTemplateData(templateData, values, options);
   }
 
+  public fillRFPTemplate(
+    values: PlaceholderValues,
+    options: FillOptions = {}
+  ): FillResult {
+    const templateData = this.templateManager.getRFPTemplateData();
+    
+    if (!templateData) {
+      return {
+        success: false,
+        errors: ["RFP template not found"],
+        warnings: [],
+        unfilledPlaceholders: []
+      };
+    }
+
+    return this.fillTemplateData(templateData, values, options);
+  }
+
   public getRFBPlaceholders(): string[] {
     const templateData = this.templateManager.getRFBTemplateData();
     return templateData ? this.extractPlaceholdersFromData(templateData) : [];
@@ -68,6 +86,11 @@ export class PlaceholderFiller {
 
   public getRFIPlaceholders(): string[] {
     const templateData = this.templateManager.getRFITemplateData();
+    return templateData ? this.extractPlaceholdersFromData(templateData) : [];
+  }
+
+  public getRFPPlaceholders(): string[] {
+    const templateData = this.templateManager.getRFPTemplateData();
     return templateData ? this.extractPlaceholdersFromData(templateData) : [];
   }
 
@@ -121,6 +144,48 @@ export class PlaceholderFiller {
       return {
         valid: false,
         errors: ["RFI template not found"],
+        suggestions: []
+      };
+    }
+
+    const errors: string[] = [];
+    const suggestions: string[] = [];
+    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const providedKeys = Object.keys(values);
+
+    // Check for missing placeholders
+    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    if (missing.length > 0) {
+      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+    }
+
+    // Check for extra values
+    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    if (extra.length > 0) {
+      suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
+    }
+
+    // Check for empty values
+    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
+    if (empty.length > 0) {
+      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      suggestions
+    };
+  }
+
+  public validateRFPValues(
+    values: PlaceholderValues
+  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    const template = this.templateManager.getRFPTemplate();
+    if (!template) {
+      return {
+        valid: false,
+        errors: ["RFP template not found"],
         suggestions: []
       };
     }
@@ -227,6 +292,42 @@ export class PlaceholderFiller {
     return getStructure(templateData);
   }
 
+  public getRFPStructure(): any {
+    const templateData = this.templateManager.getRFPTemplateData();
+    if (!templateData) {
+      return null;
+    }
+
+    // Return a simplified structure showing where placeholders are located
+    const getStructure = (obj: any, path: string = ''): any => {
+      if (typeof obj === 'string') {
+        const doubleBracePlaceholders = obj.match(/\{\{([^}]+)\}\}/g) || [];
+        const singleBracePlaceholders = obj.match(/\[([^\]]+)\]/g) || [];
+        const allPlaceholders = [...doubleBracePlaceholders, ...singleBracePlaceholders];
+        
+        return {
+          type: 'string',
+          path,
+          value: obj,
+          placeholders: allPlaceholders
+        };
+      } else if (Array.isArray(obj)) {
+        return obj.map((item, index) => 
+          getStructure(item, path ? `${path}[${index}]` : `[${index}]`)
+        );
+      } else if (typeof obj === 'object' && obj !== null) {
+        const result: any = {};
+        Object.entries(obj).forEach(([key, value]) => {
+          result[key] = getStructure(value, path ? `${path}.${key}` : key);
+        });
+        return result;
+      }
+      return { type: typeof obj, path, value: obj };
+    };
+
+    return getStructure(templateData);
+  }
+
   public createRFBFillReport(values: PlaceholderValues): {
     templateInfo: any;
     validation: any;
@@ -256,6 +357,27 @@ export class PlaceholderFiller {
     const template = this.templateManager.getRFITemplate();
     const validation = this.validateRFIValues(values);
     const fillResult = this.fillRFITemplate(values);
+
+    return {
+      templateInfo: template ? {
+        id: template.templateId,
+        type: template.templateType,
+        sections: template.metadata.sections,
+        totalPlaceholders: template.placeholders.length
+      } : null,
+      validation,
+      fillResult
+    };
+  }
+
+  public createRFPFillReport(values: PlaceholderValues): {
+    templateInfo: any;
+    validation: any;
+    fillResult: FillResult;
+  } {
+    const template = this.templateManager.getRFPTemplate();
+    const validation = this.validateRFPValues(values);
+    const fillResult = this.fillRFPTemplate(values);
 
     return {
       templateInfo: template ? {

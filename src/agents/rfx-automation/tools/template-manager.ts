@@ -22,7 +22,7 @@ export interface TemplateData {
 
 export interface SerializedTemplate {
   templateId: string;
-  templateType: 'rfb' | 'rfi';
+  templateType: 'rfb' | 'rfi' | 'rfp';
   placeholders: string[];
   metadata: {
     version: string;
@@ -62,6 +62,14 @@ export class TemplateManager {
       this.loadTemplate(rfiTemplatePath);
     } else {
       console.warn("RFI template not found:", rfiTemplatePath);
+    }
+
+    // Load RFP template
+    const rfpTemplatePath = path.join(templatesDir, "yaml", "rfp_template.yaml");
+    if (fs.existsSync(rfpTemplatePath)) {
+      this.loadTemplate(rfpTemplatePath);
+    } else {
+      console.warn("RFP template not found:", rfpTemplatePath);
     }
   }
 
@@ -119,10 +127,14 @@ export class TemplateManager {
     return Array.from(new Set(placeholders));
   }
 
-  private determineTemplateType(data: TemplateData): 'rfb' | 'rfi' {
+  private determineTemplateType(data: TemplateData): 'rfb' | 'rfi' | 'rfp' {
     // Check if it's an RFI template (has section_1, section_2, section_3 structure)
     if (data.section_1 && data.section_2 && data.section_3) {
       return 'rfi';
+    }
+    // Check if it's an RFP template (has section_1_opportunity, section_2_key_information, etc.)
+    if (data.section_1_opportunity && data.section_2_key_information) {
+      return 'rfp';
     }
     // Default to RFB
     return 'rfb';
@@ -151,6 +163,14 @@ export class TemplateManager {
     return this.templateData.get("rfi_template");
   }
 
+  public getRFPTemplate(): SerializedTemplate | undefined {
+    return this.templates.get("rfp_template");
+  }
+
+  public getRFPTemplateData(): TemplateData | undefined {
+    return this.templateData.get("rfp_template");
+  }
+
   public serializeRFBTemplate(): string | null {
     const template = this.templates.get("rfb_template");
     const data = this.templateData.get("rfb_template");
@@ -167,6 +187,19 @@ export class TemplateManager {
   public serializeRFITemplate(): string | null {
     const template = this.templates.get("rfi_template");
     const data = this.templateData.get("rfi_template");
+    if (!template || !data) {
+      return null;
+    }
+
+    return JSON.stringify({
+      template,
+      data
+    }, null, 2);
+  }
+
+  public serializeRFPTemplate(): string | null {
+    const template = this.templates.get("rfp_template");
+    const data = this.templateData.get("rfp_template");
     if (!template || !data) {
       return null;
     }
@@ -232,6 +265,39 @@ export class TemplateManager {
 
     if (!data.section_3) {
       errors.push("Missing section_3");
+    }
+
+    // Validate placeholder format
+    const invalidPlaceholders = template.placeholders.filter(p => !/^[A-Za-z0-9_\-\.]+$/.test(p));
+    if (invalidPlaceholders.length > 0) {
+      errors.push(`Invalid placeholder format: ${invalidPlaceholders.join(', ')}`);
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  public validateRFPTemplate(): {
+    valid: boolean;
+    errors: string[];
+  } {
+    const template = this.templates.get("rfp_template");
+    const data = this.templateData.get("rfp_template");
+    if (!template || !data) {
+      return { valid: false, errors: ["RFP template not found"] };
+    }
+
+    const errors: string[] = [];
+
+    if (!data.header) {
+      errors.push("Missing header section");
+    }
+
+    if (!data.section_1_opportunity) {
+      errors.push("Missing section_1_opportunity");
+    }
+
+    if (!data.section_2_key_information) {
+      errors.push("Missing section_2_key_information");
     }
 
     // Validate placeholder format

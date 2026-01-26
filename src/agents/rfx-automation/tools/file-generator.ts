@@ -117,12 +117,53 @@ export class FileGenerator {
     }
   }
 
+  public async generateRFPPDF(
+    placeholderValues: PlaceholderValues,
+    filename: string,
+    pdfOptions: PDFOptions = {},
+    fillOptions: FillOptions = {}
+  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
+    try {
+      // Use PlaceholderFiller to fill the RFP template
+      const fillResult = this.placeholderFiller.fillRFPTemplate(
+        placeholderValues,
+        fillOptions,
+      );
+
+      if (!fillResult.success || !fillResult.filledData) {
+        return { success: false, fillResult };
+      }
+
+      // Generate PDF from filled template data
+      const filePath = await this.generatePDF(
+        fillResult.filledData,
+        'rfp_template.html',
+        filename,
+        pdfOptions,
+      );
+
+      return { success: true, filePath, fillResult };
+    } catch (error) {
+      return {
+        success: false,
+        fillResult: {
+          success: false,
+          errors: [error instanceof Error ? error.message : "Unknown error"],
+        },
+      };
+    }
+  }
+
   public getRFBPlaceholders(): string[] {
     return this.placeholderFiller.getRFBPlaceholders();
   }
 
   public getRFIPlaceholders(): string[] {
     return this.placeholderFiller.getRFIPlaceholders();
+  }
+
+  public getRFPPlaceholders(): string[] {
+    return this.placeholderFiller.getRFPPlaceholders();
   }
 
   public validateRFBData(
@@ -135,6 +176,12 @@ export class FileGenerator {
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
     return this.placeholderFiller.validateRFIValues(values);
+  }
+
+  public validateRFPData(
+    values: PlaceholderValues
+  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    return this.placeholderFiller.validateRFPValues(values);
   }
 
   private async generatePDF(
