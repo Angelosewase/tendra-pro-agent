@@ -1,0 +1,64 @@
+header:
+  title: [Clear, concise title of the RFI]
+  agency_department: [Name of Agency/Department]
+  rfi_issue_date: [Date]
+
+section_1:
+  rfi_overview:
+    summary: [One paragraph high-level description of the RFI purpose]
+  rfi_contact:
+    point_of_contact:
+      name: [Name]
+      title: [Title]
+      department_agency: [Department/Agency Affiliation]
+      email: [Email]
+      phone: [Phone number]
+    instructions: [Name of Agency/Department]
+  submission_details:
+    method: [email to the RFI point of contact/e-procurement portal]
+    requirements: [Insert any requirements for submission, such as file size, email subject lines, number of attachments, etc.]
+    physical_copies: [Also Allowed/Not Allowed/Optional]
+    physical_address: [If allowed/optional: Delivery address]
+  rfi_timeline:
+    events:
+      - event: RFI Released
+        date: [Insert Date]
+      - event: RFI Conference
+        date: [Not Applicable or Insert Date]
+      - event: Deadline for Questions
+        date: [Insert Date]
+      - event: Responses Due
+        date: [Insert Date]
+    amendment_note: [Name of Agency/Department]
+  rfi_conference:
+    will_be_held: [Yes/No]
+    details:
+      activities: [Name of Agency/Department], [Name of Agency/Department], [Insert Website]
+
+section_2:
+  background_information:
+    mission_history: [Include only if relevant. Boilerplate language about your agency's mission and history that provides useful context for respondents.]
+  goals_and_outcome:
+    description: [Describe the goals for the services and programs you hope will be impacted by responses to the RFI. Mention if a future RFP is anticipated.]
+  background:
+    context: [Briefly describe the history of what led to the project being started and the RFI being issued, including any relevant contextual information such as legislation, strategic plans, or current technology environment.]
+
+section_3:
+  who_we_are_looking_for:
+    description: [Briefly describe who you'd be especially interested in having respond to the RFI. Include both basic features and expected capacities.]
+    suggested_language: [Name of Agency/Department], [Community Organizations/Subject Matter Experts/Vendors/Service Users/Professional Associations/etc.]
+  what_we_are_looking_for:
+    instructions: [Describe what information you hope to receive. Consider breaking into categories or listing specific questions.]
+    suggested_language: [Name of Agency/Department], [Feedback on Planned Approach/ Information about Y Technology Marketplace/How Project will Impact X Community/etc.], [Insert Number], [May/May Not]
+    question_categories:
+      - category: [Category Name 1]
+        questions:
+          - [Question 1]
+          - [Question 2]
+      - category: [Category Name 2]
+        questions:
+          - [Question 1]
+
+appendix:
+  included: [Yes/No]
+  materials: [List or describe any additional background information, context, legislative language, implementation timelines, survey data, budget information, process maps, procedures, or data summaries to be included.]

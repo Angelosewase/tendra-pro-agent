@@ -1,0 +1,209 @@
+header:
+  buyer_name: [Insert name of the Buyer]
+  procurement_title: [Insert name of procurement]
+  reference_number: [Procurement reference number]
+  rfp_released_date: [DD MM YY]
+  deadline_questions: [TIME DD MM YY]
+  deadline_proposals: [TIME DD MM YY]
+  buyer_contact:
+    name: [Name of Buyer]
+    website: [Website]
+    street_address: [Street address]
+    city: [City]
+
+section_1_opportunity:
+  summary: [Short, concise summary to help Respondents decide if they are the right fit. Keep to 1-2 pages maximum.]
+  what_we_need:
+    description: [Summarize what you are looking to procure in 1-2 paragraphs. Include background if relevant.]
+  what_we_dont_want:
+    included: [Yes/No]
+    description: [Include only if there are outcomes or tasks you don't want.]
+  whats_important:
+    description: [Explain what will influence your selection. What are key outcomes? Are you interested in public value or innovation? How should economic benefits to New Zealand be demonstrated? Are there pre-conditions?]
+  why_bid:
+    motivation: [Motivate Respondents to bid. What's in it for them? What difference can they make? Why is your work worthwhile?]
+  about_us:
+    description: [Overview of what your agency does and how this procurement fits with your business or policy objectives.]
+
+section_2_key_information:
+  context:
+    description: [insert name of procurement]
+    process_type: [single-step/second step in a multi-step]
+  timeline:
+    events:
+      - event: Respondent briefing session
+        date_time: [time] [DD MM YY]
+        applicable: [Yes/No]
+      - event: Deadline for Questions
+        date_time: [time] [DD MM YY]
+      - event: Deadline for us to answer questions
+        date: [DD MM YY]
+      - event: Deadline for Proposals
+        date_time: [time] [DD MM YY]
+      - event: Presentations by shortlisted Respondents
+        date: [DD MM YY]
+        applicable: [Yes/No]
+      - event: Successful Respondent(s) notified
+        date: [DD MM YY]
+        applicable: [Yes/No]
+      - event: Expected start date of Contract
+        date: [DD MM YY]
+    additional_items: [Add any other timeline items, clearly indicating which are indicative only]
+  contact_information:
+    method: [Contact through Point of Contact via email or Government Electronic Tenders System (GETS)]
+    point_of_contact:
+      name: [Name of contact person]
+      title_role: [Title/role and unit they work in]
+      email: [Email address]
+      gets_note: [Delete if not applicable, e.g., if all contact is via GETS]
+  submission_instructions:
+    process_type: [open/closed]
+    additional_instructions: [Additional instructions: e.g., two-envelope system, mailbox size limit, page limits, font size, format requirements]
+  submission_address:
+    options:
+      option_one:
+        method: Electronic
+        address: [Email address or GETS in-box address]
+      option_two:
+        hard_copies: [Number]
+        soft_copies: [Number]
+        postal_address:
+          attention: [Name of procurement]
+          officer: [Name of Buyer's responsible officer]
+          agency: [Name of agency]
+          address: [Postal address e.g., PO Box]
+          city: [City]
+        hand_delivery_address:
+          attention: [Name of procurement]
+          officer: [Name of Buyer's responsible officer]
+          agency: [Name of agency]
+          address: [Street address]
+          city: [City]
+        soft_copy_address: [Email address or GETS in-box address]
+    two_envelope_note: [Include if using two-envelope system: Make sure all pricing information is in a separate file.]
+  rfp_terms:
+    offer_validity_period: [Number]
+    variations:
+      included: [Yes/No]
+      items:
+        - number: 1
+          variation: [Details of variation or addition to RFP Terms]
+          contractually_binding: [Y/N]
+  changes_process:
+    method: [Placing notice on GETS or contacting Respondents by email]
+
+section_3_requirements:
+  background:
+    description: [This procurement relates to [policy or business outcome]. Previously provided by [past delivery method]. Going forward we wish to [future strategy].]
+  key_outcomes:
+    description: [Key outcomes are about what we are buying and why. This RFP relates to purchase of [specific goods/services]. Outcomes we want: [key outcomes including economic benefits].]
+  respondent_requirements:
+    track_record: [Describe required experience or track record]
+    capability: [Describe required skills or capability]
+    capacity: [Describe required processes, timeline or capacity]
+    solution: [Describe specific goods or services required]
+    economic_benefits: [Describe economic benefits required and how they will be demonstrated]
+  other_information:
+    quantity: [Estimated quantity to be delivered]
+    delivery_location: [Location for delivery]
+    payment_terms: [Payment terms: e.g., on delivery of milestones, at end of Contract, monthly on invoice]
+  contract_term:
+    commencement: [Month and year]
+    terms:
+      - description: Initial term of the Contract
+        years: [Number of years]
+      - description: Options for us to extend the Contract
+        details: [e.g., up to two extensions of one year each]
+      - description: Maximum term of the Contract
+        years: [Number of years]
+  contract_value:
+    estimate: [We estimate value to be $[x] plus GST for initial term, and [x] plus GST in aggregate if all renewals/extensions are taken up.]
+  key_deliverables:
+    items:
+      - description: [First key deliverable/milestone/outcome]
+        indicative_date: [Delivery date]
+  other_documents:
+    documents:
+      - [List any other relevant documents]
+  delivery_locations:
+    locations:
+      - location: [Address]
+        delivery_details: [What is being delivered here?]
+
+section_4_evaluation_approach:
+  preconditions:
+    included: [Yes/No]
+    conditions:
+      - number: 1
+        description: [Pre-condition that must be met]
+  evaluation_model:
+    options:
+      - name: Lowest price conforming
+        selected: [Yes/No]
+      - name: Simple score, price weighted
+        selected: [Yes/No]
+      - name: Simple score, price not weighted
+        selected: [Yes/No]
+      - name: Weighted attribute, price weighted
+        selected: [Yes/No]
+      - name: Weighted attribute, price not weighted
+        selected: [Yes/No]
+      - name: Price quality method
+        selected: [Yes/No]
+    two_envelope_system:
+      used: [Yes/No]
+  economic_benefits_evaluation:
+    description: [Details of economic benefits sought in this procurement]
+  evaluation_criteria:
+    criteria:
+      - criterion: Track record
+        description: [Add description]
+        weighting: [XX%]
+      - criterion: Capability of the Respondent to deliver
+        description: [Add description]
+        weighting: [XX%]
+      - criterion: Capacity of the Respondent to deliver
+        description: [Add description]
+        weighting: [XX%]
+      - criterion: Proposed solution
+        description: [Add details]
+        weighting: [XX%]
+      - criterion: Economic Benefits to New Zealand
+        description: [Add details]
+        weighting: [≥10%]
+      - criterion: Price
+        description: [Add details]
+        weighting: [XX%]
+        include: [Yes/No]
+    unweighted_note: [If not using weightings: Criteria listed in order of importance with most important first.]
+  due_diligence:
+    checks:
+      - [Reference check Respondent and named personnel]
+      - [Check against Companies Office or NZBN]
+      - [Interview Respondents]
+      - [Request presentations]
+      - [Arrange site-visits]
+      - [Test products]
+      - [Inspect audited accounts for last [number] financial years]
+      - [Undertake credit check]
+      - [Undertake Police check for all named personnel]
+  e_auction:
+    included: [Yes/No]
+    description: [We will conduct e-auction with shortlisted Respondents.]
+
+section_5_pricing_information:
+  specific_costs: [Insert details of costs to capture: e.g., freight costs, exchange rate fluctuations]
+  invoicing: [State how invoicing should be completed, e.g., only lead in consortium issues invoices]
+
+section_6_proposed_contract:
+  description: [The Proposed Contract that we intend to use is attached to this RFP (via GETS).]
+  attachment_method: [Attached here or submitted via GETS]
+
+section_7_rfp_terms:
+  terms_document: RFP Terms and Conditions
+  date: [Insert date]
+  url: [URL to RFP Terms document]
+
+section_8_response_form:
+  pricing_schedule:
+    format: [Specify required format]

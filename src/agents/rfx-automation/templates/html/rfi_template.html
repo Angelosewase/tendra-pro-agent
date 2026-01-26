@@ -1,0 +1,327 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Request for Information (RFI)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+      }
+      .placeholder {
+        background-color: #ffffcc;
+        padding: 2px;
+        border: 1px dotted #ccc;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: #003366;
+      }
+      .header-section {
+        border-bottom: 3px solid #003366;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+      }
+      .section {
+        margin-bottom: 30px;
+      }
+      .subsection {
+        margin-left: 20px;
+        margin-top: 20px;
+      }
+      .contact-box {
+        border: 1px solid #ccc;
+        padding: 15px;
+        background-color: #f9f9f9;
+        margin: 15px 0;
+      }
+      .timeline-table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 15px 0;
+      }
+      .timeline-table td,
+      .timeline-table th {
+        border: 1px solid #ddd;
+        padding: 10px;
+      }
+      .disclaimer {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 20px 0;
+      }
+      .question-category {
+        margin: 20px 0;
+        padding: 15px;
+        border-left: 3px solid #0066cc;
+        background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="header-section">
+      <h1>{{header.title}}</h1>
+      <h2>{{header.agency_department}}</h2>
+      <h3>Request for Information (RFI)</h3>
+      <p><strong>RFI Issue Date:</strong> {{header.rfi_issue_date}}</p>
+
+      <div class="disclaimer">
+        <h4>Disclaimer</h4>
+        <p>
+          Please note that this Request for Information (RFI) is for
+          informational purposes only, and no contract will be awarded as a
+          result. A firm or organization's response to the RFI—or lack
+          thereof—will have no impact on the evaluation of responses to any
+          subsequent Request for Proposals (RFP) or Invitation to Bid (ITB)
+          released. Responses will be used solely for information and planning
+          purposes.
+        </p>
+        <p>
+          <strong
+            ><span class="placeholder"
+              >[Public Record Notice: Please note that all responses will be
+              public record. Do not submit confidential information in your
+              response.]</span
+            ></strong
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 1: RFI Overview -->
+    <div class="section">
+      <h2>Section 1: RFI Overview</h2>
+
+      <h3>1.1 RFI Summary</h3>
+      <p>{{section_1.rfi_overview.summary}}</p>
+
+      <h3>1.2 RFI Contact</h3>
+      <div class="contact-box">
+        <p><strong>Official Point of Contact:</strong></p>
+        <p>
+          <strong>Name:</strong> {{section_1.rfi_contact.point_of_contact.name}}
+        </p>
+        <p>
+          <strong>Title:</strong>
+          {{section_1.rfi_contact.point_of_contact.title}}
+        </p>
+        <p>
+          <strong>Department/Agency:</strong>
+          {{section_1.rfi_contact.point_of_contact.department_agency}}
+        </p>
+        <p>
+          <strong>Email:</strong>
+          {{section_1.rfi_contact.point_of_contact.email}}
+        </p>
+        <p>
+          <strong>Phone:</strong>
+          {{section_1.rfi_contact.point_of_contact.phone}}
+        </p>
+      </div>
+      <p>
+        <strong>Instructions:</strong> We have designated the following
+        individual to serve as the official point of contact for this RFI. This
+        individual is the only authorized contact permitted to communicate on
+        behalf of the {{section_1.rfi_contact.instructions}} about this RFI.
+      </p>
+
+      <h3>1.3 Submission Details</h3>
+      <p>
+        <strong>Submission Method:</strong>
+        {{section_1.submission_details.method}}
+      </p>
+      <p>
+        <strong>Submission Requirements:</strong>
+        {{section_1.submission_details.requirements}}
+      </p>
+      <p>
+        <strong>Physical Copies:</strong>
+        {{section_1.submission_details.physical_copies}}
+      </p>
+      <p>
+        <strong>Physical Address (if applicable):</strong>
+        {{section_1.submission_details.physical_address}}
+      </p>
+      <p>
+        <strong>Instructions:</strong> Please submit your responses to this RFI
+        via {{section_1.submission_details.method}} before the due date
+        identified in Section 1.4. When submitting your response, please
+        {{section_1.submission_details.requirements}}. If you have any questions
+        about this RFI, please direct them to the RFI contact.
+      </p>
+
+      <h3>1.4 RFI Timeline</h3>
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in section_1.rfi_timeline.events %}
+          <tr>
+            <td>{{event.event}}</td>
+            <td>{{event.date}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p>
+        <em
+          >Dates may be modified or amended by the
+          {{section_1.rfi_timeline.amendment_note}}, which will post an
+          amendment to this RFI notifying prospective respondents of any
+          change.</em
+        >
+      </p>
+
+      <h3>1.5 RFI Conference</h3>
+      <p>
+        <strong>Will be held:</strong> {{section_1.rfi_conference.will_be_held}}
+      </p>
+      <div class="subsection">
+        <p><strong>Optional Attendance:</strong> Yes</p>
+        <p>
+          <strong>Purpose:</strong> to answer questions from prospective
+          respondents
+        </p>
+        <p>
+          <strong>Activities:</strong> During the Information Session,
+          {{section_1.rfi_conference.details.activities}} staff will summarize
+          the goals of the RFI, and the information requested.
+          {{section_1.rfi_conference.details.activities}} staff will take
+          questions from prospective respondents and community members during
+          the Information Session.
+        </p>
+        <p>
+          <strong>Recording:</strong> A recording of the RFI Information Session
+          will be posted to {{section_1.rfi_conference.details.activities}}.
+        </p>
+        <p>
+          <strong>Q&A Note:</strong> Any answers given at the Information
+          Session are tentative, and final answers will be provided via a Q&A
+          document released after the Deadline for Questions identified in
+          Section 1.4.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 2: Background Information -->
+    <div class="section">
+      <h2>Section 2: Background Information</h2>
+
+      <h3>2.1 Mission & History</h3>
+      <p>{{section_2.background_information.mission_history}}</p>
+
+      <h3>2.2 Goals and Outcomes</h3>
+      <p>{{section_2.goals_and_outcome.description}}</p>
+
+      <h3>2.3 Background Context</h3>
+      <p>{{section_2.background.context}}</p>
+    </div>
+
+    <!-- Section 3: Information Requested -->
+    <div class="section">
+      <h2>Section 3: Information Requested</h2>
+
+      <h3>3.1 Who We Are Looking For</h3>
+      <p>{{section_3.who_we_are_looking_for.description}}</p>
+      <p>
+        <strong>Suggested Language:</strong> The
+        {{section_3.who_we_are_looking_for.suggested_language}} is especially
+        interested in hearing feedback on this proposed project from the
+        following firms, organizations, or individuals:
+        {{section_3.who_we_are_looking_for.suggested_language}}
+      </p>
+
+      <h3>3.2 What We Are Looking For</h3>
+      <p>{{section_3.what_we_are_looking_for.instructions}}</p>
+      <p>
+        <strong>Instructions:</strong> Respondents are invited to provide
+        information on the following subjects of interest to the
+        {{section_3.what_we_are_looking_for.suggested_language}}:
+        {{section_3.what_we_are_looking_for.suggested_language}} Information
+        provided should total no more than
+        {{section_3.what_we_are_looking_for.suggested_language}} total pages.
+        Respondents {{section_3.what_we_are_looking_for.suggested_language}}
+        include additional attachments with their response document.
+      </p>
+
+      <!-- Question Categories (Optional) -->
+      <div class="subsection">
+        <h4>Question Categories:</h4>
+
+        {% for category in section_3.what_we_are_looking_for.question_categories
+        %}
+        <div class="question-category">
+          <h5>{{category.category}}</h5>
+          <ul>
+            {% for question in category.questions %}
+            <li>{{question}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+      </div>
+
+      <h4>Example Types of Information Sought (For Reference):</h4>
+      <ul>
+        <li>
+          Example 1: Seeking information from organizations about supportive
+          housing
+        </li>
+        <li>Example 2: Specific questions to inform future IT RFP design</li>
+        <li>Example 3: Content from an RFP Scope of Work for feedback</li>
+      </ul>
+    </div>
+
+    <!-- Appendix -->
+    <div class="section">
+      <h2>Appendix</h2>
+      <p><strong>Included:</strong> {{appendix.included}}</p>
+      <div class="subsection">
+        <p>{{appendix.materials}}</p>
+      </div>
+    </div>
+
+    <!-- Usage Notes -->
+    <div class="section" style="border-top: 1px solid #ccc; padding-top: 20px">
+      <h3>Usage Notes</h3>
+      <ul>
+        <li>
+          Review the entire template before populating to avoid redundancy.
+        </li>
+        <li>Customize all placeholder text specific to your government.</li>
+        <li>
+          Work with contracting and legal teams to ensure compliance with your
+          government's requirements.
+        </li>
+        <li>
+          Make many questions optional to allow respondents to focus on their
+          expertise.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div
+      style="
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 2px solid #003366;
+        font-size: 12px;
+        color: #666;
+      "
+    >
+      <p>
+        <strong>{{header.agency_department}}</strong>
+      </p>
+      <p>RFI Document | Issued: {{header.rfi_issue_date}}</p>
+    </div>
+  </body>
+</html>

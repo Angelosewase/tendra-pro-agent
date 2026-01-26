@@ -1,0 +1,1153 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{metadata.document_type}}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      .placeholder {
+        background-color: #ffffcc;
+        padding: 2px;
+        border: 1px dotted #ccc;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+      .header-info {
+        border: 1px solid #000;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      .section {
+        margin-bottom: 30px;
+      }
+      .subsection {
+        margin-left: 20px;
+        margin-top: 15px;
+      }
+      .definition-list {
+        margin-left: 20px;
+      }
+      .event-table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .event-table td,
+      .event-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      .required {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="header-info">
+      <div
+        style="
+          float: right;
+          width: 150px;
+          height: 100px;
+          border: 1px solid #000;
+          text-align: center;
+          padding: 10px;
+        "
+      >
+        <span>[AGENCY LOGO]</span>
+      </div>
+      <h1>{{header.title}}</h1>
+      <h2>{{metadata.document_type}} {{header.number}}</h2>
+      <p><strong>Agency:</strong> {{header.agency_name}}</p>
+      <p><strong>Issued Date:</strong> {{header.issued_date}}</p>
+      <p>
+        <strong>Responses Due:</strong>
+        {{header.responses_due}}
+      </p>
+    </div>
+
+    <!-- Metadata -->
+    <div class="section">
+      <h3>Document Information</h3>
+      <p><strong>Document Type:</strong> {{metadata.document_type}}</p>
+      <p><strong>Purpose:</strong> {{metadata.purpose}}</p>
+      <p><strong>Usage Notes:</strong></p>
+      <ul>
+        <li>
+          Use for procurement where requirements are clearly defined and price
+          is primary factor.
+        </li>
+        <li>Typically used for commodities and standardized services.</li>
+        <li>Mandatory requirements must be met without exception.</li>
+        <li>Lowest responsive, responsible bidder typically wins.</li>
+      </ul>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <div class="section">
+      <h2>Section 1: Introduction</h2>
+
+      <h3>Definitions</h3>
+      <div class="definition-list">
+        <p>
+          <strong>Agency:</strong> An office, department, agency, institution of
+          higher education, association, society or other body in state
+          government created or authorized to be created by the constitution or
+          any law, which is entitled to expend moneys appropriated by law,
+          including the legislature and the courts, but not including an
+          authority.
+        </p>
+        <p>
+          <strong>Authorized Users:</strong> Includes any state agency,
+          university campus, or other state or local public body authorized to
+          use contracts.
+        </p>
+        <p>
+          <strong>Bid:</strong> A price quotation specifically given to a
+          prospective purchaser by a prospective seller; a bid is an offer to
+          sell.
+        </p>
+        <p>
+          <strong>Bidder:</strong> A person or firm that responds to this
+          Request for Bid.
+        </p>
+        <p>
+          <strong>Commodity:</strong> A tangible article of trade or item of
+          merchandise; goods, products, materials, supplies, or finished
+          products.
+        </p>
+        <p>
+          <strong>Contract:</strong> The written agreement between the
+          successful bidder and the state covering the commodities and services
+          to be performed.
+        </p>
+        <p>
+          <strong>Contract Administrator:</strong> The agency employee
+          responsible for oversight of the implementation, administration, and
+          completion of the contract.
+        </p>
+        <p>
+          <strong>Contractor:</strong> The person or entity that has been
+          awarded the contract.
+        </p>
+        <p>
+          <strong>Disabled Veteran Owned Business:</strong> A business that has
+          been certified by the Department of Administration.
+        </p>
+        <p>
+          <strong>Minority Owned Business Enterprise:</strong> A business that
+          has been certified by the Department of Administration.
+        </p>
+        <p>
+          <strong>Municipality:</strong> Any Wisconsin county, city, village,
+          town, school district, or other public body having authority to award
+          public contracts.
+        </p>
+        <p>
+          <strong>Notice of Intent to Award:</strong> A writing issued by the
+          procuring agency notifying all bidders of intent to award.
+        </p>
+        <p>
+          <strong>Purchasing Card:</strong> A charge card issued to authorized
+          state employees.
+        </p>
+        <p>
+          <strong>Procurement Specialist:</strong> The individual responsible
+          for overseeing and administering the procurement process.
+        </p>
+        <p>
+          <strong>Procuring Agency:</strong> The state agency conducting the
+          purchasing transactions.
+        </p>
+        <p>
+          <strong>Services:</strong> An intangible product, including actions,
+          recommendations, plans, research, customizations, modifications,
+          documentation, and maintenance.
+        </p>
+        <p>
+          <strong>Specification:</strong> A descriptive statement of the
+          physical, functional and performance characteristics required.
+        </p>
+      </div>
+
+      <h3>Purpose and Scope</h3>
+      <p>
+        The {{section_1_introduction.purpose_and_scope.description}} requests
+        bids for the purchase of
+        {{section_1_introduction.purpose_and_scope.description}}, and intends to
+        use the results of this process to award a contract.
+      </p>
+      <p>
+        <strong>Guarantees:</strong> No guarantee to purchase any specific
+        quantity or dollar amount. Bids requiring minimum orders will be
+        rejected.
+      </p>
+
+      <h3>Overview</h3>
+      <p>{{section_1_introduction.overview}}</p>
+
+      <h3>Contract Term</h3>
+      <p>
+        <strong>Initial Term:</strong>
+        {{section_1_introduction.contract_term.initial_term}} years
+      </p>
+      <p>
+        <strong>Renewal Options:</strong>
+        {{section_1_introduction.contract_term.renewal_options}} additional
+        {{section_1_introduction.contract_term.renewal_options}}-year periods
+      </p>
+      <p>
+        <strong>Effective Date:</strong> Date of execution or purchase order
+        date if no formal contract
+      </p>
+      <p>
+        <strong>Contract Documents:</strong> RFB documents, awarded bidder's
+        response, and purchase order become the contract
+      </p>
+
+      <h3>Contract Modifications</h3>
+      <p>
+        <strong>Restriction:</strong> Contract shall not be used for purchases
+        outside original scope.
+      </p>
+      <p>
+        <strong>Requirements:</strong> Modifications must be in writing and
+        signed by both parties.
+      </p>
+
+      <h3>Order of Precedence</h3>
+      <p><strong>With Formal Contract:</strong></p>
+      <ol>
+        <li>Final Signed Contract with clarifications</li>
+        <li>Bid Response as accepted by the State</li>
+        <li>Request for Bid</li>
+      </ol>
+      <p><strong>With Purchase Order:</strong></p>
+      <ol>
+        <li>Official Purchase Order</li>
+        <li>Bid Response as accepted by the State</li>
+        <li>Request for Bid</li>
+      </ol>
+
+      <h3>Cooperative Purchasing</h3>
+      <p>
+        <strong>Available to Municipalities:</strong>
+        {{section_1_introduction.cooperative_purchasing.available_to_municipalities}}
+      </p>
+      <p>
+        <strong>Requirements:</strong> Contractor must confirm municipality
+        status, provide documentation, and report usage.
+      </p>
+
+      <h3>Responding to Bid Requirements</h3>
+      <ul>
+        <li>Mandatory requirements must be minimally met without exception.</li>
+        <li>Bidder must submit appropriate supporting documentation.</li>
+        <li>Bidder must affirmatively respond to all requirements.</li>
+        <li>Failure to meet mandatory requirements disqualifies bid.</li>
+        <li>
+          State may select closest bid if no bidder meets all requirements.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 2: Bidder Qualifications -->
+    <div class="section">
+      <h2>Section 2: Bidder Qualifications</h2>
+      <p>
+        <strong>Note:</strong> All bidder qualifications in this section are
+        mandatory and shall be met at no additional cost above the pricing
+        provided in the bid.
+      </p>
+      <!-- Specific qualifications to be defined per RFB -->
+    </div>
+
+    <!-- Section 3: Mandatory Specifications -->
+    <div class="section">
+      <h2>Section 3: Mandatory Specifications</h2>
+      <p>
+        <strong>Note:</strong> All requirements in this section are mandatory
+        and shall be met at no additional cost above the pricing provided in the
+        bid.
+      </p>
+
+      <h3>Technical Requirements</h3>
+      <p>
+        <strong>Response Format:</strong>
+        {{section_3_mandatory_specifications.technical_requirements.response_format}}
+      </p>
+
+      <h3>Performance and Support Requirements</h3>
+      <p>
+        <strong>Response Format:</strong>
+        {{section_3_mandatory_specifications.performance_and_support_requirements.response_format}}
+      </p>
+    </div>
+
+    <!-- Section 4: Special Terms and Conditions -->
+    <div class="section">
+      <h2>Section 4: Special Terms and Conditions</h2>
+      <p>
+        <strong>Negotiation Right:</strong> State reserves right to negotiate
+        special terms and conditions in its best interest.
+      </p>
+      <p>
+        <strong>Bidder Response:</strong> Bidders shall accept all terms or
+        submit point-by-point exceptions with alternative language.
+      </p>
+
+      <h3>Orders</h3>
+      <p>{{section_4_special_terms_and_conditions.orders}}</p>
+
+      <h3>Delivery Requirements</h3>
+      <p>
+        <strong>Timeframe:</strong>
+        {{section_4_special_terms_and_conditions.delivery_requirements.timeframe}}
+      </p>
+      <p><strong>Consequence:</strong> Failure to accept may disqualify bid.</p>
+
+      <h3>Duplicates and Over Shipments</h3>
+      <p>
+        <strong>Removal Timeframe:</strong>
+        {{section_4_special_terms_and_conditions.duplicates_and_over_shipments.removal_timeframe}}
+        business days
+      </p>
+      <p>
+        <strong>State Disposal:</strong> If not removed, state may dispose at
+        its discretion.
+      </p>
+
+      <h3>Return Policy</h3>
+      <p>{{section_4_special_terms_and_conditions.return_policy}}</p>
+
+      <h3>New and Discontinued Items</h3>
+      <p>
+        {{section_4_special_terms_and_conditions.new_and_discontinued_items}}
+      </p>
+
+      <h3>Random Product Sampling</h3>
+      <p>{{section_4_special_terms_and_conditions.random_product_sampling}}</p>
+
+      <h3>Acceptance Testing</h3>
+      <p>{{section_4_special_terms_and_conditions.acceptance_testing}}</p>
+
+      <h3>Background Checks</h3>
+      <p>
+        <strong>Authority:</strong> State reserves right to conduct background
+        checks.
+      </p>
+      <p>
+        <strong>Determination:</strong> State is sole determinant of impact on
+        ability to perform.
+      </p>
+
+      <h3>Reporting</h3>
+      <p>{{section_4_special_terms_and_conditions.reporting}}</p>
+
+      <h3>Contract Audit Requirements</h3>
+      <p>
+        {{section_4_special_terms_and_conditions.contract_audit_requirements}}
+      </p>
+
+      <h3>Liquidated Damages</h3>
+      <p>{{section_4_special_terms_and_conditions.liquidated_damages}}</p>
+
+      <h3>Tobacco Free Environment</h3>
+      <p>{{section_4_special_terms_and_conditions.tobacco_free_environment}}</p>
+
+      <h3>Fraternization Work Rules</h3>
+      <p>
+        <strong>Note:</strong> All contractors working on-site are subject to
+        departmental rules.
+      </p>
+
+      <h3>Payment Terms</h3>
+      <p>
+        <strong>Condition:</strong> Payment will not be made until
+        {{section_4_special_terms_and_conditions.payment_terms.condition}} meets
+        all specifications and has been accepted by
+        {{section_4_special_terms_and_conditions.payment_terms.condition}}.
+      </p>
+
+      <h3>Third Party Financing</h3>
+      <p>
+        <strong>Requirement:</strong> Bidders using third-party financing shall
+        identify company, quote interest rate, and include copy of lease/rental
+        contract.
+      </p>
+
+      <h3>Safety Data Sheets</h3>
+      <p>
+        <strong>Requirement:</strong> Contractor shall include appropriate SDS
+        with initial shipment and updates.
+      </p>
+      <p>
+        <strong>Online Access:</strong> Online access permitted but not
+        sufficient alone.
+      </p>
+      <p><strong>Delivery Address:</strong></p>
+      <p>
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.agency}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.contact}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.address}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.city_state_zip}}
+      </p>
+
+      <h3>Certificates of Insurance</h3>
+      <p><strong>Option 1 (Commodity):</strong></p>
+      <ul>
+        <li>
+          Upon request, provide copies of insurance policies/certificates.
+        </li>
+        <li>Minimum AM Best rating of A- unless otherwise approved.</li>
+        <li>Immediate notice required for modifications or cancellations.</li>
+      </ul>
+      <p><strong>Option 2 (Service):</strong></p>
+      <ul>
+        <li>
+          {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.timeframe}}
+          days from Notice of Intent to Award
+        </li>
+        <li>
+          {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.extension}}
+          additional days to comply
+        </li>
+        <li>Failure may result in cancellation of award.</li>
+      </ul>
+      <p><strong>Delivery Address:</strong></p>
+      <p>
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.agency}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.contact}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.address}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.city_state_zip}}
+      </p>
+
+      <h3>High Risk Certificates</h3>
+      <p>{{section_4_special_terms_and_conditions.high_risk_certificates}}</p>
+
+      <h3>Access to Secure Facilities</h3>
+      <p>
+        {{section_4_special_terms_and_conditions.access_to_secure_facilities}}
+      </p>
+
+      <h3>Cancellation and Termination</h3>
+      <p><strong>Termination for Cause:</strong></p>
+      <ul>
+        <li>
+          State notice: 30 calendar days written notice with right to cure
+        </li>
+        <li>Contractor notice: 120 calendar days notice with right to cure</li>
+      </ul>
+      <p><strong>Termination for Convenience:</strong></p>
+      <ul>
+        <li>State notice: 30 calendar days notice</li>
+        <li>Contractor notice: 120 calendar days notice</li>
+        <li>
+          Compensation: Contractor entitled to compensation for fees owed and
+          partially completed services.
+        </li>
+        <li>
+          Refund: State entitled to refund for goods/services paid but not
+          received.
+        </li>
+      </ul>
+      <p><strong>Contract Cancellation Grounds:</strong></p>
+      <ul>
+        <li>Failure to perform material obligation</li>
+        <li>Bankruptcy or insolvency</li>
+        <li>Unsatisfied judgment or lien</li>
+        <li>Assignment for benefit of creditors</li>
+        <li>Failure to follow tax requirements</li>
+        <li>Delinquent tax liability</li>
+        <li>Failure to submit non-discrimination plan</li>
+        <li>Failure to follow non-discrimination requirements</li>
+        <li>Federal debarment</li>
+        <li>Exclusion from federal contracts</li>
+        <li>Failure to maintain insurance, permits, licenses</li>
+        <li>Failure to maintain confidentiality</li>
+        <li>Performance threatens health or safety</li>
+      </ul>
+    </div>
+
+    <!-- Section 5: Cost Structure -->
+    <div class="section">
+      <h2>Section 5: Cost Structure</h2>
+      <p>{{section_5_cost_structure.cost_structure}}</p>
+
+      <h3>Method of Bid</h3>
+      <p>
+        <strong>Requirement:</strong> Submit net unit price and extended net
+        total for each item.
+      </p>
+      <p>
+        <strong>Currency:</strong> Prices in U.S. dollars unless otherwise
+        indicated.
+      </p>
+      <p>
+        <strong>Calculation Rule:</strong> Unit price prevails in event of
+        calculation errors.
+      </p>
+
+      <h3>FOB Destination Options</h3>
+      <p><strong>Option 1 - Freight Prepaid:</strong></p>
+      <ul>
+        <li>Description: FOB Destination, Freight Prepaid and Allowed</li>
+        <li>
+          Includes: All packing, freight, insurance charges,
+          installation/operation manuals
+        </li>
+        <li>
+          Delivery Location:
+          {{section_5_cost_structure.fob_destination_options.option_1_freight_prepaid.delivery_location}}
+        </li>
+        <li>
+          Consequence: Failure to bid FOB DESTINATION will disqualify bid.
+        </li>
+      </ul>
+      <p><strong>Option 2 - Installed:</strong></p>
+      <ul>
+        <li>
+          Description: FOB Destination, Freight Prepaid Included and Installed
+        </li>
+        <li>
+          Includes: All packing, freight, insurance, set-up, operation manuals,
+          instructional charges
+        </li>
+        <li>
+          Installation Locations:
+          {{section_5_cost_structure.fob_destination_options.option_2_installed.installation_locations}}
+        </li>
+        <li>
+          Requirements: Set in place, demonstrated, approved, debris removed,
+          sites restored
+        </li>
+        <li>
+          Waste Removal: Universal and Hazardous Waste removed in accordance
+          with regulations
+        </li>
+        <li>
+          Consequence: Failure to bid FOB Destination Freight Prepaid Included
+          and Installed will disqualify bid.
+        </li>
+      </ul>
+
+      <h3>Price Sheet Instructions</h3>
+      <p>
+        <strong>Requirement:</strong> Bidders shall complete attached Price
+        Sheet(s).
+      </p>
+      <p>
+        <strong>Alteration:</strong> No alteration permitted unless instructions
+        indicate otherwise.
+      </p>
+
+      <h3>Requesting Price Adjustments</h3>
+      <p>{{section_5_cost_structure.requesting_price_adjustments}}</p>
+    </div>
+
+    <!-- Section 6: Bid Procedure -->
+    <div class="section">
+      <h2>Section 6: Bid Procedure</h2>
+      <p>{{section_6_bid_procedure.bid_procedure}}</p>
+
+      <h3>Calendar of Events</h3>
+      <table class="event-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date and Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in section_6_bid_procedure.calendar_of_events.events %}
+          <tr>
+            <td>{{event.event}}</td>
+            <td>{{event.date_time}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p><em>Changes posted on Wisconsin eSupplier Portal.</em></p>
+
+      <h3>Correspondence</h3>
+      <p>
+        <strong>Question Deadline:</strong>
+        {{section_6_bid_procedure.correspondence.question_deadline}}
+      </p>
+      <p>
+        <strong>Notification Requirement:</strong> Bidder must immediately
+        notify of ambiguities, errors, conflicts, discrepancies, omissions, or
+        deficiencies.
+      </p>
+      <p>
+        <strong>Contact Method:</strong> Email preferred:
+        {{section_6_bid_procedure.correspondence.contact_method}}
+      </p>
+      <p><strong>Contact Information:</strong></p>
+      <p>
+        <strong>USPS Address:</strong><br />
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.agency}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.division}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.address}}
+      </p>
+      <p>
+        <strong>Common Carrier Address:</strong><br />
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.agency}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.division}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.address}}
+      </p>
+      <p>
+        <strong>Reference Requirement:</strong> All communication must refer to
+        Request for Bid
+        #{{section_6_bid_procedure.correspondence.reference_requirement}} and be
+        directed to
+        {{section_6_bid_procedure.correspondence.reference_requirement}}.
+      </p>
+      <p>
+        <strong>Communication Restriction:</strong> No contact with state
+        employees except
+        {{section_6_bid_procedure.correspondence.reference_requirement}} from
+        RFB release until notice of intent to award.
+      </p>
+      <p>
+        <strong>Current Contractors:</strong> May continue communication
+        regarding current contract performance only.
+      </p>
+
+      <h3>Reasonable Accommodations</h3>
+      <p>
+        <strong>Requirement:</strong> Procuring agency shall provide reasonable
+        accommodations for qualified individuals with disabilities.
+      </p>
+      <p>
+        <strong>Contact:</strong>
+        {{section_6_bid_procedure.reasonable_accommodations.contact}}
+      </p>
+
+      <h3>eSupplier Portal Registration</h3>
+      <p>
+        <strong>Requirement:</strong> Only registered bidders receive official
+        notices.
+      </p>
+      <p><strong>Registration URL:</strong> https://eSupplier.wi.gov</p>
+      <p><strong>Notification:</strong> Email notices for bids over $50,000.</p>
+      <p><strong>Vendor Net URL:</strong> https://VendorNet.wi.gov</p>
+
+      <h3>Pre-Bid Site Visit</h3>
+      <p>
+        <strong>Requirement:</strong>
+        {{section_6_bid_procedure.pre_bid_site_visit.requirement}} visit job
+        site
+      </p>
+      <p>
+        <strong>Attendance Requirement:</strong>
+        {{section_6_bid_procedure.pre_bid_site_visit.attendance_requirement}}
+        attend for bid consideration
+      </p>
+      <p>
+        <strong>Dates:</strong>
+        {{section_6_bid_procedure.pre_bid_site_visit.dates}}
+      </p>
+      <p>
+        <strong>Contact:</strong>
+        {{section_6_bid_procedure.pre_bid_site_visit.contact}}
+      </p>
+
+      <h3>Bidder Conference</h3>
+      <p><strong>Details:</strong></p>
+      <ul>
+        <li>
+          Time: {{section_6_bid_procedure.bidder_conference.details.time}}
+        </li>
+        <li>
+          Date: {{section_6_bid_procedure.bidder_conference.details.date}}
+        </li>
+        <li>
+          Room: {{section_6_bid_procedure.bidder_conference.details.room}}
+        </li>
+        <li>
+          Location:
+          {{section_6_bid_procedure.bidder_conference.details.location}}
+        </li>
+      </ul>
+      <p>
+        <strong>Attendance Requirement:</strong>
+        {{section_6_bid_procedure.bidder_conference.attendance_requirement}}
+        attend for bid consideration
+      </p>
+      <p>
+        <strong>Amendment Note:</strong> Answers and changes posted as amendment
+        to RFB on Wisconsin eSupplier Portal.
+      </p>
+      <p>
+        <strong>Cancellation Right:</strong> Procuring agency reserves right to
+        cancel if no questions received.
+      </p>
+
+      <h3>Bid Submission Options</h3>
+      <p>
+        <strong>Number of Options:</strong>
+        {{section_6_bid_procedure.bid_submission_options.number_of_options}}
+      </p>
+
+      <h4>Portal Submission</h4>
+      <p>
+        <strong>Preferred Method:</strong> Wisconsin eSupplier Portal Bid
+        Submittal (Strongly Preferred)
+      </p>
+      <p><strong>Note:</strong> Must click 'Submit' not just 'Save'</p>
+
+      <h4>Hard Copy Submission</h4>
+      <p>
+        <strong>Requirement:</strong> Submit original signed bid,
+        {{section_6_bid_procedure.hard_copy_submission.requirement}} hard
+        copies, and {{section_6_bid_procedure.hard_copy_submission.requirement}}
+        copy
+      </p>
+      <p><strong>Delivery Addresses:</strong></p>
+      <p>
+        <strong>USPS:</strong><br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.name}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.agency}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.division}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.address}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.city_state_zip}}
+      </p>
+      <p>
+        <strong>Common Carrier:</strong><br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.name}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.agency}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.division}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.address}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.city_state_zip}}
+      </p>
+      <p>
+        <strong>Deadline:</strong>
+        {{section_6_bid_procedure.hard_copy_submission.deadline}} CT
+      </p>
+      <p><strong>Packaging Requirements:</strong></p>
+      <ul>
+        <li>BIDDER NAME AND ADDRESS</li>
+        <li>RFB TITLE</li>
+        <li>RFB NUMBER</li>
+        <li>RFB DUE DATE AND TIME</li>
+      </ul>
+      <p>
+        <strong>Hand Delivery Note:</strong> Allow ample time for security
+        clearance.
+      </p>
+
+      <h4>Emailed Bids</h4>
+      <p>
+        <strong>Requirement:</strong> Must be received prior to bid opening
+        deadline.
+      </p>
+      <p>
+        <strong>Confirmation:</strong> Bidder responsible for confirming
+        receipt.
+      </p>
+      <p>
+        <strong>Email Address:</strong>
+        {{section_6_bid_procedure.emailed_bids.email_address}}
+      </p>
+      <p>
+        <strong>Follow Up:</strong> Required form
+        (DOA-{{section_6_bid_procedure.emailed_bids.follow_up}}) must be signed
+        and returned within 1 business day.
+      </p>
+      <p>
+        <strong>Disclaimer:</strong> Proof of transmission doesn't constitute
+        proof of receipt.
+      </p>
+
+      <h3>Bid Response Format</h3>
+      <ul>
+        <li>
+          Include signed required form
+          (DOA-{{section_6_bid_procedure.emailed_bids.follow_up}}) with
+          certifications.
+        </li>
+        <li>
+          State of Wisconsin Standard Terms and Conditions (DOA-3054) and
+          Supplemental Terms and Conditions (DOA-3681).
+        </li>
+        <li>Include all essential explanatory documentation.</li>
+        <li>Provide price information on Cost Sheet Attachment.</li>
+        <li>
+          Include completed Bid Response Qualifications and Requirements
+          Attachment.
+        </li>
+        <li>No alteration of bid forms or appendices permitted.</li>
+      </ul>
+
+      <h3>Incurring Costs</h3>
+      <p>
+        <strong>Disclaimer:</strong> Neither State of Wisconsin nor procuring
+        agency is liable for bidder costs.
+      </p>
+    </div>
+
+    <!-- Section 7: Bid Acceptance and Award -->
+    <div class="section">
+      <h2>Section 7: Bid Acceptance and Award</h2>
+      <p>{{section_7_bid_acceptance_and_award.acceptance_and_award}}</p>
+
+      <h3>Bid Opening</h3>
+      <p><strong>Public:</strong> Yes</p>
+      <p>
+        <strong>Date:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.date}}
+      </p>
+      <p>
+        <strong>Time:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.time}}
+      </p>
+      <p>
+        <strong>Location:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.location}}
+      </p>
+      <p>
+        <strong>Disclosure:</strong> Names of all bidders may be read aloud.
+      </p>
+
+      <h3>Bid Review</h3>
+      <p>
+        <strong>Reviewer:</strong>
+        {{section_7_bid_acceptance_and_award.bid_review.reviewer}}'s Procurement
+        Manager
+      </p>
+      <p>
+        <strong>Compliance Determination:</strong>
+        {{section_7_bid_acceptance_and_award.bid_review.compliance_determination}}
+        shall be sole judge of compliance.
+      </p>
+
+      <h3>Bid Acceptance</h3>
+      <ul>
+        <li>
+          Bids not complying with Mandatory Requirements or Specifications will
+          be rejected.
+        </li>
+        <li>
+          Bids not complying with Special Terms and Conditions may be rejected.
+        </li>
+        <li>
+          {{section_7_bid_acceptance_and_award.bid_acceptance.agency_discretion}}
+          retains right to accept or reject any or all bids.
+        </li>
+      </ul>
+
+      <h3>Method of Award</h3>
+      <p>
+        <strong>Basis:</strong> Lowest price, responsive, responsible bidder.
+      </p>
+      <p>
+        <strong>Currency:</strong> Prices in US dollars unless otherwise
+        indicated.
+      </p>
+      <p>
+        <strong>Calculation Rule:</strong> Unit price prevails in event of
+        calculation errors.
+      </p>
+      <p>
+        <strong>Quantity Restriction:</strong> Bids requiring specific quantity
+        or dollar amount will be disqualified.
+      </p>
+      <p>
+        <strong>Award Type:</strong>
+        {{section_7_bid_acceptance_and_award.method_of_award.award_type}}
+        bidders
+      </p>
+      <p>
+        <strong>Best Interest:</strong> State is sole determinant of its best
+        interests.
+      </p>
+      <p>
+        <strong>Award Criteria:</strong> Based on
+        {{section_7_bid_acceptance_and_award.method_of_award.award_criteria}},
+        by
+        {{section_7_bid_acceptance_and_award.method_of_award.award_criteria}}.
+      </p>
+      <p>
+        <strong>Notations:</strong>
+        {{section_7_bid_acceptance_and_award.method_of_award.notations}}
+      </p>
+
+      <h3>Samples</h3>
+      <p>
+        <strong>Requirement:</strong> Submit sample(s) at no cost to verify
+        compliance.
+      </p>
+      <p>
+        <strong>Labeling:</strong> Clearly labeled as 'Sample' with bidder's
+        name, RFB number, due date, and item number.
+      </p>
+      <p>
+        <strong>Delivery Deadline:</strong>
+        {{section_7_bid_acceptance_and_award.samples.delivery_deadline}}
+      </p>
+      <p>
+        <strong>Delivery Address:</strong><br />
+        {{section_7_bid_acceptance_and_award.samples.delivery_address.name}}<br />
+        {{section_7_bid_acceptance_and_award.samples.delivery_address.address}}
+      </p>
+      <p><strong>Review Process:</strong> All samples reviewed identically.</p>
+      <p>
+        <strong>Noncompliance:</strong> Samples not meeting specifications will
+        be rejected and bid disqualified.
+      </p>
+      <p>
+        <strong>Return Request:</strong> Bidder may request return at own
+        expense within 30 days of Notice of Award.
+      </p>
+      <p>
+        <strong>Retention:</strong> Procuring agency retains successful bidder's
+        sample.
+      </p>
+      <p>
+        <strong>Consistency Requirement:</strong> Must supply same product,
+        quality, manufacturer as sample for contract duration.
+      </p>
+
+      <h3>Bidder References</h3>
+      <p><strong>Option 1 - Form:</strong></p>
+      <ul>
+        <li>
+          Complete
+          DOA-{{section_7_bid_acceptance_and_award.bidder_references.option_1_form.requirement}}
+        </li>
+        <li>
+          Number of references:
+          {{section_7_bid_acceptance_and_award.bidder_references.option_1_form.number_of_references}}
+        </li>
+        <li>
+          Timeframe: Last
+          {{section_7_bid_acceptance_and_award.bidder_references.option_1_form.timeframe}}
+          years
+        </li>
+        <li>
+          Information required: Company name, Address, Contact person, Email
+          address, Telephone number, Brief description of product/service
+        </li>
+        <li>
+          Contact discretion: Procuring agency determines which references to
+          contact.
+        </li>
+      </ul>
+      <p><strong>Option 2 - Client List:</strong></p>
+      <ul>
+        <li>Provide client list</li>
+        <li>
+          Timeframe: Last
+          {{section_7_bid_acceptance_and_award.bidder_references.option_2_client_list.timeframe}}
+        </li>
+        <li>Information required: Same as Option 1</li>
+      </ul>
+
+      <h3>Use of Subcontractors</h3>
+      <p>
+        <strong>Responsibility:</strong> Contractor responsible for
+        subcontractor performance.
+      </p>
+      <p>
+        <strong>Identification:</strong> Bidder shall identify potential
+        subcontractors.
+      </p>
+      <p>
+        <strong>Approval Requirement:</strong> All subcontractors must be
+        approved in writing by procuring agency.
+      </p>
+      <p>
+        <strong>Substitution Process:</strong> Proposed substitution requires
+        30-day prior written notice with qualifications, reason, and effective
+        date.
+      </p>
+      <p>
+        <strong>Consequence:</strong> Failure to notify may result in contract
+        cancellation.
+      </p>
+
+      <h3>Supplier Diversity</h3>
+      <p>{{section_7_bid_acceptance_and_award.supplier_diversity}}</p>
+
+      <h3>Minority Owned Business Enterprise</h3>
+      <p>
+        <strong>Certification:</strong> Certified by Wisconsin Department of
+        Administration
+      </p>
+      <p><strong>Price Preference:</strong> Permissive 5% price preference</p>
+      <p>
+        <strong>Encouragement:</strong> Contractor urged to use MBEs for
+        subcontracts
+      </p>
+      <p>
+        <strong>Reporting:</strong> Quarterly information required including
+        certified businesses, contract amount, and spend
+      </p>
+      <p><strong>Directory URL:</strong> https://wisdp.wi.gov/search.aspx</p>
+
+      <h3>Veteran Owned Business</h3>
+      <p>
+        <strong>Certification:</strong> Certified by Department of Veterans
+        Affairs (DVA)
+      </p>
+      <p><strong>Price Preference:</strong> No price preference</p>
+      <p><strong>Contact URL:</strong> http://dva.state.wi.us</p>
+
+      <h3>Disabled Veteran Owned Business</h3>
+      <p>
+        <strong>Certification:</strong> Certified by Wisconsin Department of
+        Administration
+      </p>
+      <p><strong>Price Preference:</strong> Permissive 5% price preference</p>
+      <p>
+        <strong>Encouragement:</strong> Contractor urged to use DVBs for
+        subcontracts
+      </p>
+      <p><strong>Reporting:</strong> Quarterly information required</p>
+      <p><strong>Directory URL:</strong> https://wisdp.wi.gov/search.aspx</p>
+
+      <h3>Woman Owned Business Enterprise</h3>
+      <p>
+        <strong>Certification:</strong> Certified by Wisconsin Department of
+        Administration
+      </p>
+      <p><strong>Price Preference:</strong> No price preference</p>
+      <p>
+        <strong>Marketing Value:</strong> Serves as additional marketing tool
+      </p>
+      <p><strong>Directory URL:</strong> https://wisdp.wi.gov/search.aspx</p>
+
+      <h3>Debarment</h3>
+      <p>
+        <strong>Requirement:</strong> Certification required that organization
+        and principals are not debarred, suspended, proposed for debarment,
+        declared ineligible, or voluntarily excluded.
+      </p>
+      <p><strong>Website:</strong> https://www.sam.gov/portal/SAM/</p>
+      <p>
+        <strong>Reference:</strong> Section 15.0 of Standard Terms and
+        Conditions (DOA-3054)
+      </p>
+
+      <h3>Award Notification</h3>
+      <p>
+        <strong>Requirement:</strong> All responding bidders notified in writing
+        of intent to contract.
+      </p>
+
+      <h3>Protest and Appeals</h3>
+      <p>{{section_7_bid_acceptance_and_award.protest_and_appeals}}</p>
+
+      <h4>Protests</h4>
+      <p>
+        <strong>Applicability:</strong> Only for requests for bids for services
+        over $50,000
+      </p>
+      <p>
+        <strong>Notice of Intent Deadline:</strong> 5 business days after Notice
+        of Intent to Award
+      </p>
+      <p>
+        <strong>Actual Protest Deadline:</strong> 10 business days after Notice
+        of Intent to Award
+      </p>
+      <p><strong>Filing Addresses:</strong></p>
+      <p>
+        <strong>Primary US Mail:</strong><br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.city_state_zip}}
+      </p>
+      <p>
+        <strong>Primary Delivery:</strong><br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.city_state_zip}}
+      </p>
+      <p>
+        <strong>Copy US Mail:</strong><br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.city_state_zip}}
+      </p>
+      <p>
+        <strong>Copy Delivery:</strong><br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.city_state_zip}}
+      </p>
+
+      <h4>Appeals</h4>
+      <p>
+        <strong>Deadline:</strong> 5 business days after procuring agency's
+        protest decision
+      </p>
+      <p>
+        <strong>Recipient:</strong> Secretary of the Department of
+        Administration
+      </p>
+      <p>
+        <strong>Address:</strong><br />
+        Secretary<br />
+        Wisconsin Department of Administration<br />
+        101 E Wilson Street, 10th Floor, PO Box 7864<br />
+        Madison, WI 53703-7864
+      </p>
+      <p>
+        <strong>Copy Requirement:</strong> Copy filed with head of procuring
+        agency
+      </p>
+    </div>
+
+    <!-- Section 8: Required Forms -->
+    <div class="section">
+      <h2>Section 8: Required Forms</h2>
+      <p>
+        <strong>Note:</strong> Forms marked with 'X' must be completed and
+        returned with bid response.
+      </p>
+      <p>{{section_8_required_forms.required_forms}}</p>
+    </div>
+
+    <!-- Attachments -->
+    <div class="section">
+      <h2>Attachments</h2>
+      <p>
+        <strong>Price Sheet:</strong>
+        {{attachments.price_sheet}}
+      </p>
+      <p>
+        <strong>Bid Response Qualifications:</strong>
+        {{attachments.bid_response_qualifications}}
+      </p>
+    </div>
+
+    <!-- Page Number Footer -->
+    <div
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 12px;
+        color: #666;
+      "
+    >
+      Page 1 of 1
+    </div>
+  </body>
+</html>
