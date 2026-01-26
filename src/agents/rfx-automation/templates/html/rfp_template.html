@@ -91,41 +91,38 @@
     <!-- Header Section -->
     <div class="header-section">
       <h1>Request for Proposal (RFP)</h1>
-      <h2><span class="placeholder">[Insert name of procurement]</span></h2>
+      <h2>{{header.procurement_title}}</h2>
       <p>
         <strong>Reference Number:</strong>
-        <span class="placeholder">[Procurement reference number]</span>
+        {{header.reference_number}}
       </p>
       <p>
         <strong>Buyer:</strong>
-        <span class="placeholder">[Insert name of the Buyer]</span>
+        {{header.buyer_name}}
       </p>
       <p>
         <strong>RFP Released Date:</strong>
-        <span class="placeholder">[DD MM YY]</span>
+        {{header.rfp_released_date}}
       </p>
       <p>
         <strong>Deadline for Questions:</strong>
-        <span class="placeholder">[TIME DD MM YY]</span>
+        {{header.deadline_questions}}
       </p>
       <p>
         <strong>Deadline for Proposals:</strong>
-        <span class="placeholder">[TIME DD MM YY]</span>
+        {{header.deadline_proposals}}
       </p>
 
       <div class="contact-box">
         <p><strong>Buyer Contact Information:</strong></p>
         <p>
           <strong>Name:</strong>
-          <span class="placeholder">[Name of Buyer]</span>
+          {{header.buyer_contact.name}}
         </p>
-        <p>
-          <strong>Website:</strong> <span class="placeholder">[Website]</span>
-        </p>
+        <p><strong>Website:</strong> {{header.buyer_contact.website}}</p>
         <p>
           <strong>Address:</strong>
-          <span class="placeholder">[Street address]</span>,
-          <span class="placeholder">[City]</span>
+          {{header.buyer_contact.street_address}}, {{header.buyer_contact.city}}
         </p>
       </div>
     </div>
@@ -163,43 +160,26 @@
           maximum.
         </p>
       </div>
-      <p class="placeholder">
-        [Short, concise summary to help Respondents decide if they are the right
-        fit. Keep to 1-2 pages maximum.]
-      </p>
+      <p>{{section_1_opportunity.summary}}</p>
 
       <h3>1.2 What We Need</h3>
-      <p class="placeholder">
-        [Summarize what you are looking to procure in 1-2 paragraphs. Include
-        background if relevant.]
-      </p>
+      <p>{{section_1_opportunity.what_we_need.description}}</p>
 
       <h3>1.3 What We Don't Want</h3>
       <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Included:</strong>
+        {{section_1_opportunity.what_we_dont_want.included}}
       </p>
-      <p class="placeholder">
-        [Include only if there are outcomes or tasks you don't want.]
-      </p>
+      <p>{{section_1_opportunity.what_we_dont_want.description}}</p>
 
       <h3>1.4 What's Important</h3>
-      <p class="placeholder">
-        [Explain what will influence your selection. What are key outcomes? Are
-        you interested in public value or innovation? How should economic
-        benefits to New Zealand be demonstrated? Are there pre-conditions?]
-      </p>
+      <p>{{section_1_opportunity.whats_important.description}}</p>
 
       <h3>1.5 Why Bid</h3>
-      <p class="placeholder">
-        [Motivate Respondents to bid. What's in it for them? What difference can
-        they make? Why is your work worthwhile?]
-      </p>
+      <p>{{section_1_opportunity.why_bid.motivation}}</p>
 
       <h3>1.6 About Us</h3>
-      <p class="placeholder">
-        [Overview of what your agency does and how this procurement fits with
-        your business or policy objectives.]
-      </p>
+      <p>{{section_1_opportunity.about_us.description}}</p>
     </div>
 
     <!-- Section 2: Key Information -->
@@ -209,16 +189,12 @@
       <h3>2.1 Context</h3>
       <p>
         This Request for Proposals (RFP) is an invitation to submit a Proposal
-        for the
-        <span class="placeholder">[insert name of procurement]</span> contract
+        for the {{section_2_key_information.context.description}} contract
         opportunity.
       </p>
       <p>
-        This is a
-        <span class="placeholder"
-          >[single-step/second step in a multi-step]</span
-        >
-        procurement process.
+        This is a {{section_2_key_information.context.process_type}} procurement
+        process.
       </p>
 
       <h3>2.2 Timeline</h3>
@@ -231,82 +207,38 @@
           </tr>
         </thead>
         <tbody>
+          {% for event in section_2_key_information.timeline.events %}
           <tr>
-            <td>Respondent briefing session</td>
-            <td><span class="placeholder">[time] [DD MM YY]</span></td>
-            <td><span class="placeholder">[Yes/No]</span></td>
+            <td>{{event.event}}</td>
+            <td>{{event.date_time}}</td>
+            <td>{{event.applicable}}</td>
           </tr>
-          <tr>
-            <td>Deadline for Questions</td>
-            <td><span class="placeholder">[time] [DD MM YY]</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Deadline for us to answer questions</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Deadline for Proposals</td>
-            <td><span class="placeholder">[time] [DD MM YY]</span></td>
-            <td>This is the final submission deadline</td>
-          </tr>
-          <tr>
-            <td>Presentations by shortlisted Respondents</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td>
-              <span class="placeholder">[Yes/No]</span>
-              <span class="indicator">(Indicative only)</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Successful Respondent(s) notified</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td>
-              <span class="placeholder">[Yes/No]</span>
-              <span class="indicator">(Indicative only)</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Expected start date of Contract</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td><span class="indicator">(Indicative only)</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
-      <p>
-        <span class="placeholder"
-          >[Add any other timeline items, clearly indicating which are
-          indicative only]</span
-        >
-      </p>
+      <p>{{section_2_key_information.timeline.additional_items}}</p>
 
       <h3>2.3 Contact Information</h3>
       <p>
         <strong>Method:</strong>
-        <span class="placeholder"
-          >[Contact through Point of Contact via email or Government Electronic
-          Tenders System (GETS)]</span
-        >
+        {{section_2_key_information.contact_information.method}}
       </p>
       <div class="contact-box">
         <p><strong>Point of Contact:</strong></p>
         <p>
           <strong>Name:</strong>
-          <span class="placeholder">[Name of contact person]</span>
+          {{section_2_key_information.contact_information.point_of_contact.name}}
         </p>
         <p>
           <strong>Title/Role:</strong>
-          <span class="placeholder">[Title/role and unit they work in]</span>
+          {{section_2_key_information.contact_information.point_of_contact.title_role}}
         </p>
         <p>
           <strong>Email:</strong>
-          <span class="placeholder">[Email address]</span>
+          {{section_2_key_information.contact_information.point_of_contact.email}}
         </p>
         <p>
-          <span class="placeholder"
-            >[Delete if not applicable, e.g., if all contact is via GETS]</span
-          >
+          {{section_2_key_information.contact_information.point_of_contact.gets_note}}
         </p>
       </div>
       <p>
@@ -319,8 +251,9 @@
 
       <h3>2.4 Submission Instructions</h3>
       <p>
-        This is an <span class="placeholder">[open/closed]</span>, competitive
-        tender process.
+        This is an
+        {{section_2_key_information.submission_instructions.process_type}},
+        competitive tender process.
       </p>
       <p><strong>Steps to submit your Proposal:</strong></p>
       <ol>
@@ -336,10 +269,7 @@
         <li>Complete and sign declaration</li>
         <li>Use Pricing Schedule for pricing information</li>
         <li>
-          <span class="placeholder"
-            >[Additional instructions: e.g., two-envelope system, mailbox size
-            limit, page limits, font size, format requirements]</span
-          >
+          {{section_2_key_information.submission_instructions.additional_instructions}}
         </li>
         <li>Check all information is provided correctly</li>
         <li>Submit before deadline</li>
@@ -351,9 +281,7 @@
         <p><strong>Method:</strong> Electronic</p>
         <p>
           <strong>Address:</strong>
-          <span class="placeholder"
-            >[Email address or GETS in-box address]</span
-          >
+          {{section_2_key_information.submission_address.options.option_one.address}}
         </p>
         <p>
           <em
@@ -367,60 +295,58 @@
         <h4>Option Two: Hard Copies with Soft Copy</h4>
         <p>
           <strong>Hard Copies:</strong>
-          <span class="placeholder">[Number]</span>
+          {{section_2_key_information.submission_address.options.option_two.hard_copies}}
         </p>
         <p>
           <strong>Soft Copies:</strong>
-          <span class="placeholder">[Number]</span>
+          {{section_2_key_information.submission_address.options.option_two.soft_copies}}
         </p>
 
         <h5>Postal Address:</h5>
         <p>
-          Attention: <span class="placeholder">[Name of procurement]</span
-          ><br />
+          Attention:
+          {{section_2_key_information.submission_address.options.option_two.postal_address.attention}}<br />
           Officer:
-          <span class="placeholder">[Name of Buyer's responsible officer]</span
-          ><br />
-          Agency: <span class="placeholder">[Name of agency]</span><br />
-          Address: <span class="placeholder">[Postal address e.g., PO Box]</span
-          ><br />
-          City: <span class="placeholder">[City]</span>
+          {{section_2_key_information.submission_address.options.option_two.postal_address.officer}}<br />
+          Agency:
+          {{section_2_key_information.submission_address.options.option_two.postal_address.agency}}<br />
+          Address:
+          {{section_2_key_information.submission_address.options.option_two.postal_address.address}}<br />
+          City:
+          {{section_2_key_information.submission_address.options.option_two.postal_address.city}}
         </p>
 
         <h5>Hand Delivery Address:</h5>
         <p>
-          Attention: <span class="placeholder">[Name of procurement]</span
-          ><br />
+          Attention:
+          {{section_2_key_information.submission_address.options.option_two.hand_delivery_address.attention}}<br />
           Officer:
-          <span class="placeholder">[Name of Buyer's responsible officer]</span
-          ><br />
-          Agency: <span class="placeholder">[Name of agency]</span><br />
-          Address: <span class="placeholder">[Street address]</span><br />
-          City: <span class="placeholder">[City]</span>
+          {{section_2_key_information.submission_address.options.option_two.hand_delivery_address.officer}}<br />
+          Agency:
+          {{section_2_key_information.submission_address.options.option_two.hand_delivery_address.agency}}<br />
+          Address:
+          {{section_2_key_information.submission_address.options.option_two.hand_delivery_address.address}}<br />
+          City:
+          {{section_2_key_information.submission_address.options.option_two.hand_delivery_address.city}}
         </p>
 
         <h5>Soft Copy Address:</h5>
         <p>
-          <span class="placeholder"
-            >[Email address or GETS in-box address]</span
-          >
+          {{section_2_key_information.submission_address.options.option_two.soft_copy_address}}
         </p>
       </div>
 
       <div class="two-envelope">
         <p>
-          <span class="placeholder"
-            >[Include if using two-envelope system: Make sure all pricing
-            information is in a separate file.]</span
-          >
+          {{section_2_key_information.submission_address.two_envelope_note}}
         </p>
       </div>
 
       <h3>2.6 RFP Terms</h3>
       <p>
         <strong>Offer Validity Period:</strong>
-        <span class="placeholder">[Number]</span> calendar months from Deadline
-        for Proposals
+        {{section_2_key_information.rfp_terms.offer_validity_period}} calendar
+        months from Deadline for Proposals
       </p>
       <p>
         <strong>Terms Note:</strong> By submitting a proposal, the Respondent
@@ -429,17 +355,17 @@
 
       <p>
         <strong>Variations Included:</strong>
-        <span class="placeholder">[Yes/No]</span>
+        {{section_2_key_information.rfp_terms.variations.included}}
       </p>
       <div class="subsection">
+        {% for item in section_2_key_information.rfp_terms.variations.items %}
         <p>
-          <strong>Variation 1:</strong>
-          <span class="placeholder"
-            >[Details of variation or addition to RFP Terms]</span
-          ><br />
+          <strong>Variation {{item.number}}:</strong>
+          {{item.variation}}<br />
           <strong>Contractually Binding:</strong>
-          <span class="placeholder">[Y/N]</span>
+          {{item.contractually_binding}}
         </p>
+        {% endfor %}
       </div>
       <p>
         <em
@@ -451,9 +377,7 @@
       <h3>2.7 Changes Process</h3>
       <p>
         <strong>Method:</strong>
-        <span class="placeholder"
-          >[Placing notice on GETS or contacting Respondents by email]</span
-        >
+        {{section_2_key_information.changes_process.method}}
       </p>
       <p>
         <strong>GETS Notification:</strong> If you downloaded the RFP from GETS
@@ -477,96 +401,63 @@
       </div>
 
       <h3>3.1 Background</h3>
-      <p class="placeholder">
-        [This procurement relates to [policy or business outcome]. Previously
-        provided by [past delivery method]. Going forward we wish to [future
-        strategy].]
-      </p>
+      <p>{{section_3_requirements.background.description}}</p>
 
       <h3>3.2 Key Outcomes</h3>
-      <p class="placeholder">
-        [Key outcomes are about what we are buying and why. This RFP relates to
-        purchase of [specific goods/services]. Outcomes we want: [key outcomes
-        including economic benefits].]
-      </p>
+      <p>{{section_3_requirements.key_outcomes.description}}</p>
 
       <h3>3.3 Respondent Requirements</h3>
       <p>
         <strong>Track Record:</strong>
-        <span class="placeholder"
-          >[Describe required experience or track record]</span
-        >
+        {{section_3_requirements.respondent_requirements.track_record}}
       </p>
       <p>
         <strong>Capability:</strong>
-        <span class="placeholder"
-          >[Describe required skills or capability]</span
-        >
+        {{section_3_requirements.respondent_requirements.capability}}
       </p>
       <p>
         <strong>Capacity:</strong>
-        <span class="placeholder"
-          >[Describe required processes, timeline or capacity]</span
-        >
+        {{section_3_requirements.respondent_requirements.capacity}}
       </p>
       <p>
         <strong>Solution:</strong>
-        <span class="placeholder"
-          >[Describe specific goods or services required]</span
-        >
+        {{section_3_requirements.respondent_requirements.solution}}
       </p>
       <p>
         <strong>Economic Benefits:</strong>
-        <span class="placeholder"
-          >[Describe economic benefits required and how they will be
-          demonstrated]</span
-        >
+        {{section_3_requirements.respondent_requirements.economic_benefits}}
       </p>
 
       <h3>3.4 Other Information</h3>
       <p>
         <strong>Quantity:</strong>
-        <span class="placeholder">[Estimated quantity to be delivered]</span>
+        {{section_3_requirements.other_information.quantity}}
       </p>
       <p>
         <strong>Delivery Location:</strong>
-        <span class="placeholder">[Location for delivery]</span>
+        {{section_3_requirements.other_information.delivery_location}}
       </p>
       <p>
         <strong>Payment Terms:</strong>
-        <span class="placeholder"
-          >[Payment terms: e.g., on delivery of milestones, at end of Contract,
-          monthly on invoice]</span
-        >
+        {{section_3_requirements.other_information.payment_terms}}
       </p>
 
       <h3>3.5 Contract Term</h3>
       <p>
         <strong>Commencement:</strong>
-        <span class="placeholder">[Month and year]</span>
+        {{section_3_requirements.contract_term.commencement}}
       </p>
       <ul>
+        {% for term in section_3_requirements.contract_term.terms %}
         <li>
-          <strong>Initial term:</strong>
-          <span class="placeholder">[Number of years]</span> years
+          <strong>{{term.description}}:</strong>
+          {{term.years}}{{term.details}}
         </li>
-        <li>
-          <strong>Extension options:</strong>
-          <span class="placeholder"
-            >[e.g., up to two extensions of one year each]</span
-          >
-        </li>
-        <li>
-          <strong>Maximum term:</strong>
-          <span class="placeholder">[Number of years]</span> years
-        </li>
+        {% endfor %}
       </ul>
 
       <h3>3.6 Contract Value</h3>
-      <p class="placeholder">
-        [We estimate value to be $[x] plus GST for initial term, and [x] plus
-        GST in aggregate if all renewals/extensions are taken up.]
-      </p>
+      <p>{{section_3_requirements.contract_value.estimate}}</p>
 
       <h3>3.7 Key Deliverables</h3>
       <table class="criteria-table">
@@ -577,15 +468,12 @@
           </tr>
         </thead>
         <tbody>
+          {% for item in section_3_requirements.key_deliverables.items %}
           <tr>
-            <td>
-              <span class="placeholder"
-                >[First key deliverable/milestone/outcome]</span
-              >
-            </td>
-            <td><span class="placeholder">[Delivery date]</span></td>
+            <td>{{item.description}}</td>
+            <td>{{item.indicative_date}}</td>
           </tr>
-          <!-- Add more rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
 
@@ -594,9 +482,9 @@
       <ul>
         <li>RFP Response form</li>
         <li>Pricing Schedule</li>
-        <li>
-          <span class="placeholder">[List any other relevant documents]</span>
-        </li>
+        {% for document in section_3_requirements.other_documents.documents %}
+        <li>{{document}}</li>
+        {% endfor %}
       </ul>
 
       <h3>3.9 Delivery Locations</h3>
@@ -608,13 +496,13 @@
           </tr>
         </thead>
         <tbody>
+          {% for location in section_3_requirements.delivery_locations.locations
+          %}
           <tr>
-            <td><span class="placeholder">[Address]</span></td>
-            <td>
-              <span class="placeholder">[What is being delivered here?]</span>
-            </td>
+            <td>{{location.location}}</td>
+            <td>{{location.delivery_details}}</td>
           </tr>
-          <!-- Add more rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -639,13 +527,17 @@
 
       <h3>4.1 Pre-conditions</h3>
       <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Included:</strong>
+        {{section_4_evaluation_approach.preconditions.included}}
       </p>
       <div class="subsection">
+        {% for condition in
+        section_4_evaluation_approach.preconditions.conditions %}
         <p>
-          <strong>Pre-condition 1:</strong>
-          <span class="placeholder">[Pre-condition that must be met]</span>
+          <strong>Pre-condition {{condition.number}}:</strong>
+          {{condition.description}}
         </p>
+        {% endfor %}
       </div>
       <p>
         <em
@@ -657,41 +549,10 @@
       <h3>4.2 Evaluation Model</h3>
       <p><strong>Selected Model:</strong></p>
       <div class="subsection">
-        <p>
-          <span class="placeholder"
-            >[Lowest price conforming - Use where price is main criterion]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Simple score, price weighted - Price is weighted criterion, all
-            criteria equal weight]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Simple score, price not weighted - Price not weighted, all
-            criteria equal weight]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Weighted attribute, price weighted - Price is weighted criterion,
-            different criteria have different weights]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Weighted attribute, price not weighted - Price not weighted,
-            different criteria have different weights]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Price quality method - For significant price/quality
-            variations]</span
-          >
-        </p>
+        {% for option in section_4_evaluation_approach.evaluation_model.options
+        %} {% if option.selected == "Yes" %}
+        <p>{{option.name}}</p>
+        {% endif %} {% endfor %}
       </div>
       <p>
         <strong>Note:</strong>
@@ -710,17 +571,18 @@
 
       <div class="two-envelope">
         <h4>Two-Envelope System</h4>
-        <p><strong>Used:</strong> <span class="placeholder">[Yes/No]</span></p>
-        <p class="placeholder">
-          [Recommended if price could vary significantly. Required if using
-          Price Quality Method. Respondents provide financial information in
-          separate file.]
+        <p>
+          <strong>Used:</strong>
+          {{section_4_evaluation_approach.evaluation_model.two_envelope_system.used}}
+        </p>
+        <p>
+          {{section_4_evaluation_approach.evaluation_model.two_envelope_system.description}}
         </p>
       </div>
 
       <h3>4.3 Economic Benefits Evaluation</h3>
-      <p class="placeholder">
-        [Details of economic benefits sought in this procurement]
+      <p>
+        {{section_4_evaluation_approach.economic_benefits_evaluation.description}}
       </p>
       <p>
         <strong>Rules Note:</strong> For contracts over $100,000
@@ -738,49 +600,19 @@
           </tr>
         </thead>
         <tbody>
+          {% for criterion in
+          section_4_evaluation_approach.evaluation_criteria.criteria %}
           <tr>
-            <td>Track record</td>
-            <td><span class="placeholder">[Add description]</span></td>
-            <td><span class="placeholder">[XX%]</span></td>
+            <td>{{criterion.criterion}}</td>
+            <td>{{criterion.description}}</td>
+            <td>{{criterion.weighting}}</td>
           </tr>
-          <tr>
-            <td>Capability of the Respondent to deliver</td>
-            <td><span class="placeholder">[Add description]</span></td>
-            <td><span class="placeholder">[XX%]</span></td>
-          </tr>
-          <tr>
-            <td>Capacity of the Respondent to deliver</td>
-            <td><span class="placeholder">[Add description]</span></td>
-            <td><span class="placeholder">[XX%]</span></td>
-          </tr>
-          <tr>
-            <td>Proposed solution</td>
-            <td><span class="placeholder">[Add details]</span></td>
-            <td><span class="placeholder">[XX%]</span></td>
-          </tr>
-          <tr>
-            <td>Economic Benefits to New Zealand</td>
-            <td><span class="placeholder">[Add details]</span></td>
-            <td><span class="placeholder">[≥10%]</span></td>
-          </tr>
-          <tr>
-            <td>Price</td>
-            <td>
-              <span class="placeholder"
-                >[Include only if price is weighted criterion. Required for
-                price quality method.]</span
-              >
-            </td>
-            <td><span class="placeholder">[XX%]</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
       <p><strong>Total Weighting:</strong> 100%</p>
       <p>
-        <span class="placeholder"
-          >[If not using weightings: Criteria listed in order of importance with
-          most important first.]</span
-        >
+        {{section_4_evaluation_approach.evaluation_criteria.unweighted_note}}
       </p>
 
       <h3>4.5 Scoring Scale</h3>
@@ -855,43 +687,18 @@
 
       <h3>4.7 Due Diligence Checks</h3>
       <ul>
-        <li>
-          <span class="placeholder"
-            >[Reference check Respondent and named personnel]</span
-          >
-        </li>
-        <li>
-          <span class="placeholder"
-            >[Check against Companies Office or NZBN]</span
-          >
-        </li>
-        <li><span class="placeholder">[Interview Respondents]</span></li>
-        <li><span class="placeholder">[Request presentations]</span></li>
-        <li><span class="placeholder">[Arrange site-visits]</span></li>
-        <li><span class="placeholder">[Test products]</span></li>
-        <li>
-          <span class="placeholder"
-            >[Inspect audited accounts for last [number] financial years]</span
-          >
-        </li>
-        <li><span class="placeholder">[Undertake credit check]</span></li>
-        <li>
-          <span class="placeholder"
-            >[Undertake Police check for all named personnel]</span
-          >
-        </li>
+        {% for check in section_4_evaluation_approach.due_diligence.checks %}
+        <li>{{check}}</li>
+        {% endfor %}
       </ul>
       <p><em>Delete or add checks as applicable.</em></p>
 
       <h3>4.8 E-Auction</h3>
       <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Included:</strong>
+        {{section_4_evaluation_approach.e_auction.included}}
       </p>
-      <p>
-        <span class="placeholder"
-          >[We will conduct e-auction with shortlisted Respondents.]</span
-        >
-      </p>
+      <p>{{section_4_evaluation_approach.e_auction.description}}</p>
       <p>
         <strong>Rules Reference:</strong> See Rule 24 for e-auction
         requirements.
@@ -938,20 +745,10 @@
       </ol>
 
       <h3>5.1 Specific Costs</h3>
-      <p>
-        <span class="placeholder"
-          >[Insert details of costs to capture: e.g., freight costs, exchange
-          rate fluctuations]</span
-        >
-      </p>
+      <p>{{section_5_pricing_information.specific_costs}}</p>
 
       <h3>5.2 Invoicing</h3>
-      <p>
-        <span class="placeholder"
-          >[State how invoicing should be completed, e.g., only lead in
-          consortium issues invoices]</span
-        >
-      </p>
+      <p>{{section_5_pricing_information.invoicing}}</p>
     </div>
 
     <!-- Section 6: Proposed Contract -->
@@ -965,12 +762,7 @@
         </p>
       </div>
 
-      <p>
-        <span class="placeholder"
-          >[The Proposed Contract that we intend to use is attached to this RFP
-          (via GETS).]</span
-        >
-      </p>
+      <p>{{section_6_proposed_contract.description}}</p>
 
       <p>
         <strong>Terms Note:</strong> In submitting Proposal, you must indicate
@@ -980,20 +772,20 @@
 
       <p>
         <strong>Attachment Method:</strong>
-        <span class="placeholder">[Attached here or submitted via GETS]</span>
+        {{section_6_proposed_contract.attachment_method}}
       </p>
     </div>
 
     <!-- Section 7: RFP Terms -->
     <div class="section">
       <h2>Section 7: RFP Terms</h2>
-      <p><strong>Terms Document:</strong> RFP Terms and Conditions</p>
       <p>
-        <strong>Date:</strong> <span class="placeholder">[Insert date]</span>
+        <strong>Terms Document:</strong> {{section_7_rfp_terms.terms_document}}
       </p>
+      <p><strong>Date:</strong> {{section_7_rfp_terms.date}}</p>
       <p>
         <strong>URL:</strong>
-        <span class="placeholder">[URL to RFP Terms document]</span>
+        {{section_7_rfp_terms.url}}
       </p>
     </div>
 
@@ -1015,7 +807,7 @@
       <p><strong>Required:</strong> Yes</p>
       <p>
         <strong>Format:</strong>
-        <span class="placeholder">[Specify required format]</span>
+        {{section_8_response_form.pricing_schedule.format}}
       </p>
     </div>
 
@@ -1068,14 +860,11 @@
       "
     >
       <p>
-        <strong
-          ><span class="placeholder">[Insert name of the Buyer]</span></strong
-        >
+        <strong>{{header.buyer_name}}</strong>
       </p>
       <p>
-        RFP Document | Issued: <span class="placeholder">[DD MM YY]</span> |
-        Reference:
-        <span class="placeholder">[Procurement reference number]</span>
+        RFP Document | Issued: {{header.rfp_released_date}} | Reference:
+        {{header.reference_number}}
       </p>
     </div>
   </body>

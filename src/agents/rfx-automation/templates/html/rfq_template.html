@@ -85,43 +85,38 @@
     <!-- Header Section -->
     <div class="header-section">
       <h1>Request for Quote (RFQ)</h1>
-      <h2><span class="placeholder">[Insert name of procurement]</span></h2>
+      <h2>{{header.procurement_title}}</h2>
       <p>
         <strong>Reference Number:</strong>
-        <span class="placeholder">[Procurement reference number]</span>
+        {{header.reference_number}}
       </p>
       <p>
         <strong>Agency/Buyer:</strong>
-        <span class="placeholder"
-          >[Insert full legal name of government agency/buyer]</span
-        >
+        {{header.agency_name}}
       </p>
       <p>
         <strong>RFQ Released Date:</strong>
-        <span class="placeholder">[DD MM YY]</span>
+        {{header.rfa_released_date}}
       </p>
       <p>
         <strong>Deadline for Questions:</strong>
-        <span class="placeholder">[TIME DD MM YY]</span>
+        {{header.deadline_questions}}
       </p>
       <p>
         <strong>Deadline for Quotes:</strong>
-        <span class="placeholder">[TIME DD MM YY]</span>
+        {{header.deadline_quotes}}
       </p>
 
       <div class="contact-box">
         <p><strong>Buyer Contact Information:</strong></p>
         <p>
           <strong>Name:</strong>
-          <span class="placeholder">[Name of buyer contact]</span>
+          {{header.buyer_contact.name}}
         </p>
-        <p>
-          <strong>Website:</strong> <span class="placeholder">[Website]</span>
-        </p>
+        <p><strong>Website:</strong> {{header.buyer_contact.website}}</p>
         <p>
           <strong>Address:</strong>
-          <span class="placeholder">[Street address]</span>,
-          <span class="placeholder">[City]</span>
+          {{header.buyer_contact.street_address}}, {{header.buyer_contact.city}}
         </p>
       </div>
     </div>
@@ -157,32 +152,23 @@
       <h2>Section 1: Opportunity</h2>
 
       <h3>1.1 Summary</h3>
-      <p class="placeholder">
-        [Short, concise summary to help suppliers decide if they are the right
-        fit. Keep to 1-2 pages maximum.]
-      </p>
+      <p>{{section_1_opportunity.summary}}</p>
 
       <h3>1.2 What We Need</h3>
-      <p class="placeholder">
-        [Summarize what you are looking to procure in 1-2 paragraphs. Include
-        background if relevant.]
-      </p>
+      <p>{{section_1_opportunity.what_we_need.description}}</p>
 
       <h3>1.3 What We Don't Want</h3>
       <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Included:</strong>
+        {{section_1_opportunity.what_we_dont_want.included}}
       </p>
-      <p class="placeholder">
-        [Include only if there are outcomes or tasks you don't want]
-      </p>
+      <p>{{section_1_opportunity.what_we_dont_want.description}}</p>
 
       <h3>1.4 Timeframe</h3>
-      <p class="placeholder">[Approximate timeframe for delivery]</p>
+      <p>{{section_1_opportunity.timeframe.description}}</p>
 
       <h3>1.5 Why Quote</h3>
-      <p class="placeholder">
-        [Motivate suppliers to quote. What is the opportunity for the supplier?]
-      </p>
+      <p>{{section_1_opportunity.why_quote.motivation}}</p>
     </div>
 
     <!-- Section 2: Key Information -->
@@ -199,61 +185,42 @@
           </tr>
         </thead>
         <tbody>
+          {% for event in section_2_key_information.timeline.events %}
           <tr>
-            <td>Deadline for Questions from Respondents</td>
-            <td><span class="placeholder">[time] [DD MM YY]</span></td>
-            <td></td>
+            <td>{{event.event}}</td>
+            <td>{{event.date_time}}</td>
+            <td>
+              {% if event.event == "Expected start date of Contract" %}
+              <span class="indicator">(Indicative only)</span>
+              {% endif %}
+            </td>
           </tr>
-          <tr>
-            <td>Deadline for us to answer questions</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Deadline for Quotes</td>
-            <td><span class="placeholder">[time] [DD MM YY]</span></td>
-            <td>This is the final submission deadline</td>
-          </tr>
-          <tr>
-            <td>Expected start date of Contract</td>
-            <td><span class="placeholder">[DD MM YY]</span></td>
-            <td><span class="indicator">(Indicative only)</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
-      <p>
-        <span class="placeholder"
-          >[Add any other timeline items, clearly indicating which are
-          indicative only]</span
-        >
-      </p>
+      <p>{{section_2_key_information.timeline.additional_items}}</p>
 
       <h3>2.2 Contact Information</h3>
       <p>
         <strong>Method:</strong>
-        <span class="placeholder"
-          >[Contact through Point of Contact via email or Government Electronic
-          Tenders Service (GETS)]</span
-        >
+        {{section_2_key_information.contact_information.method}}
       </p>
       <div class="contact-box">
         <p><strong>Point of Contact:</strong></p>
         <p>
           <strong>Name:</strong>
-          <span class="placeholder">[Name of contact person]</span>
+          {{section_2_key_information.contact_information.point_of_contact.name}}
         </p>
         <p>
           <strong>Title/Role:</strong>
-          <span class="placeholder">[Title/role and unit they work in]</span>
+          {{section_2_key_information.contact_information.point_of_contact.title_role}}
         </p>
         <p>
           <strong>Email:</strong>
-          <span class="placeholder">[Email address]</span>
+          {{section_2_key_information.contact_information.point_of_contact.email}}
         </p>
         <p>
-          <span class="placeholder"
-            >[Delete if not applicable, e.g., if all contact is via GETS]</span
-          >
+          {{section_2_key_information.contact_information.point_of_contact.gets_note}}
         </p>
       </div>
 
@@ -279,7 +246,7 @@
       <h3>2.4 Submission Address</h3>
       <p>
         <strong>Method:</strong>
-        <span class="placeholder">[Email address or GETS in-box address]</span>
+        {{section_2_key_information.submission_address.method}}
       </p>
       <p>
         <em
@@ -288,25 +255,21 @@
         >
       </p>
       <p>
-        <span class="placeholder"
-          >[Optional: Include if using two-envelope system]</span
-        >
+        {{section_2_key_information.submission_address.two_envelope_system}}
       </p>
 
       <h3>2.5 RFQ Terms</h3>
       <p>
         <strong>Offer Validity Period:</strong>
-        <span class="placeholder">[Number]</span> calendar months from Deadline
-        for Quotes
+        {{section_2_key_information.rfa_terms.offer_validity_period}} calendar
+        months from Deadline for Quotes
       </p>
       <p><strong>Terms Note:</strong> The RFQ is subject to the RFQ Terms.</p>
 
       <h3>2.6 Changes Process</h3>
       <p>
         <strong>Method:</strong>
-        <span class="placeholder"
-          >[Placing notice on GETS or contacting Respondents by email]</span
-        >
+        {{section_2_key_information.changes_process.method}}
       </p>
       <p>
         <strong>GETS Subscription Note:</strong> If subscribed through GETS, you
@@ -334,50 +297,39 @@
           </tr>
         </thead>
         <tbody>
+          {% for item in section_3_requirements.what_we_are_buying.items %}
           <tr>
-            <td><span class="placeholder">[goods/services/both]</span></td>
-            <td>
-              <span class="placeholder"
-                >[Description with quantities if possible]</span
-              >
-            </td>
+            <td>{{item.type}}</td>
+            <td>{{item.description}}</td>
           </tr>
-          <!-- Add more rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
 
       <h3>3.2 Supplier Requirements</h3>
       <p>
         <strong>Track Record:</strong>
-        <span class="placeholder"
-          >[Describe required experience or track record]</span
-        >
+        {{section_3_requirements.supplier_requirements.track_record}}
       </p>
       <p>
         <strong>Capability:</strong>
-        <span class="placeholder"
-          >[Describe required skills or capability]</span
-        >
+        {{section_3_requirements.supplier_requirements.capability}}
       </p>
       <p>
         <strong>Capacity:</strong>
-        <span class="placeholder"
-          >[Describe required processes, timeline or capacity]</span
-        >
+        {{section_3_requirements.supplier_requirements.capacity}}
       </p>
       <p>
         <strong>Solution:</strong>
-        <span class="placeholder"
-          >[Describe specific solution(s) required]</span
-        >
+        {{section_3_requirements.supplier_requirements.solution}}
       </p>
       <p>
         <strong>Timeframe:</strong>
-        <span class="placeholder">[Describe delivery timeframe]</span>
+        {{section_3_requirements.supplier_requirements.timeframe}}
       </p>
       <p>
         <strong>Economic Benefits:</strong>
-        <span class="placeholder">[Describe economic benefits required]</span>
+        {{section_3_requirements.supplier_requirements.economic_benefits}}
       </p>
 
       <h3>3.3 Key Deliverables</h3>
@@ -389,45 +341,29 @@
           </tr>
         </thead>
         <tbody>
+          {% for item in section_3_requirements.key_deliverables.items %}
           <tr>
-            <td>
-              <span class="placeholder"
-                >[First key deliverable/milestone/outcome]</span
-              >
-            </td>
-            <td><span class="placeholder">[Delivery date]</span></td>
+            <td>{{item.description}}</td>
+            <td>{{item.indicative_date}}</td>
           </tr>
-          <!-- Add more rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
 
       <h3>3.4 Contract Term</h3>
       <p>
         <strong>Commencement:</strong>
-        <span class="placeholder">[Month and year]</span>
+        {{section_3_requirements.contract_term.commencement}}
       </p>
       <ul>
+        {% for term in section_3_requirements.contract_term.terms %}
         <li>
-          <strong>Initial term:</strong>
-          <span class="placeholder">[Number of years]</span> years
+          <strong>{{term.description}}:</strong>
+          {{term.years}}{{term.details}}
         </li>
-        <li>
-          <strong>Extension options:</strong>
-          <span class="placeholder"
-            >[e.g., up to two extensions of one year each]</span
-          >
-        </li>
-        <li>
-          <strong>Maximum term:</strong>
-          <span class="placeholder">[Number of years]</span> years
-        </li>
+        {% endfor %}
       </ul>
-      <p>
-        <span class="placeholder"
-          >[Optional: Include if requiring standing arrangement for additional
-          orders]</span
-        >
-      </p>
+      <p>{{section_3_requirements.contract_term.standing_arrangement}}</p>
 
       <h3>3.5 Delivery Locations</h3>
       <table class="criteria-table">
@@ -438,13 +374,13 @@
           </tr>
         </thead>
         <tbody>
+          {% for location in section_3_requirements.delivery_locations.locations
+          %}
           <tr>
-            <td><span class="placeholder">[Address]</span></td>
-            <td>
-              <span class="placeholder">[What is being delivered here?]</span>
-            </td>
+            <td>{{location.location}}</td>
+            <td>{{location.delivery_details}}</td>
           </tr>
-          <!-- Add more rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
 
@@ -473,13 +409,17 @@
 
       <h3>4.1 Pre-conditions</h3>
       <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Included:</strong>
+        {{section_4_evaluation_approach.preconditions.included}}
       </p>
       <div class="subsection">
+        {% for condition in
+        section_4_evaluation_approach.preconditions.conditions %}
         <p>
-          <strong>Pre-condition 1:</strong>
-          <span class="placeholder">[Pre-condition that must be met]</span>
+          <strong>Pre-condition {{condition.number}}:</strong>
+          {{condition.description}}
         </p>
+        {% endfor %}
       </div>
       <p>
         <em
@@ -491,23 +431,10 @@
       <h3>4.2 Evaluation Model</h3>
       <p><strong>Selected Model:</strong></p>
       <div class="subsection">
-        <p>
-          <span class="placeholder"
-            >[Lowest price conforming - Use where price is the main
-            criterion]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Simple score - Use where all criteria are of equal weight]</span
-          >
-        </p>
-        <p>
-          <span class="placeholder"
-            >[Weighted attribute - Use where different criteria have different
-            weights]</span
-          >
-        </p>
+        {% for option in section_4_evaluation_approach.evaluation_model.options
+        %} {% if option.selected == "Yes" %}
+        <p>{{option.name}}</p>
+        {% endif %} {% endfor %}
       </div>
       <p>
         <strong>Overall Assessment:</strong> All Quotes meeting pre-conditions
@@ -516,17 +443,15 @@
       </p>
       <p>
         <strong>Two-Envelope System Used:</strong>
-        <span class="placeholder">[Yes/No]</span>
+        {{section_4_evaluation_approach.evaluation_model.two_envelope_system.used}}
       </p>
       <p>
-        <span class="placeholder"
-          >[Include if price could significantly vary and skew evaluation]</span
-        >
+        {{section_4_evaluation_approach.evaluation_model.two_envelope_system.description}}
       </p>
 
       <h3>4.3 Economic Benefits Evaluation</h3>
-      <p class="placeholder">
-        [Details of economic benefits sought in this procurement]
+      <p>
+        {{section_4_evaluation_approach.economic_benefits_evaluation.description}}
       </p>
       <p>
         <strong>Rules Note:</strong> For contracts over $100,000
@@ -543,30 +468,13 @@
           </tr>
         </thead>
         <tbody>
+          {% for criterion in
+          section_4_evaluation_approach.evaluation_criteria.criteria %}
           <tr>
-            <td>Price</td>
-            <td><span class="placeholder">[xx%]</span></td>
+            <td>{{criterion.criterion}}</td>
+            <td>{{criterion.weighting}}</td>
           </tr>
-          <tr>
-            <td>Suitability of goods/service</td>
-            <td><span class="placeholder">[xx%]</span></td>
-          </tr>
-          <tr>
-            <td>Capability of the Respondent to deliver</td>
-            <td><span class="placeholder">[xx%]</span></td>
-          </tr>
-          <tr>
-            <td>Capacity of the Respondent to deliver</td>
-            <td><span class="placeholder">[xx%]</span></td>
-          </tr>
-          <tr>
-            <td>Timeframe</td>
-            <td><span class="placeholder">[xx%]</span></td>
-          </tr>
-          <tr>
-            <td>Economic Benefits to New Zealand</td>
-            <td><span class="placeholder">[≥10%]</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
       <p><strong>Total Weighting:</strong> 100%</p>
@@ -642,24 +550,9 @@
 
       <h3>4.7 Due Diligence Checks</h3>
       <ul>
-        <li>
-          <span class="placeholder"
-            >[Reference check Respondent organization and named personnel]</span
-          >
-        </li>
-        <li>
-          <span class="placeholder"
-            >[Check against Companies Office, NZBN]</span
-          >
-        </li>
-        <li><span class="placeholder">[Interview Respondents]</span></li>
-        <li><span class="placeholder">[Test products]</span></li>
-        <li>
-          <span class="placeholder"
-            >[Inspect audited accounts for last three financial years]</span
-          >
-        </li>
-        <li><span class="placeholder">[Undertake credit check]</span></li>
+        {% for check in section_4_evaluation_approach.due_diligence.checks %}
+        <li>{{check}}</li>
+        {% endfor %}
       </ul>
       <p><em>Delete or add checks as applicable.</em></p>
     </div>
@@ -670,11 +563,11 @@
 
       <p>
         <strong>Contract Type:</strong>
-        <span class="placeholder">[Specify type of contract]</span>
+        {{section_5_proposed_contract.contract_type}}
       </p>
       <p>
         <strong>Attachment Method:</strong>
-        <span class="placeholder">[Attached here or submitted via GETS]</span>
+        {{section_5_proposed_contract.attachment_method}}
       </p>
 
       <p>
@@ -687,11 +580,13 @@
     <!-- Section 6: RFQ Terms -->
     <div class="section">
       <h2>Section 6: RFQ Terms</h2>
-      <p><strong>Terms Document:</strong> RFQ Terms and Conditions</p>
-      <p><strong>Date:</strong> <span class="placeholder">[Date]</span></p>
+      <p>
+        <strong>Terms Document:</strong> {{section_6_rfa_terms.terms_document}}
+      </p>
+      <p><strong>Date:</strong> {{section_6_rfa_terms.date}}</p>
       <p>
         <strong>URL:</strong>
-        <span class="placeholder">[URL to RFQ Terms document]</span>
+        {{section_6_rfa_terms.url}}
       </p>
     </div>
 
@@ -758,8 +653,8 @@
         <h4>Allocation of Risk - Liability</h4>
         <p>
           Supplier liability capped at
-          <span class="placeholder">[multiple]</span> x contract value based on
-          risk assessment.
+          {{section_8_government_policies.policies[2].description}} x contract
+          value based on risk assessment.
         </p>
       </div>
 
@@ -774,16 +669,14 @@
       <h2>Appendix</h2>
       <p>
         <strong>Proposed Contract:</strong>
-        <span class="placeholder">[Attach Proposed Contract document]</span>
+        {{appendix.proposed_contract}}
       </p>
 
       <h3>Additional Attachments</h3>
       <ul>
-        <li>
-          <span class="placeholder">[Attachment 1 name]</span> -
-          <span class="placeholder">[Description]</span>
-        </li>
-        <!-- Add more attachments as needed -->
+        {% for attachment in appendix.additional_attachments %}
+        <li>{{attachment.name}} - {{attachment.description}}</li>
+        {% endfor %}
       </ul>
     </div>
 
@@ -834,16 +727,11 @@
       "
     >
       <p>
-        <strong
-          ><span class="placeholder"
-            >[Insert full legal name of government agency/buyer]</span
-          ></strong
-        >
+        <strong>{{header.agency_name}}</strong>
       </p>
       <p>
-        RFQ Document | Issued: <span class="placeholder">[DD MM YY]</span> |
-        Reference:
-        <span class="placeholder">[Procurement reference number]</span>
+        RFQ Document | Issued: {{header.rfa_released_date}} | Reference:
+        {{header.reference_number}}
       </p>
     </div>
   </body>

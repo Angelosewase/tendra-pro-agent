@@ -64,12 +64,10 @@
   <body>
     <!-- Header Section -->
     <div class="header-section">
-      <h1 class="placeholder">[Clear, concise title of the RFI]</h1>
-      <h2><span class="placeholder">[Name of Agency/Department]</span></h2>
+      <h1>{{header.title}}</h1>
+      <h2>{{header.agency_department}}</h2>
       <h3>Request for Information (RFI)</h3>
-      <p>
-        <strong>RFI Issue Date:</strong> <span class="placeholder">[Date]</span>
-      </p>
+      <p><strong>RFI Issue Date:</strong> {{header.rfi_issue_date}}</p>
 
       <div class="disclaimer">
         <h4>Disclaimer</h4>
@@ -99,70 +97,61 @@
       <h2>Section 1: RFI Overview</h2>
 
       <h3>1.1 RFI Summary</h3>
-      <p class="placeholder">
-        [One paragraph high-level description of the RFI purpose. Example: "In
-        2023, Citylandia plans to purchase a new Fire Records Management
-        software that will contain modules that support personnel management and
-        scheduling. The City may want to select a solution that can be deployed
-        modularly (e.g., tracking incidents, properties, and inspections in
-        Phase 1; and personnel management and scheduling in Phase 2). We are
-        seeking information about what solutions currently exist in the market
-        and are interested in learning about what information you would need to
-        scope a logical road map for this deployment."]
-      </p>
+      <p>{{section_1.rfi_overview.summary}}</p>
 
       <h3>1.2 RFI Contact</h3>
       <div class="contact-box">
         <p><strong>Official Point of Contact:</strong></p>
-        <p><strong>Name:</strong> <span class="placeholder">[Name]</span></p>
-        <p><strong>Title:</strong> <span class="placeholder">[Title]</span></p>
+        <p>
+          <strong>Name:</strong> {{section_1.rfi_contact.point_of_contact.name}}
+        </p>
+        <p>
+          <strong>Title:</strong>
+          {{section_1.rfi_contact.point_of_contact.title}}
+        </p>
         <p>
           <strong>Department/Agency:</strong>
-          <span class="placeholder">[Department/Agency Affiliation]</span>
+          {{section_1.rfi_contact.point_of_contact.department_agency}}
         </p>
-        <p><strong>Email:</strong> <span class="placeholder">[Email]</span></p>
+        <p>
+          <strong>Email:</strong>
+          {{section_1.rfi_contact.point_of_contact.email}}
+        </p>
         <p>
           <strong>Phone:</strong>
-          <span class="placeholder">[Phone number]</span>
+          {{section_1.rfi_contact.point_of_contact.phone}}
         </p>
       </div>
       <p>
         <strong>Instructions:</strong> We have designated the following
         individual to serve as the official point of contact for this RFI. This
         individual is the only authorized contact permitted to communicate on
-        behalf of the
-        <span class="placeholder">[Name of Agency/Department]</span> about this
-        RFI.
+        behalf of the {{section_1.rfi_contact.instructions}} about this RFI.
       </p>
 
       <h3>1.3 Submission Details</h3>
       <p>
         <strong>Submission Method:</strong>
-        <span class="placeholder"
-          >[email to the RFI point of contact/e-procurement portal]</span
-        >
+        {{section_1.submission_details.method}}
       </p>
       <p>
         <strong>Submission Requirements:</strong>
-        <span class="placeholder"
-          >[Insert any requirements for submission, such as file size, email
-          subject lines, number of attachments, etc.]</span
-        >
+        {{section_1.submission_details.requirements}}
       </p>
       <p>
         <strong>Physical Copies:</strong>
-        <span class="placeholder">[Also Allowed/Not Allowed/Optional]</span>
+        {{section_1.submission_details.physical_copies}}
       </p>
       <p>
         <strong>Physical Address (if applicable):</strong>
-        <span class="placeholder">[If allowed/optional: Delivery address]</span>
+        {{section_1.submission_details.physical_address}}
       </p>
       <p>
         <strong>Instructions:</strong> Please submit your responses to this RFI
-        via <span class="placeholder">[method]</span> before the due date
+        via {{section_1.submission_details.method}} before the due date
         identified in Section 1.4. When submitting your response, please
-        <span class="placeholder">[requirements]</span>. If you have any
-        questions about this RFI, please direct them to the RFI contact.
+        {{section_1.submission_details.requirements}}. If you have any questions
+        about this RFI, please direct them to the RFI contact.
       </p>
 
       <h3>1.4 RFI Timeline</h3>
@@ -174,38 +163,26 @@
           </tr>
         </thead>
         <tbody>
+          {% for event in section_1.rfi_timeline.events %}
           <tr>
-            <td>RFI Released</td>
-            <td><span class="placeholder">[Insert Date]</span></td>
+            <td>{{event.event}}</td>
+            <td>{{event.date}}</td>
           </tr>
-          <tr>
-            <td>RFI Conference</td>
-            <td>
-              <span class="placeholder">[Not Applicable or Insert Date]</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Deadline for Questions</td>
-            <td><span class="placeholder">[Insert Date]</span></td>
-          </tr>
-          <tr>
-            <td>Responses Due</td>
-            <td><span class="placeholder">[Insert Date]</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
       <p>
         <em
           >Dates may be modified or amended by the
-          <span class="placeholder">[Name of Agency/Department]</span>, which
-          will post an amendment to this RFI notifying prospective respondents
-          of any change.</em
+          {{section_1.rfi_timeline.amendment_note}}, which will post an
+          amendment to this RFI notifying prospective respondents of any
+          change.</em
         >
       </p>
 
       <h3>1.5 RFI Conference</h3>
       <p>
-        <strong>Will be held:</strong> <span class="placeholder">[Yes/No]</span>
+        <strong>Will be held:</strong> {{section_1.rfi_conference.will_be_held}}
       </p>
       <div class="subsection">
         <p><strong>Optional Attendance:</strong> Yes</p>
@@ -215,15 +192,15 @@
         </p>
         <p>
           <strong>Activities:</strong> During the Information Session,
-          <span class="placeholder">[Name of Agency/Department]</span> staff
-          will summarize the goals of the RFI, and the information requested.
-          <span class="placeholder">[Name of Agency/Department]</span> staff
-          will take questions from prospective respondents and community members
-          during the Information Session.
+          {{section_1.rfi_conference.details.activities}} staff will summarize
+          the goals of the RFI, and the information requested.
+          {{section_1.rfi_conference.details.activities}} staff will take
+          questions from prospective respondents and community members during
+          the Information Session.
         </p>
         <p>
           <strong>Recording:</strong> A recording of the RFI Information Session
-          will be posted to <span class="placeholder">[Insert Website]</span>.
+          will be posted to {{section_1.rfi_conference.details.activities}}.
         </p>
         <p>
           <strong>Q&A Note:</strong> Any answers given at the Information
@@ -239,36 +216,13 @@
       <h2>Section 2: Background Information</h2>
 
       <h3>2.1 Mission & History</h3>
-      <p class="placeholder">
-        [Include only if relevant. Boilerplate language about your agency's
-        mission and history that provides useful context for respondents.]
-      </p>
+      <p>{{section_2.background_information.mission_history}}</p>
 
       <h3>2.2 Goals and Outcomes</h3>
-      <p class="placeholder">
-        [Describe the goals for the services and programs you hope will be
-        impacted by responses to the RFI. Mention if a future RFP is
-        anticipated. Example: "With a combined capital budget of nearly $120
-        million for fiscal year 2021, the City of Citylandia's Public
-        Facilities, Public Works, Parks and Recreation, and Transportation
-        Departments complete dozens of designs and projects each year. This
-        diverse portfolio ranges from energy efficiency projects at City Hall to
-        a 'Safe Routes to Schools' initiative to ongoing investment in courts
-        and playgrounds across the city. Currently, projects are managed through
-        a combination of home-grown databases, paper files, and Excel
-        spreadsheets. Citylandia seeks a software solution to improve these
-        processes; increase the availability and transparency of data; and
-        promote efficient management of programs, projects, budgets, schedules,
-        and partnerships."]
-      </p>
+      <p>{{section_2.goals_and_outcome.description}}</p>
 
       <h3>2.3 Background Context</h3>
-      <p class="placeholder">
-        [Briefly describe the history of what led to the project being started
-        and the RFI being issued, including any relevant contextual information
-        such as legislation, strategic plans, or current technology
-        environment.]
-      </p>
+      <p>{{section_2.background.context}}</p>
     </div>
 
     <!-- Section 3: Information Requested -->
@@ -276,62 +230,43 @@
       <h2>Section 3: Information Requested</h2>
 
       <h3>3.1 Who We Are Looking For</h3>
-      <p class="placeholder">
-        [Briefly describe who you'd be especially interested in having respond
-        to the RFI. Include both basic features and expected capacities.]
-      </p>
+      <p>{{section_3.who_we_are_looking_for.description}}</p>
       <p>
         <strong>Suggested Language:</strong> The
-        <span class="placeholder">[Name of Agency/Department]</span> is
-        especially interested in hearing feedback on this proposed project from
-        the following firms, organizations, or individuals:
-        <span class="placeholder"
-          >[Community Organizations/Subject Matter Experts/Vendors/Service
-          Users/Professional Associations/etc.]</span
-        >
+        {{section_3.who_we_are_looking_for.suggested_language}} is especially
+        interested in hearing feedback on this proposed project from the
+        following firms, organizations, or individuals:
+        {{section_3.who_we_are_looking_for.suggested_language}}
       </p>
 
       <h3>3.2 What We Are Looking For</h3>
-      <p class="placeholder">
-        [Describe what information you hope to receive. Consider breaking into
-        categories or listing specific questions.]
-      </p>
+      <p>{{section_3.what_we_are_looking_for.instructions}}</p>
       <p>
         <strong>Instructions:</strong> Respondents are invited to provide
         information on the following subjects of interest to the
-        <span class="placeholder">[Name of Agency/Department]</span>:
-        <span class="placeholder"
-          >[Feedback on Planned Approach/ Information about Y Technology
-          Marketplace/How Project will Impact X Community/etc.]</span
-        >
-        Information provided should total no more than
-        <span class="placeholder">[Insert Number]</span> total pages.
-        Respondents <span class="placeholder">[May/May Not]</span> include
-        additional attachments with their response document.
+        {{section_3.what_we_are_looking_for.suggested_language}}:
+        {{section_3.what_we_are_looking_for.suggested_language}} Information
+        provided should total no more than
+        {{section_3.what_we_are_looking_for.suggested_language}} total pages.
+        Respondents {{section_3.what_we_are_looking_for.suggested_language}}
+        include additional attachments with their response document.
       </p>
 
       <!-- Question Categories (Optional) -->
       <div class="subsection">
         <h4>Question Categories:</h4>
 
-        <!-- Category 1 -->
+        {% for category in section_3.what_we_are_looking_for.question_categories
+        %}
         <div class="question-category">
-          <h5><span class="placeholder">[Category Name 1]</span></h5>
+          <h5>{{category.category}}</h5>
           <ul>
-            <li><span class="placeholder">[Question 1]</span></li>
-            <li><span class="placeholder">[Question 2]</span></li>
+            {% for question in category.questions %}
+            <li>{{question}}</li>
+            {% endfor %}
           </ul>
         </div>
-
-        <!-- Category 2 -->
-        <div class="question-category">
-          <h5><span class="placeholder">[Category Name 2]</span></h5>
-          <ul>
-            <li><span class="placeholder">[Question 1]</span></li>
-          </ul>
-        </div>
-
-        <!-- Add more categories as needed -->
+        {% endfor %}
       </div>
 
       <h4>Example Types of Information Sought (For Reference):</h4>
@@ -348,16 +283,9 @@
     <!-- Appendix -->
     <div class="section">
       <h2>Appendix</h2>
-      <p>
-        <strong>Included:</strong> <span class="placeholder">[Yes/No]</span>
-      </p>
+      <p><strong>Included:</strong> {{appendix.included}}</p>
       <div class="subsection">
-        <p class="placeholder">
-          [List or describe any additional background information, context,
-          legislative language, implementation timelines, survey data, budget
-          information, process maps, procedures, or data summaries to be
-          included.]
-        </p>
+        <p>{{appendix.materials}}</p>
       </div>
     </div>
 
@@ -391,11 +319,9 @@
       "
     >
       <p>
-        <strong
-          ><span class="placeholder">[Name of Agency/Department]</span></strong
-        >
+        <strong>{{header.agency_department}}</strong>
       </p>
-      <p>RFI Document | Issued: <span class="placeholder">[Date]</span></p>
+      <p>RFI Document | Issued: {{header.rfi_issue_date}}</p>
     </div>
   </body>
 </html>

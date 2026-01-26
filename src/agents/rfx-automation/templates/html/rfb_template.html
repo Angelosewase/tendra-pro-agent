@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Request for Bid (RFB)</title>
+    <title>{{metadata.document_type}}</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -60,30 +60,23 @@
           padding: 10px;
         "
       >
-        <span class="placeholder">[AGENCY LOGO]</span>
+        <span>[AGENCY LOGO]</span>
       </div>
-      <h1 class="placeholder">[TITLE]</h1>
-      <h2>Request for Bid (RFB) <span class="placeholder">[NUMBER]</span></h2>
-      <p>
-        <strong>Agency:</strong> <span class="placeholder">[AGENCY NAME]</span>
-      </p>
-      <p>
-        <strong>Issued Date:</strong> <span class="placeholder">[DATE]</span>
-      </p>
+      <h1>{{header.title}}</h1>
+      <h2>{{metadata.document_type}} {{header.number}}</h2>
+      <p><strong>Agency:</strong> {{header.agency_name}}</p>
+      <p><strong>Issued Date:</strong> {{header.issued_date}}</p>
       <p>
         <strong>Responses Due:</strong>
-        <span class="placeholder">[DATE/TIME]</span>
+        {{header.responses_due}}
       </p>
     </div>
 
     <!-- Metadata -->
     <div class="section">
       <h3>Document Information</h3>
-      <p><strong>Document Type:</strong> Request for Bid (RFB)</p>
-      <p>
-        <strong>Purpose:</strong> For competitive bidding on commodities or
-        services where lowest responsive bid typically wins.
-      </p>
+      <p><strong>Document Type:</strong> {{metadata.document_type}}</p>
+      <p><strong>Purpose:</strong> {{metadata.purpose}}</p>
       <p><strong>Usage Notes:</strong></p>
       <ul>
         <li>
@@ -185,10 +178,10 @@
 
       <h3>Purpose and Scope</h3>
       <p>
-        The <span class="placeholder">[PROCURING AGENCY NAME]</span> requests
+        The {{section_1_introduction.purpose_and_scope.description}} requests
         bids for the purchase of
-        <span class="placeholder">[COMMODITY/SERVICE]</span>, and intends to use
-        the results of this process to award a contract.
+        {{section_1_introduction.purpose_and_scope.description}}, and intends to
+        use the results of this process to award a contract.
       </p>
       <p>
         <strong>Guarantees:</strong> No guarantee to purchase any specific
@@ -197,19 +190,17 @@
       </p>
 
       <h3>Overview</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Overview of procuring agency, background, and objectives]
-      </p>
+      <p>{{section_1_introduction.overview}}</p>
 
       <h3>Contract Term</h3>
       <p>
         <strong>Initial Term:</strong>
-        <span class="placeholder">[TERM]</span> years
+        {{section_1_introduction.contract_term.initial_term}} years
       </p>
       <p>
         <strong>Renewal Options:</strong>
-        <span class="placeholder">[NUMBER]</span> additional
-        <span class="placeholder">[RENEWAL]</span>-year periods
+        {{section_1_introduction.contract_term.renewal_options}} additional
+        {{section_1_introduction.contract_term.renewal_options}}-year periods
       </p>
       <p>
         <strong>Effective Date:</strong> Date of execution or purchase order
@@ -247,7 +238,7 @@
       <h3>Cooperative Purchasing</h3>
       <p>
         <strong>Available to Municipalities:</strong>
-        <span class="placeholder">[Yes/No]</span>
+        {{section_1_introduction.cooperative_purchasing.available_to_municipalities}}
       </p>
       <p>
         <strong>Requirements:</strong> Contractor must confirm municipality
@@ -289,17 +280,13 @@
       <h3>Technical Requirements</h3>
       <p>
         <strong>Response Format:</strong>
-        <span class="placeholder"
-          >[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]</span
-        >
+        {{section_3_mandatory_specifications.technical_requirements.response_format}}
       </p>
 
       <h3>Performance and Support Requirements</h3>
       <p>
         <strong>Response Format:</strong>
-        <span class="placeholder"
-          >[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]</span
-        >
+        {{section_3_mandatory_specifications.performance_and_support_requirements.response_format}}
       </p>
     </div>
 
@@ -316,19 +303,20 @@
       </p>
 
       <h3>Orders</h3>
-      <p class="placeholder">[PLACEHOLDER - Order terms and conditions]</p>
+      <p>{{section_4_special_terms_and_conditions.orders}}</p>
 
       <h3>Delivery Requirements</h3>
       <p>
         <strong>Timeframe:</strong>
-        <span class="placeholder">[ASAP/On or Before DATE/By DATE]</span>
+        {{section_4_special_terms_and_conditions.delivery_requirements.timeframe}}
       </p>
       <p><strong>Consequence:</strong> Failure to accept may disqualify bid.</p>
 
       <h3>Duplicates and Over Shipments</h3>
       <p>
         <strong>Removal Timeframe:</strong>
-        <span class="placeholder">[DAYS]</span> business days
+        {{section_4_special_terms_and_conditions.duplicates_and_over_shipments.removal_timeframe}}
+        business days
       </p>
       <p>
         <strong>State Disposal:</strong> If not removed, state may dispose at
@@ -336,22 +324,18 @@
       </p>
 
       <h3>Return Policy</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Return policy for defective or damaged goods]
-      </p>
+      <p>{{section_4_special_terms_and_conditions.return_policy}}</p>
 
       <h3>New and Discontinued Items</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Policy for new and discontinued items]
+      <p>
+        {{section_4_special_terms_and_conditions.new_and_discontinued_items}}
       </p>
 
       <h3>Random Product Sampling</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Random product sampling requirements]
-      </p>
+      <p>{{section_4_special_terms_and_conditions.random_product_sampling}}</p>
 
       <h3>Acceptance Testing</h3>
-      <p class="placeholder">[PLACEHOLDER - Acceptance testing requirements]</p>
+      <p>{{section_4_special_terms_and_conditions.acceptance_testing}}</p>
 
       <h3>Background Checks</h3>
       <p>
@@ -364,20 +348,18 @@
       </p>
 
       <h3>Reporting</h3>
-      <p class="placeholder">[PLACEHOLDER - Reporting requirements]</p>
+      <p>{{section_4_special_terms_and_conditions.reporting}}</p>
 
       <h3>Contract Audit Requirements</h3>
-      <p class="placeholder">[PLACEHOLDER - Contract audit requirements]</p>
+      <p>
+        {{section_4_special_terms_and_conditions.contract_audit_requirements}}
+      </p>
 
       <h3>Liquidated Damages</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Liquidated damages for performance failures]
-      </p>
+      <p>{{section_4_special_terms_and_conditions.liquidated_damages}}</p>
 
       <h3>Tobacco Free Environment</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Tobacco-free environment requirements]
-      </p>
+      <p>{{section_4_special_terms_and_conditions.tobacco_free_environment}}</p>
 
       <h3>Fraternization Work Rules</h3>
       <p>
@@ -388,9 +370,9 @@
       <h3>Payment Terms</h3>
       <p>
         <strong>Condition:</strong> Payment will not be made until
-        <span class="placeholder">[PRODUCT OR SERVICE]</span> meets all
-        specifications and has been accepted by
-        <span class="placeholder">[PROCURING AGENCY]</span>.
+        {{section_4_special_terms_and_conditions.payment_terms.condition}} meets
+        all specifications and has been accepted by
+        {{section_4_special_terms_and_conditions.payment_terms.condition}}.
       </p>
 
       <h3>Third Party Financing</h3>
@@ -411,13 +393,10 @@
       </p>
       <p><strong>Delivery Address:</strong></p>
       <p>
-        <span class="placeholder">[Agency Name]</span><br />
-        <span class="placeholder"
-          >[Agency Division, Bureau Program Manager Name, Title Agency
-          Address]</span
-        ><br />
-        <span class="placeholder">[Agency Address]</span><br />
-        <span class="placeholder">[City, State and Zip Code]</span>
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.agency}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.contact}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.address}}<br />
+        {{section_4_special_terms_and_conditions.safety_data_sheets.delivery_address.city_state_zip}}
       </p>
 
       <h3>Certificates of Insurance</h3>
@@ -432,33 +411,29 @@
       <p><strong>Option 2 (Service):</strong></p>
       <ul>
         <li>
-          <span class="placeholder">[NUMBER]</span> days from Notice of Intent
-          to Award
+          {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.timeframe}}
+          days from Notice of Intent to Award
         </li>
         <li>
-          <span class="placeholder">[NUMBER]</span> additional days to comply
+          {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.extension}}
+          additional days to comply
         </li>
         <li>Failure may result in cancellation of award.</li>
       </ul>
       <p><strong>Delivery Address:</strong></p>
       <p>
-        <span class="placeholder">[Agency Name]</span><br />
-        <span class="placeholder"
-          >[Agency Division, Bureau Program Manager Name, Title Agency
-          Address]</span
-        ><br />
-        <span class="placeholder">[Agency Address]</span><br />
-        <span class="placeholder">[City, State and Zip Code]</span>
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.agency}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.contact}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.address}}<br />
+        {{section_4_special_terms_and_conditions.certificates_of_insurance.option_2_service.delivery_address.city_state_zip}}
       </p>
 
       <h3>High Risk Certificates</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - High risk insurance coverage requirements]
-      </p>
+      <p>{{section_4_special_terms_and_conditions.high_risk_certificates}}</p>
 
       <h3>Access to Secure Facilities</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Access to secure facilities requirements]
+      <p>
+        {{section_4_special_terms_and_conditions.access_to_secure_facilities}}
       </p>
 
       <h3>Cancellation and Termination</h3>
@@ -503,7 +478,7 @@
     <!-- Section 5: Cost Structure -->
     <div class="section">
       <h2>Section 5: Cost Structure</h2>
-      <p class="placeholder">[PLACEHOLDER - Cost structure details]</p>
+      <p>{{section_5_cost_structure.cost_structure}}</p>
 
       <h3>Method of Bid</h3>
       <p>
@@ -527,7 +502,10 @@
           Includes: All packing, freight, insurance charges,
           installation/operation manuals
         </li>
-        <li>Delivery Location: <span class="placeholder">[ADDRESS]</span></li>
+        <li>
+          Delivery Location:
+          {{section_5_cost_structure.fob_destination_options.option_1_freight_prepaid.delivery_location}}
+        </li>
         <li>
           Consequence: Failure to bid FOB DESTINATION will disqualify bid.
         </li>
@@ -543,7 +521,7 @@
         </li>
         <li>
           Installation Locations:
-          <span class="placeholder">[ADDRESS/ADDRESSES]</span>
+          {{section_5_cost_structure.fob_destination_options.option_2_installed.installation_locations}}
         </li>
         <li>
           Requirements: Set in place, demonstrated, approved, debris removed,
@@ -570,17 +548,13 @@
       </p>
 
       <h3>Requesting Price Adjustments</h3>
-      <p class="placeholder">
-        [PLACEHOLDER - Price adjustment request procedures]
-      </p>
+      <p>{{section_5_cost_structure.requesting_price_adjustments}}</p>
     </div>
 
     <!-- Section 6: Bid Procedure -->
     <div class="section">
       <h2>Section 6: Bid Procedure</h2>
-      <p class="placeholder">
-        [PLACEHOLDER - General bid procedure instructions]
-      </p>
+      <p>{{section_6_bid_procedure.bid_procedure}}</p>
 
       <h3>Calendar of Events</h3>
       <table class="event-table">
@@ -591,38 +565,12 @@
           </tr>
         </thead>
         <tbody>
+          {% for event in section_6_bid_procedure.calendar_of_events.events %}
           <tr>
-            <td>Date of Issue of the RFB</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
+            <td>{{event.event}}</td>
+            <td>{{event.date_time}}</td>
           </tr>
-          <tr>
-            <td>Site Visit</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Bidder Conference</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Date Questions Due</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Responses to Questions Posted</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Bids Due from Bidders</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Anticipated Award Date</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
-          <tr>
-            <td>Contract Start Date</td>
-            <td><span class="placeholder">[DATE and TIME]</span></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
       <p><em>Changes posted on Wisconsin eSupplier Portal.</em></p>
@@ -630,7 +578,7 @@
       <h3>Correspondence</h3>
       <p>
         <strong>Question Deadline:</strong>
-        <span class="placeholder">[DATE]</span>
+        {{section_6_bid_procedure.correspondence.question_deadline}}
       </p>
       <p>
         <strong>Notification Requirement:</strong> Bidder must immediately
@@ -639,29 +587,32 @@
       </p>
       <p>
         <strong>Contact Method:</strong> Email preferred:
-        <span class="placeholder">[EMAIL ADDRESS]</span>
+        {{section_6_bid_procedure.correspondence.contact_method}}
       </p>
       <p><strong>Contact Information:</strong></p>
       <p>
         <strong>USPS Address:</strong><br />
-        <span class="placeholder">[AGENCY NAME]</span><br />
-        <span class="placeholder">[AGENCY DIVISION]</span><br />
-        <span class="placeholder">[AGENCY ADDRESS]</span>
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.agency}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.division}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.usps_address.address}}
       </p>
       <p>
         <strong>Common Carrier Address:</strong><br />
-        <span class="placeholder">[AGENCY NAME]</span><br />
-        <span class="placeholder">[AGENCY DIVISION]</span><br />
-        <span class="placeholder">[AGENCY ADDRESS]</span>
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.agency}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.division}}<br />
+        {{section_6_bid_procedure.correspondence.contact_information.common_carrier_address.address}}
       </p>
       <p>
         <strong>Reference Requirement:</strong> All communication must refer to
-        Request for Bid #<span class="placeholder">[RFB#]</span> and be directed
-        to <span class="placeholder">[CONTACT NAME]</span>.
+        Request for Bid
+        #{{section_6_bid_procedure.correspondence.reference_requirement}} and be
+        directed to
+        {{section_6_bid_procedure.correspondence.reference_requirement}}.
       </p>
       <p>
         <strong>Communication Restriction:</strong> No contact with state
-        employees except <span class="placeholder">[CONTACT NAME]</span> from
+        employees except
+        {{section_6_bid_procedure.correspondence.reference_requirement}} from
         RFB release until notice of intent to award.
       </p>
       <p>
@@ -676,9 +627,7 @@
       </p>
       <p>
         <strong>Contact:</strong>
-        <span class="placeholder">[CONTACT NAME]</span>
-        <span class="placeholder">[CONTACT PHONE NUMBER]</span>
-        <span class="placeholder">[EMAIL]</span>
+        {{section_6_bid_procedure.reasonable_accommodations.contact}}
       </p>
 
       <h3>eSupplier Portal Registration</h3>
@@ -693,33 +642,44 @@
       <h3>Pre-Bid Site Visit</h3>
       <p>
         <strong>Requirement:</strong>
-        <span class="placeholder">[SHALL/ARE ENCOURAGED TO]</span> visit job
+        {{section_6_bid_procedure.pre_bid_site_visit.requirement}} visit job
         site
       </p>
       <p>
         <strong>Attendance Requirement:</strong>
-        <span class="placeholder">[SHALL/IS NOT REQUIRED TO]</span> attend for
-        bid consideration
+        {{section_6_bid_procedure.pre_bid_site_visit.attendance_requirement}}
+        attend for bid consideration
       </p>
-      <p><strong>Dates:</strong> <span class="placeholder">[DATE(S)]</span></p>
+      <p>
+        <strong>Dates:</strong>
+        {{section_6_bid_procedure.pre_bid_site_visit.dates}}
+      </p>
       <p>
         <strong>Contact:</strong>
-        <span class="placeholder">[CONTACT PERSON]</span> at
-        <span class="placeholder">[PHONE NUMBER]</span>
+        {{section_6_bid_procedure.pre_bid_site_visit.contact}}
       </p>
 
       <h3>Bidder Conference</h3>
       <p><strong>Details:</strong></p>
       <ul>
-        <li>Time: <span class="placeholder">[TIME]</span></li>
-        <li>Date: <span class="placeholder">[DATE]</span></li>
-        <li>Room: <span class="placeholder">[ROOM]</span></li>
-        <li>Location: <span class="placeholder">[LOCATION]</span></li>
+        <li>
+          Time: {{section_6_bid_procedure.bidder_conference.details.time}}
+        </li>
+        <li>
+          Date: {{section_6_bid_procedure.bidder_conference.details.date}}
+        </li>
+        <li>
+          Room: {{section_6_bid_procedure.bidder_conference.details.room}}
+        </li>
+        <li>
+          Location:
+          {{section_6_bid_procedure.bidder_conference.details.location}}
+        </li>
       </ul>
       <p>
         <strong>Attendance Requirement:</strong>
-        <span class="placeholder">[SHALL/IS NOT REQUIRED TO]</span> attend for
-        bid consideration
+        {{section_6_bid_procedure.bidder_conference.attendance_requirement}}
+        attend for bid consideration
       </p>
       <p>
         <strong>Amendment Note:</strong> Answers and changes posted as amendment
@@ -733,7 +693,7 @@
       <h3>Bid Submission Options</h3>
       <p>
         <strong>Number of Options:</strong>
-        <span class="placeholder">[NUMBER]</span>
+        {{section_6_bid_procedure.bid_submission_options.number_of_options}}
       </p>
 
       <h4>Portal Submission</h4>
@@ -746,29 +706,30 @@
       <h4>Hard Copy Submission</h4>
       <p>
         <strong>Requirement:</strong> Submit original signed bid,
-        <span class="placeholder">[COPIES]</span> hard copies, and
-        <span class="placeholder">[ELECTRONIC]</span> copy
+        {{section_6_bid_procedure.hard_copy_submission.requirement}} hard
+        copies, and {{section_6_bid_procedure.hard_copy_submission.requirement}}
+        copy
       </p>
       <p><strong>Delivery Addresses:</strong></p>
       <p>
         <strong>USPS:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.name}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.agency}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.division}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.address}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.usps.city_state_zip}}
       </p>
       <p>
         <strong>Common Carrier:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.name}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.agency}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.division}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.address}}<br />
+        {{section_6_bid_procedure.hard_copy_submission.delivery_addresses.common_carrier.city_state_zip}}
       </p>
       <p>
-        <strong>Deadline:</strong> <span class="placeholder">[DATE]</span>
-        <span class="placeholder">[TIME]</span> CT
+        <strong>Deadline:</strong>
+        {{section_6_bid_procedure.hard_copy_submission.deadline}} CT
       </p>
       <p><strong>Packaging Requirements:</strong></p>
       <ul>
@@ -793,12 +754,12 @@
       </p>
       <p>
         <strong>Email Address:</strong>
-        <span class="placeholder">[EMAIL ADDRESS]</span>
+        {{section_6_bid_procedure.emailed_bids.email_address}}
       </p>
       <p>
-        <strong>Follow Up:</strong> Required form (DOA-<span class="placeholder"
-          >[XXXX]</span
-        >) must be signed and returned within 1 business day.
+        <strong>Follow Up:</strong> Required form
+        (DOA-{{section_6_bid_procedure.emailed_bids.follow_up}}) must be signed
+        and returned within 1 business day.
       </p>
       <p>
         <strong>Disclaimer:</strong> Proof of transmission doesn't constitute
@@ -808,9 +769,9 @@
       <h3>Bid Response Format</h3>
       <ul>
         <li>
-          Include signed required form (DOA-<span class="placeholder"
-            >[XXXX]</span
-          >) with certifications.
+          Include signed required form
+          (DOA-{{section_6_bid_procedure.emailed_bids.follow_up}}) with
+          certifications.
         </li>
         <li>
           State of Wisconsin Standard Terms and Conditions (DOA-3054) and
@@ -835,16 +796,21 @@
     <!-- Section 7: Bid Acceptance and Award -->
     <div class="section">
       <h2>Section 7: Bid Acceptance and Award</h2>
-      <p class="placeholder">
-        [PLACEHOLDER - General acceptance and award information]
-      </p>
+      <p>{{section_7_bid_acceptance_and_award.acceptance_and_award}}</p>
 
       <h3>Bid Opening</h3>
       <p><strong>Public:</strong> Yes</p>
-      <p><strong>Date:</strong> <span class="placeholder">[DATE]</span></p>
-      <p><strong>Time:</strong> <span class="placeholder">[TIME]</span></p>
       <p>
-        <strong>Location:</strong> <span class="placeholder">[LOCATION]</span>
+        <strong>Date:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.date}}
+      </p>
+      <p>
+        <strong>Time:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.time}}
+      </p>
+      <p>
+        <strong>Location:</strong>
+        {{section_7_bid_acceptance_and_award.bid_opening.location}}
       </p>
       <p>
         <strong>Disclosure:</strong> Names of all bidders may be read aloud.
@@ -853,13 +819,13 @@
       <h3>Bid Review</h3>
       <p>
         <strong>Reviewer:</strong>
-        <span class="placeholder">[PROCURING AGENCY]</span>'s Procurement
+        {{section_7_bid_acceptance_and_award.bid_review.reviewer}}'s Procurement
         Manager
       </p>
       <p>
         <strong>Compliance Determination:</strong>
-        <span class="placeholder">[PROCURING AGENCY]</span> shall be sole judge
-        of compliance.
+        {{section_7_bid_acceptance_and_award.bid_review.compliance_determination}}
+        shall be sole judge of compliance.
       </p>
 
       <h3>Bid Acceptance</h3>
@@ -872,8 +838,8 @@
           Bids not complying with Special Terms and Conditions may be rejected.
         </li>
         <li>
-          <span class="placeholder">[PROCURING AGENCY]</span> retains right to
-          accept or reject any or all bids.
+          {{section_7_bid_acceptance_and_award.bid_acceptance.agency_discretion}}
+          retains right to accept or reject any or all bids.
         </li>
       </ul>
 
@@ -895,7 +861,8 @@
       </p>
       <p>
         <strong>Award Type:</strong>
-        <span class="placeholder">[ONE/MULTIPLE; ONE OR MULTIPLE]</span> bidders
+        {{section_7_bid_acceptance_and_award.method_of_award.award_type}}
+        bidders
       </p>
       <p>
         <strong>Best Interest:</strong> State is sole determinant of its best
@@ -903,11 +870,13 @@
       </p>
       <p>
         <strong>Award Criteria:</strong> Based on
-        <span class="placeholder">[LOW COST FACTOR]</span>, by
-        <span class="placeholder">[VARIABLES]</span>.
+        {{section_7_bid_acceptance_and_award.method_of_award.award_criteria}},
+        by
+        {{section_7_bid_acceptance_and_award.method_of_award.award_criteria}}.
       </p>
       <p>
-        <strong>Notations:</strong> <span class="placeholder">[NOTATIONS]</span>
+        <strong>Notations:</strong>
+        {{section_7_bid_acceptance_and_award.method_of_award.notations}}
       </p>
 
       <h3>Samples</h3>
@@ -921,13 +890,12 @@
       </p>
       <p>
         <strong>Delivery Deadline:</strong>
-        <span class="placeholder">[TIME]</span> on
-        <span class="placeholder">[DATE]</span>
+        {{section_7_bid_acceptance_and_award.samples.delivery_deadline}}
       </p>
       <p>
         <strong>Delivery Address:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[ADDRESS]</span>
+        {{section_7_bid_acceptance_and_award.samples.delivery_address.name}}<br />
+        {{section_7_bid_acceptance_and_award.samples.delivery_address.address}}
       </p>
       <p><strong>Review Process:</strong> All samples reviewed identically.</p>
       <p>
@@ -950,9 +918,19 @@
       <h3>Bidder References</h3>
       <p><strong>Option 1 - Form:</strong></p>
       <ul>
-        <li>Complete DOA-<span class="placeholder">[XXXX]</span></li>
-        <li>Number of references: <span class="placeholder">[NUMBER]</span></li>
-        <li>Timeframe: Last <span class="placeholder">[NUMBER]</span> years</li>
+        <li>
+          Complete
+          DOA-{{section_7_bid_acceptance_and_award.bidder_references.option_1_form.requirement}}
+        </li>
+        <li>
+          Number of references:
+          {{section_7_bid_acceptance_and_award.bidder_references.option_1_form.number_of_references}}
+        </li>
+        <li>
+          Timeframe: Last
+          {{section_7_bid_acceptance_and_award.bidder_references.option_1_form.timeframe}}
+          years
+        </li>
         <li>
           Information required: Company name, Address, Contact person, Email
           address, Telephone number, Brief description of product/service
@@ -965,7 +943,10 @@
       <p><strong>Option 2 - Client List:</strong></p>
       <ul>
         <li>Provide client list</li>
-        <li>Timeframe: Last <span class="placeholder">[HISTORY]</span></li>
+        <li>
+          Timeframe: Last
+          {{section_7_bid_acceptance_and_award.bidder_references.option_2_client_list.timeframe}}
+        </li>
         <li>Information required: Same as Option 1</li>
       </ul>
 
@@ -993,7 +974,7 @@
       </p>
 
       <h3>Supplier Diversity</h3>
-      <p class="placeholder">[PLACEHOLDER - Supplier diversity requirements]</p>
+      <p>{{section_7_bid_acceptance_and_award.supplier_diversity}}</p>
 
       <h3>Minority Owned Business Enterprise</h3>
       <p>
@@ -1062,7 +1043,7 @@
       </p>
 
       <h3>Protest and Appeals</h3>
-      <p class="placeholder">[PLACEHOLDER - Protest and appeals process]</p>
+      <p>{{section_7_bid_acceptance_and_award.protest_and_appeals}}</p>
 
       <h4>Protests</h4>
       <p>
@@ -1080,35 +1061,35 @@
       <p><strong>Filing Addresses:</strong></p>
       <p>
         <strong>Primary US Mail:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_us_mail.city_state_zip}}
       </p>
       <p>
         <strong>Primary Delivery:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.primary_delivery.city_state_zip}}
       </p>
       <p>
         <strong>Copy US Mail:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_us_mail.city_state_zip}}
       </p>
       <p>
         <strong>Copy Delivery:</strong><br />
-        <span class="placeholder">[NAME]</span><br />
-        <span class="placeholder">[AGENCY]</span><br />
-        <span class="placeholder">[DIVISION]</span><br />
-        <span class="placeholder">[ADDRESS]</span><br />
-        <span class="placeholder">[CITY, STATE, ZIP]</span>
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.name}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.agency}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.division}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.address}}<br />
+        {{section_7_bid_acceptance_and_award.protests.filing_addresses.copy_delivery.city_state_zip}}
       </p>
 
       <h4>Appeals</h4>
@@ -1140,7 +1121,7 @@
         <strong>Note:</strong> Forms marked with 'X' must be completed and
         returned with bid response.
       </p>
-      <p class="placeholder">[PLACEHOLDER - List of required forms]</p>
+      <p>{{section_8_required_forms.required_forms}}</p>
     </div>
 
     <!-- Attachments -->
@@ -1148,11 +1129,11 @@
       <h2>Attachments</h2>
       <p>
         <strong>Price Sheet:</strong>
-        <span class="placeholder">[Attachment letter]</span>
+        {{attachments.price_sheet}}
       </p>
       <p>
         <strong>Bid Response Qualifications:</strong>
-        <span class="placeholder">[Attachment letter]</span>
+        {{attachments.bid_response_qualifications}}
       </p>
     </div>
 
