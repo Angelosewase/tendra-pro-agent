@@ -3,7 +3,7 @@ metadata:
   purpose: For competitive bidding on commodities or services where lowest responsive bid typically wins.
 
 header:
-  title: [TITLE]
+  title: "TITLE]
   number: [NUMBER]
   issued_date: [DATE]
   responses_due: [DATE/TIME]
