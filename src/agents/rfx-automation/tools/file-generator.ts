@@ -27,8 +27,8 @@ export class FileGenerator {
 
   constructor(
     outputDir: string = "./output",
-    templatesDir: string = "./templates",
-    htmlTemplatesDir: string = "./templates/html",
+    templatesDir: string = path.join(__dirname, "../templates"),
+    htmlTemplatesDir: string = path.join(__dirname, "../templates/html"),
   ) {
     this.outputDir = outputDir;
     this.templatesDir = templatesDir;
