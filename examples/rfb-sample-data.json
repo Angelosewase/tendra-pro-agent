@@ -1,0 +1,270 @@
+{
+  "metadata": {
+    "document_type": "Request for Bid (RFB)",
+    "purpose": "For competitive bidding on office supplies and equipment"
+  },
+  "header": {
+    "title": "Office Supplies and Equipment Procurement",
+    "number": "RFB-2024-001",
+    "issued_date": "2024-02-15",
+    "responses_due": "2024-03-01 17:00",
+    "agency_name": "Department of Administrative Services"
+  },
+  "section_1_introduction": {
+    "purpose_and_scope": {
+      "description": "Department of Administrative Services, Office Supplies and Equipment"
+    },
+    "overview": "Procuring various office supplies including paper, pens, printer cartridges, and small office equipment for all government departments.",
+    "contract_term": {
+      "initial_term": "2 years",
+      "renewal_options": "2, 1 year each"
+    },
+    "cooperative_purchasing": {
+      "available_to_municipalities": "Yes"
+    },
+    "responding_to_bid_requirements": {
+      "response_format": "See Attachment A - Bid Response Form"
+    }
+  },
+  "section_3_mandatory_specifications": {
+    "technical_requirements": {
+      "response_format": "See Attachment B - Technical Specifications"
+    },
+    "performance_and_support_requirements": {
+      "response_format": "See Attachment C - Performance Requirements"
+    }
+  },
+  "section_4_special_terms_and_conditions": {
+    "orders": "All orders must be placed through the centralized procurement system",
+    "delivery_requirements": {
+      "timeframe": "ASAP"
+    },
+    "duplicates_and_over_shipments": {
+      "removal_timeframe": "30"
+    },
+    "return_policy": "Defective items may be returned within 30 days of delivery",
+    "new_and_discontinued_items": "Contractor must provide 60 days notice for discontinued items",
+    "random_product_sampling": "Agency reserves right to random quality testing",
+    "acceptance_testing": "Items subject to inspection upon delivery",
+    "reporting": "Monthly usage reports required",
+    "contract_audit_requirements": "Annual audit compliance required",
+    "liquidated_damages": "1% per week for late deliveries",
+    "tobacco_free_environment": "All deliveries must comply with tobacco-free policies",
+    "payment_terms": {
+      "condition": "Office Supplies, Department of Administrative Services"
+    },
+    "safety_data_sheets": {
+      "delivery_address": {
+        "agency": "Department of Administrative Services",
+        "contact": "Procurement Division, Manager Jane Smith, Department of Administrative Services",
+        "address": "123 Government Street",
+        "city_state_zip": "Capital City, ST 12345"
+      }
+    },
+    "certificates_of_insurance": {
+      "option_2_service": {
+        "timeframe": "30",
+        "extension": "15",
+        "delivery_address": {
+          "agency": "Department of Administrative Services",
+          "contact": "Risk Management Division, Manager John Doe, Department of Administrative Services",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        }
+      }
+    },
+    "high_risk_certificates": "Minimum $1 million general liability coverage required",
+    "access_to_secure_facilities": "All delivery personnel must pass security clearance"
+  },
+  "section_5_cost_structure": {
+    "cost_structure": "Fixed pricing with annual price adjustment based on CPI",
+    "fob_destination_options": {
+      "option_1_freight_prepaid": {
+        "delivery_location": "Central Warehouse, 456 Storage Ave"
+      },
+      "option_2_installed": {
+        "installation_locations": "Multiple government buildings"
+      }
+    },
+    "requesting_price_adjustments": "Written requests 60 days prior to contract anniversary"
+  },
+  "section_6_bid_procedure": {
+    "bid_procedure": "Electronic bidding through procurement portal",
+    "calendar_of_events": {
+      "events": [
+        {
+          "event": "Date of Issue of the RFB",
+          "date_time": "2024-02-15 09:00"
+        },
+        {
+          "event": "Site Visit",
+          "date_time": "2024-02-20 14:00"
+        },
+        {
+          "event": "Bidder Conference",
+          "date_time": "2024-02-22 10:00"
+        },
+        {
+          "event": "Date Questions Due",
+          "date_time": "2024-02-26 17:00"
+        },
+        {
+          "event": "Responses to Questions Posted",
+          "date_time": "2024-02-28 12:00"
+        },
+        {
+          "event": "Bids Due from Bidders",
+          "date_time": "2024-03-01 17:00"
+        },
+        {
+          "event": "Anticipated Award Date",
+          "date_time": "2024-04-01 16:00"
+        },
+        {
+          "event": "Contract Start Date",
+          "date_time": "2024-04-15 00:00"
+        }
+      ]
+    },
+    "correspondence": {
+      "question_deadline": "2024-02-26",
+      "contact_method": "procurement@agency.gov",
+      "contact_information": {
+        "usps_address": {
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street"
+        },
+        "common_carrier_address": {
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street"
+        }
+      },
+      "reference_requirement": "RFB-2024-001, Jane Smith"
+    },
+    "reasonable_accommodations": {
+      "contact": "Jane Smith, 555-0123, jane.smith@agency.gov"
+    },
+    "pre_bid_site_visit": {
+      "requirement": "ARE ENCOURAGED TO",
+      "attendance_requirement": "IS NOT REQUIRED TO",
+      "dates": "2024-02-20",
+      "contact": "Jane Smith, 555-0123"
+    },
+    "bidder_conference": {
+      "details": {
+        "time": "10:00",
+        "date": "2024-02-22",
+        "room": "Conference Room A",
+        "location": "123 Government Street"
+      },
+      "attendance_requirement": "IS NOT REQUIRED TO"
+    },
+    "bid_submission_options": {
+      "number_of_options": "2"
+    },
+    "hard_copy_submission": {
+      "requirement": "2, ELECTRONIC",
+      "delivery_addresses": {
+        "usps": {
+          "name": "Procurement Office",
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        },
+        "common_carrier": {
+          "name": "Procurement Office",
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        }
+      },
+      "deadline": "2024-03-01, 17:00"
+    },
+    "emailed_bids": {
+      "email_address": "bids@agency.gov",
+      "follow_up": "555-0123"
+    }
+  },
+  "section_7_bid_acceptance_and_award": {
+    "acceptance_and_award": "Lowest responsive and responsible bidder",
+    "bid_opening": {
+      "date": "2024-03-02",
+      "time": "10:00",
+      "location": "Procurement Office"
+    },
+    "bid_review": {
+      "reviewer": "Department of Administrative Services",
+      "compliance_determination": "Department of Administrative Services"
+    },
+    "bid_acceptance": {
+      "agency_discretion": "Department of Administrative Services"
+    },
+    "method_of_award": {
+      "award_type": "ONE",
+      "award_criteria": "LOW COST FACTOR, Quality specifications",
+      "notations": "Award to lowest responsive bidder"
+    },
+    "samples": {
+      "delivery_deadline": "14:00, 2024-03-10",
+      "delivery_address": {
+        "name": "Quality Assurance",
+        "address": "456 Storage Ave"
+      }
+    },
+    "bidder_references": {
+      "option_1_form": {
+        "requirement": "Required",
+        "number_of_references": "3",
+        "timeframe": "5 years"
+      },
+      "option_2_client_list": {
+        "timeframe": "10 years"
+      }
+    },
+    "supplier_diversity": "Minority and women-owned business participation encouraged",
+    "protest_and_appeals": "Formal protest process per agency policy",
+    "protests": {
+      "filing_addresses": {
+        "primary_us_mail": {
+          "name": "Procurement Director",
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        },
+        "primary_delivery": {
+          "name": "Procurement Director",
+          "agency": "Department of Administrative Services",
+          "division": "Procurement Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        },
+        "copy_us_mail": {
+          "name": "Legal Department",
+          "agency": "Department of Administrative Services",
+          "division": "Legal Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        },
+        "copy_delivery": {
+          "name": "Legal Department",
+          "agency": "Department of Administrative Services",
+          "division": "Legal Division",
+          "address": "123 Government Street",
+          "city_state_zip": "Capital City, ST 12345"
+        }
+      }
+    }
+  },
+  "section_8_required_forms": {
+    "required_forms": "See Attachment D - Required Forms"
+  },
+  "attachments": {
+    "price_sheet": "Attachment E",
+    "bid_response_qualifications": "Attachment F"
+  }
+}

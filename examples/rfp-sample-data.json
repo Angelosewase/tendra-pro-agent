@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "document_type": "Request for Proposal (RFP)",
+    "purpose": "For professional services consulting"
+  },
+  "header": {
+    "title": "Management Consulting Services",
+    "number": "RFP-2024-001",
+    "issued_date": "2024-02-15",
+    "responses_due": "2024-03-15 17:00",
+    "agency_name": "Department of Strategic Planning"
+  },
+  "section_1_opportunity": {
+    "overview": "The Department of Strategic Planning seeks management consulting services to support organizational transformation initiatives.",
+    "scope": "Strategic planning, process improvement, change management, and performance optimization services",
+    "objectives": [
+      "Improve operational efficiency",
+      "Enhance customer service delivery",
+      "Modernize business processes",
+      "Develop long-term strategic plan"
+    ]
+  },
+  "section_2_key_information": {
+    "background": "Agency is undergoing major transformation to meet evolving citizen needs and technological changes",
+    "requirements": {
+      "experience": "Minimum 10 years in government consulting",
+      "certifications": "Relevant professional certifications required",
+      "team_size": "Minimum 5 dedicated team members"
+    },
+    "deliverables": [
+      "Strategic plan document",
+      "Process maps",
+      "Implementation roadmap",
+      "Training materials"
+    ],
+    "timeline": {
+      "project_duration": "12 months",
+      "phases": [
+        "Discovery (2 months)",
+        "Analysis (3 months)",
+        "Design (4 months)",
+        "Implementation (3 months)"
+      ]
+    },
+    "evaluation_criteria": {
+      "technical_approach": 40,
+      "experience": 30,
+      "cost": 20,
+      "references": 10
+    }
+  },
+  "section_3_proposal_format": {
+    "structure": [
+      "Executive summary",
+      "Technical approach",
+      "Company qualifications",
+      "Work plan",
+      "Cost proposal",
+      "References"
+    ],
+    "page_limits": {
+      "executive_summary": 5,
+      "technical_approach": 25,
+      "company_qualifications": 15,
+      "work_plan": 20,
+      "cost_proposal": 10,
+      "references": 5
+    },
+    "submission_requirements": {
+      "electronic_format": "PDF",
+      "naming_convention": "AgencyName_RFP-2024-001.pdf",
+      "email_subject": "RFP Response - Management Consulting Services"
+    }
+  },
+  "section_4_administrative": {
+    "contact_information": {
+      "primary_contact": "John Director",
+      "title": "Director of Strategic Planning",
+      "email": "john.director@agency.gov",
+      "phone": "555-0145"
+    },
+    "questions_deadline": "2024-03-01 17:00",
+    "question_procedure": "All questions must be submitted in writing to the primary contact",
+    "site_visit": {
+      "date": "2024-02-25",
+      "time": "14:00",
+      "location": "Agency Headquarters",
+      "attendance": "Optional but recommended"
+    },
+    "award_timeline": {
+      "evaluation_period": "2 weeks",
+      "award_date": "2024-04-01",
+      "contract_start": "2024-04-15"
+    }
+  }
+}

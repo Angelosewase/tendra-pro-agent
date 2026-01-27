@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "document_type": "Request for Quotation (RFQ)",
+    "purpose": "For pricing of specific IT equipment"
+  },
+  "header": {
+    "title": "IT Hardware and Equipment Quotation",
+    "number": "RFQ-2024-001",
+    "issued_date": "2024-02-15",
+    "responses_due": "2024-02-29 17:00",
+    "agency_name": "Department of Information Technology"
+  },
+  "section_1_opportunity": {
+    "overview": "The Department of Information Technology requests quotations for specific IT hardware and equipment as detailed in the specifications.",
+    "requirements": "All items must meet or exceed minimum specifications provided",
+    "delivery": "Delivery required within 30 days of award",
+    "warranty": "Minimum 3-year warranty required"
+  },
+  "section_2_key_information": {
+    "background": "Agency is upgrading IT infrastructure across all departments",
+    "specifications": {
+      "laptops": {
+        "quantity": 50,
+        "min_specs": "Intel i5, 8GB RAM, 256GB SSD"
+      },
+      "desktops": {
+        "quantity": 100,
+        "min_specs": "Intel i7, 16GB RAM, 512GB SSD"
+      },
+      "monitors": { "quantity": 150, "min_specs": "24 inch, 1080p, HDMI" },
+      "printers": {
+        "quantity": 25,
+        "min_specs": "Network capable, color printing"
+      }
+    },
+    "evaluation_criteria": {
+      "price": 60,
+      "specifications": 25,
+      "warranty": 10,
+      "delivery": 5
+    },
+    "terms": {
+      "payment_terms": "Net 30",
+      "delivery_terms": "FOB Destination",
+      "acceptance_criteria": "Items must pass quality inspection"
+    }
+  }
+}

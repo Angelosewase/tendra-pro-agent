@@ -27,8 +27,8 @@ export class FileGenerator {
 
   constructor(
     outputDir: string = "./output",
-    templatesDir: string = "./templates",
-    htmlTemplatesDir: string = "./templates/html",
+    templatesDir: string = path.join(__dirname, "../templates"),
+    htmlTemplatesDir: string = path.join(__dirname, "../templates/html"),
   ) {
     this.outputDir = outputDir;
     this.templatesDir = templatesDir;
@@ -335,6 +335,111 @@ export class FileGenerator {
     return fs
       .readdirSync(this.templatesDir)
       .filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"));
+  }
+
+  public async generatePDFFromUserInput(
+    templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq',
+    userInputValues: any,
+    filename: string,
+    pdfOptions: PDFOptions = {},
+    fillOptions: FillOptions = {}
+  ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
+    try {
+      // Convert user input to flat placeholder values
+      const placeholderValues = this.convertUserInputToPlaceholders(userInputValues);
+      
+      // Use the appropriate generation method based on template type
+      switch (templateType) {
+        case 'rfb':
+          return this.generateRFBPDF(placeholderValues, filename, pdfOptions, fillOptions);
+        case 'rfi':
+          return this.generateRFIPDF(placeholderValues, filename, pdfOptions, fillOptions);
+        case 'rfp':
+          return this.generateRFPPDF(placeholderValues, filename, pdfOptions, fillOptions);
+        case 'rfq':
+          return this.generateRFQPDF(placeholderValues, filename, pdfOptions, fillOptions);
+        default:
+          return {
+            success: false,
+            fillResult: {
+              success: false,
+              errors: [`Unknown template type: ${templateType}`],
+            },
+          };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        fillResult: {
+          success: false,
+          errors: [error instanceof Error ? error.message : "Unknown error"],
+        },
+      };
+    }
+  }
+
+  private convertUserInputToPlaceholders(userInput: any): PlaceholderValues {
+    const flattened: PlaceholderValues = {};
+
+    const flatten = (obj: any, prefix: string = "") => {
+      Object.entries(obj).forEach(([key, value]) => {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+
+        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+          flattened[newKey] = value;
+        } else if (Array.isArray(value)) {
+          flattened[newKey] = value
+            .map((item) =>
+              typeof item === "string" ? item : JSON.stringify(item),
+            )
+            .join(", ");
+        } else if (typeof value === "object" && value !== null) {
+          flatten(value, newKey);
+        }
+      });
+    };
+
+    flatten(userInput);
+    return flattened;
+  }
+
+  public validateUserInput(
+    templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq',
+    userInputValues: any
+  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    const placeholderValues = this.convertUserInputToPlaceholders(userInputValues);
+    
+    switch (templateType) {
+      case 'rfb':
+        return this.validateRFBData(placeholderValues);
+      case 'rfi':
+        return this.validateRFIData(placeholderValues);
+      case 'rfp':
+        return this.validateRFPData(placeholderValues);
+      case 'rfq':
+        return this.validateRFQData(placeholderValues);
+      default:
+        return {
+          valid: false,
+          errors: [`Unknown template type: ${templateType}`],
+          suggestions: []
+        };
+    }
+  }
+
+  public getTemplateStructure(templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq'): any {
+    switch (templateType) {
+      case 'rfb':
+        return this.placeholderFiller.getRFBStructure();
+      case 'rfi':
+        return this.placeholderFiller.getRFIStructure();
+      case 'rfp':
+        return this.placeholderFiller.getRFPStructure();
+      case 'rfq':
+        return this.placeholderFiller.getRFQStructure();
+      default:
+        return null;
+    }
   }
 
   public async generatePDFFromYAML(

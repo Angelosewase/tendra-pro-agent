@@ -1,7 +1,7 @@
 import { TemplateManager, TemplateData, SerializedTemplate } from './template-manager';
 
 export interface PlaceholderValues {
-  [key: string]: string;
+  [key: string]: string | number | boolean | string[] | object;
 }
 
 export interface FillOptions {
@@ -147,7 +147,14 @@ export class PlaceholderFiller {
     }
 
     // Check for empty values
-    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
+    const empty = providedKeys.filter(p => {
+      const value = values[p];
+      if (value === null || value === undefined) return true;
+      if (typeof value === 'string') return value.trim() === '';
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === 'object') return Object.keys(value).length === 0;
+      return false;
+    });
     if (empty.length > 0) {
       errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
     }
@@ -189,7 +196,14 @@ export class PlaceholderFiller {
     }
 
     // Check for empty values
-    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
+    const empty = providedKeys.filter(p => {
+      const value = values[p];
+      if (value === null || value === undefined) return true;
+      if (typeof value === 'string') return value.trim() === '';
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === 'object') return Object.keys(value).length === 0;
+      return false;
+    });
     if (empty.length > 0) {
       errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
     }
@@ -231,7 +245,14 @@ export class PlaceholderFiller {
     }
 
     // Check for empty values
-    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
+    const empty = providedKeys.filter(p => {
+      const value = values[p];
+      if (value === null || value === undefined) return true;
+      if (typeof value === 'string') return value.trim() === '';
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === 'object') return Object.keys(value).length === 0;
+      return false;
+    });
     if (empty.length > 0) {
       errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
     }
@@ -273,7 +294,14 @@ export class PlaceholderFiller {
     }
 
     // Check for empty values
-    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
+    const empty = providedKeys.filter(p => {
+      const value = values[p];
+      if (value === null || value === undefined) return true;
+      if (typeof value === 'string') return value.trim() === '';
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === 'object') return Object.keys(value).length === 0;
+      return false;
+    });
     if (empty.length > 0) {
       errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
     }
@@ -282,6 +310,270 @@ export class PlaceholderFiller {
       valid: errors.length === 0,
       errors,
       suggestions
+    };
+  }
+
+  public fillTemplateData(
+    templateData: TemplateData,
+    values: PlaceholderValues,
+    options: FillOptions = {}
+  ): FillResult {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    const unfilledPlaceholders: string[] = [];
+
+    // Validate required placeholders if specified
+    if (options.validateRequired && options.requiredPlaceholders) {
+      const missing = options.requiredPlaceholders.filter(
+        placeholder => !values.hasOwnProperty(placeholder)
+      );
+      if (missing.length > 0) {
+        errors.push(`Missing required placeholders: ${missing.join(', ')}`);
+      }
+    }
+
+    // Create a deep copy of the template data
+    const filledData = JSON.parse(JSON.stringify(templateData));
+    
+    // Fill placeholders recursively
+    const fillRecursive = (obj: any): any => {
+      if (typeof obj === 'string') {
+        return this.fillStringPlaceholders(
+          obj, 
+          values, 
+          { preserveUnknown: options.preserveUnknownPlaceholders },
+          unfilledPlaceholders
+        );
+      } else if (Array.isArray(obj)) {
+        return obj.map(item => fillRecursive(item));
+      } else if (typeof obj === 'object' && obj !== null) {
+        const result: any = {};
+        Object.entries(obj).forEach(([key, value]) => {
+          result[key] = fillRecursive(value);
+        });
+        return result;
+      }
+      return obj;
+    };
+
+    const processedData = fillRecursive(filledData);
+
+    // Add warnings for unfilled placeholders
+    if (unfilledPlaceholders.length > 0) {
+      warnings.push(`Unfilled placeholders: ${Array.from(new Set(unfilledPlaceholders)).join(', ')}`);
+    }
+
+    return {
+      success: errors.length === 0,
+      filledData: processedData,
+      errors,
+      warnings,
+      unfilledPlaceholders: Array.from(new Set(unfilledPlaceholders))
+    };
+  }
+
+  private extractPlaceholdersFromData(data: unknown, placeholders: string[] = []): string[] {
+    if (typeof data === "string") {
+      // Match both {{placeholder}} and [placeholder] formats
+      const doubleBraceMatches = data.match(/\{\{([^}]+)\}\}/g);
+      const singleBraceMatches = data.match(/\[([^\]]+)\]/g);
+      
+      if (doubleBraceMatches) {
+        // Extract just the key without braces
+        const keys = doubleBraceMatches.map(match => match.slice(2, -2).trim());
+        placeholders.push(...keys);
+      }
+      
+      if (singleBraceMatches) {
+        // Extract just the key without brackets
+        const keys = singleBraceMatches.map(match => match.slice(1, -1).trim());
+        placeholders.push(...keys);
+      }
+    } else if (Array.isArray(data)) {
+      data.forEach((item) => this.extractPlaceholdersFromData(item, placeholders));
+    } else if (typeof data === "object" && data !== null) {
+      Object.values(data).forEach((value) =>
+        this.extractPlaceholdersFromData(value, placeholders),
+      );
+    }
+
+    return Array.from(new Set(placeholders));
+  }
+
+  private fillStringPlaceholders(
+    text: string,
+    values: PlaceholderValues,
+    options: { preserveUnknown?: boolean },
+    unfilledPlaceholders: string[]
+  ): string {
+    let result = text;
+    
+    // Handle {{placeholder}} format
+    const doubleBraceRegex = /\{\{([^}]+)\}\}/g;
+    let match;
+    
+    // Reset regex lastIndex
+    doubleBraceRegex.lastIndex = 0;
+    
+    while ((match = doubleBraceRegex.exec(text)) !== null) {
+      const placeholder = match[1].trim();
+      const fullPlaceholder = match[0];
+      
+      if (values.hasOwnProperty(placeholder)) {
+        const value = values[placeholder];
+        const stringValue = this.convertValueToString(value);
+        result = result.replace(fullPlaceholder, stringValue);
+      } else if (!options.preserveUnknown) {
+        // Only track as unfilled if we're not preserving unknown placeholders
+        unfilledPlaceholders.push(fullPlaceholder);
+      }
+    }
+    
+    // Handle [placeholder] format
+    const singleBraceRegex = /\[([^\]]+)\]/g;
+    singleBraceRegex.lastIndex = 0;
+    
+    while ((match = singleBraceRegex.exec(text)) !== null) {
+      const placeholder = match[1].trim();
+      const fullPlaceholder = match[0];
+      
+      if (values.hasOwnProperty(placeholder)) {
+        const value = values[placeholder];
+        const stringValue = this.convertValueToString(value);
+        result = result.replace(fullPlaceholder, stringValue);
+      } else if (!options.preserveUnknown) {
+        // Only track as unfilled if we're not preserving unknown placeholders
+        unfilledPlaceholders.push(fullPlaceholder);
+      }
+    }
+
+    return result;
+  }
+
+  private convertValueToString(value: any): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    
+    if (typeof value === 'string') {
+      return value;
+    }
+    
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      return value.toString();
+    }
+    
+    if (Array.isArray(value)) {
+      return value.map(item => this.convertValueToString(item)).join(', ');
+    }
+    
+    if (typeof value === 'object') {
+      try {
+        return JSON.stringify(value);
+      } catch {
+        return Object.toString();
+      }
+    }
+    
+    return String(value);
+  }
+
+  // Generic methods that work with any template ID
+  public extractPlaceholders(templateId: string): string[] {
+    const templateData = this.templateManager.getTemplateData(templateId);
+    return templateData ? this.extractPlaceholdersFromData(templateData) : [];
+  }
+
+  public fillTemplate(templateId: string, values: PlaceholderValues, options: FillOptions = {}): FillResult {
+    const templateData = this.templateManager.getTemplateData(templateId);
+    
+    if (!templateData) {
+      return {
+        success: false,
+        errors: [`${templateId} template not found`],
+        warnings: [],
+        unfilledPlaceholders: []
+      };
+    }
+
+    return this.fillTemplateData(templateData, values, options);
+  }
+
+  public validatePlaceholderValues(templateId: string, values: PlaceholderValues): { valid: boolean; errors: string[]; suggestions: string[] } {
+    const template = this.templateManager.getTemplate(templateId);
+    if (!template) {
+      return {
+        valid: false,
+        errors: [`${templateId} template not found`],
+        suggestions: []
+      };
+    }
+
+    const errors: string[] = [];
+    const suggestions: string[] = [];
+    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const providedKeys = Object.keys(values);
+
+    // Check for missing placeholders
+    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    if (missing.length > 0) {
+      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+    }
+
+    // Check for extra values
+    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    if (extra.length > 0) {
+      suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
+    }
+
+    // Check for empty values
+    const empty = providedKeys.filter(p => {
+      const value = values[p];
+      if (value === null || value === undefined) return true;
+      if (typeof value === 'string') return value.trim() === '';
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === 'object') return Object.keys(value).length === 0;
+      return false;
+    });
+    if (empty.length > 0) {
+      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      suggestions
+    };
+  }
+
+  public fillMultipleTemplates(templateIds: string[], values: PlaceholderValues, options: FillOptions = {}): Record<string, FillResult> {
+    const results: Record<string, FillResult> = {};
+    
+    templateIds.forEach(templateId => {
+      results[templateId] = this.fillTemplate(templateId, values, options);
+    });
+    
+    return results;
+  }
+
+  public createFillReport(templateId: string, values: PlaceholderValues): {
+    templateInfo: any;
+    validation: any;
+    fillResult: FillResult;
+  } {
+    const template = this.templateManager.getTemplate(templateId);
+    const validation = this.validatePlaceholderValues(templateId, values);
+    const fillResult = this.fillTemplate(templateId, values);
+
+    return {
+      templateInfo: template ? {
+        id: template.templateId,
+        type: template.templateType,
+        sections: template.metadata.sections,
+        totalPlaceholders: template.placeholders.length
+      } : null,
+      validation,
+      fillResult
     };
   }
 
@@ -427,316 +719,5 @@ export class PlaceholderFiller {
     };
 
     return getStructure(templateData);
-  }
-
-  public createRFBFillReport(values: PlaceholderValues): {
-    templateInfo: any;
-    validation: any;
-    fillResult: FillResult;
-  } {
-    const template = this.templateManager.getRFBTemplate();
-    const validation = this.validateRFBValues(values);
-    const fillResult = this.fillRFBTemplate(values);
-
-    return {
-      templateInfo: template ? {
-        id: template.templateId,
-        type: template.templateType,
-        sections: template.metadata.sections,
-        totalPlaceholders: template.placeholders.length
-      } : null,
-      validation,
-      fillResult
-    };
-  }
-
-  public createRFIFillReport(values: PlaceholderValues): {
-    templateInfo: any;
-    validation: any;
-    fillResult: FillResult;
-  } {
-    const template = this.templateManager.getRFITemplate();
-    const validation = this.validateRFIValues(values);
-    const fillResult = this.fillRFITemplate(values);
-
-    return {
-      templateInfo: template ? {
-        id: template.templateId,
-        type: template.templateType,
-        sections: template.metadata.sections,
-        totalPlaceholders: template.placeholders.length
-      } : null,
-      validation,
-      fillResult
-    };
-  }
-
-  public createRFPFillReport(values: PlaceholderValues): {
-    templateInfo: any;
-    validation: any;
-    fillResult: FillResult;
-  } {
-    const template = this.templateManager.getRFPTemplate();
-    const validation = this.validateRFPValues(values);
-    const fillResult = this.fillRFPTemplate(values);
-
-    return {
-      templateInfo: template ? {
-        id: template.templateId,
-        type: template.templateType,
-        sections: template.metadata.sections,
-        totalPlaceholders: template.placeholders.length
-      } : null,
-      validation,
-      fillResult
-    };
-  }
-
-  public createRFQFillReport(values: PlaceholderValues): {
-    templateInfo: any;
-    validation: any;
-    fillResult: FillResult;
-  } {
-    const template = this.templateManager.getRFQTemplate();
-    const validation = this.validateRFQValues(values);
-    const fillResult = this.fillRFQTemplate(values);
-
-    return {
-      templateInfo: template ? {
-        id: template.templateId,
-        type: template.templateType,
-        sections: template.metadata.sections,
-        totalPlaceholders: template.placeholders.length
-      } : null,
-      validation,
-      fillResult
-    };
-  }
-
-  public fillTemplateData(
-    templateData: TemplateData,
-    values: PlaceholderValues,
-    options: FillOptions = {}
-  ): FillResult {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-    const unfilledPlaceholders: string[] = [];
-
-    // Validate required placeholders if specified
-    if (options.validateRequired && options.requiredPlaceholders) {
-      const missing = options.requiredPlaceholders.filter(
-        placeholder => !values.hasOwnProperty(placeholder)
-      );
-      if (missing.length > 0) {
-        errors.push(`Missing required placeholders: ${missing.join(', ')}`);
-      }
-    }
-
-    // Create a deep copy of the template data
-    const filledData = JSON.parse(JSON.stringify(templateData));
-    
-    // Fill placeholders recursively
-    const fillRecursive = (obj: any): any => {
-      if (typeof obj === 'string') {
-        return this.fillStringPlaceholders(
-          obj, 
-          values, 
-          { preserveUnknown: options.preserveUnknownPlaceholders },
-          unfilledPlaceholders
-        );
-      } else if (Array.isArray(obj)) {
-        return obj.map(item => fillRecursive(item));
-      } else if (typeof obj === 'object' && obj !== null) {
-        const result: any = {};
-        Object.entries(obj).forEach(([key, value]) => {
-          result[key] = fillRecursive(value);
-        });
-        return result;
-      }
-      return obj;
-    };
-
-    const processedData = fillRecursive(filledData);
-
-    // Add warnings for unfilled placeholders
-    if (unfilledPlaceholders.length > 0) {
-      warnings.push(`Unfilled placeholders: ${Array.from(new Set(unfilledPlaceholders)).join(', ')}`);
-    }
-
-    return {
-      success: errors.length === 0,
-      filledData: processedData,
-      errors,
-      warnings,
-      unfilledPlaceholders: Array.from(new Set(unfilledPlaceholders))
-    };
-  }
-
-  private extractPlaceholdersFromData(data: unknown, placeholders: string[] = []): string[] {
-    if (typeof data === "string") {
-      // Match both {{placeholder}} and [placeholder] formats
-      const doubleBraceMatches = data.match(/\{\{([^}]+)\}\}/g);
-      const singleBraceMatches = data.match(/\[([^\]]+)\]/g);
-      
-      if (doubleBraceMatches) {
-        // Extract just the key without braces
-        const keys = doubleBraceMatches.map(match => match.slice(2, -2).trim());
-        placeholders.push(...keys);
-      }
-      
-      if (singleBraceMatches) {
-        // Extract just the key without brackets
-        const keys = singleBraceMatches.map(match => match.slice(1, -1).trim());
-        placeholders.push(...keys);
-      }
-    } else if (Array.isArray(data)) {
-      data.forEach((item) => this.extractPlaceholdersFromData(item, placeholders));
-    } else if (typeof data === "object" && data !== null) {
-      Object.values(data).forEach((value) =>
-        this.extractPlaceholdersFromData(value, placeholders),
-      );
-    }
-
-    return Array.from(new Set(placeholders));
-  }
-
-  private fillStringPlaceholders(
-    text: string,
-    values: PlaceholderValues,
-    options: { preserveUnknown?: boolean },
-    unfilledPlaceholders: string[]
-  ): string {
-    let result = text;
-    
-    // Handle {{placeholder}} format
-    const doubleBraceRegex = /\{\{([^}]+)\}\}/g;
-    let match;
-    
-    // Reset regex lastIndex
-    doubleBraceRegex.lastIndex = 0;
-    
-    while ((match = doubleBraceRegex.exec(text)) !== null) {
-      const placeholder = match[1].trim();
-      const fullPlaceholder = match[0];
-      
-      if (values.hasOwnProperty(placeholder)) {
-        const value = values[placeholder];
-        result = result.replace(fullPlaceholder, value);
-      } else if (!options.preserveUnknown) {
-        // Only track as unfilled if we're not preserving unknown placeholders
-        unfilledPlaceholders.push(fullPlaceholder);
-      }
-    }
-    
-    // Handle [placeholder] format
-    const singleBraceRegex = /\[([^\]]+)\]/g;
-    singleBraceRegex.lastIndex = 0;
-    
-    while ((match = singleBraceRegex.exec(text)) !== null) {
-      const placeholder = match[1].trim();
-      const fullPlaceholder = match[0];
-      
-      if (values.hasOwnProperty(placeholder)) {
-        const value = values[placeholder];
-        result = result.replace(fullPlaceholder, value);
-      } else if (!options.preserveUnknown) {
-        // Only track as unfilled if we're not preserving unknown placeholders
-        unfilledPlaceholders.push(fullPlaceholder);
-      }
-    }
-
-    return result;
-  }
-
-  // Generic methods that work with any template ID
-  public extractPlaceholders(templateId: string): string[] {
-    const templateData = this.templateManager.getTemplateData(templateId);
-    return templateData ? this.extractPlaceholdersFromData(templateData) : [];
-  }
-
-  public fillTemplate(templateId: string, values: PlaceholderValues, options: FillOptions = {}): FillResult {
-    const templateData = this.templateManager.getTemplateData(templateId);
-    
-    if (!templateData) {
-      return {
-        success: false,
-        errors: [`${templateId} template not found`],
-        warnings: [],
-        unfilledPlaceholders: []
-      };
-    }
-
-    return this.fillTemplateData(templateData, values, options);
-  }
-
-  public validatePlaceholderValues(templateId: string, values: PlaceholderValues): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const template = this.templateManager.getTemplate(templateId);
-    if (!template) {
-      return {
-        valid: false,
-        errors: [`${templateId} template not found`],
-        suggestions: []
-      };
-    }
-
-    const errors: string[] = [];
-    const suggestions: string[] = [];
-    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
-    const providedKeys = Object.keys(values);
-
-    // Check for missing placeholders
-    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
-    if (missing.length > 0) {
-      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
-    }
-
-    // Check for extra values
-    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
-    if (extra.length > 0) {
-      suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
-    }
-
-    // Check for empty values
-    const empty = providedKeys.filter(p => !values[p] || values[p].trim() === '');
-    if (empty.length > 0) {
-      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors,
-      suggestions
-    };
-  }
-
-  public fillMultipleTemplates(templateIds: string[], values: PlaceholderValues, options: FillOptions = {}): Record<string, FillResult> {
-    const results: Record<string, FillResult> = {};
-    
-    templateIds.forEach(templateId => {
-      results[templateId] = this.fillTemplate(templateId, values, options);
-    });
-    
-    return results;
-  }
-
-  public createFillReport(templateId: string, values: PlaceholderValues): {
-    templateInfo: any;
-    validation: any;
-    fillResult: FillResult;
-  } {
-    const template = this.templateManager.getTemplate(templateId);
-    const validation = this.validatePlaceholderValues(templateId, values);
-    const fillResult = this.fillTemplate(templateId, values);
-
-    return {
-      templateInfo: template ? {
-        id: template.templateId,
-        type: template.templateType,
-        sections: template.metadata.sections,
-        totalPlaceholders: template.placeholders.length
-      } : null,
-      validation,
-      fillResult
-    };
   }
 }
