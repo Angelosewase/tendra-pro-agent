@@ -1,203 +1,203 @@
 metadata:
-  document_type: Request for Bid (RFB)
-  purpose: For competitive bidding on commodities or services where lowest responsive bid typically wins.
+  document_type: "Request for Bid (RFB)"
+  purpose: "For competitive bidding on commodities or services where lowest responsive bid typically wins."
 
 header:
-  title: "TITLE]
-  number: [NUMBER]
-  issued_date: [DATE]
-  responses_due: [DATE/TIME]
-  agency_name: [AGENCY NAME]
+  title: "[TITLE]"
+  number: "[NUMBER]"
+  issued_date: "[DATE]"
+  responses_due: "[DATE/TIME]"
+  agency_name: "[AGENCY NAME]"
 
 section_1_introduction:
   purpose_and_scope:
-    description: [PROCURING AGENCY NAME], [COMMODITY/SERVICE]
-  overview: [PLACEHOLDER - Overview of procuring agency, background, and objectives]
+    description: "[PROCURING AGENCY NAME], [COMMODITY/SERVICE]"
+  overview: "[PLACEHOLDER - Overview of procuring agency, background, and objectives]"
   contract_term:
-    initial_term: [TERM]
-    renewal_options: [NUMBER], [RENEWAL]
+    initial_term: "[TERM]"
+    renewal_options: "[NUMBER], [RENEWAL]"
   cooperative_purchasing:
-    available_to_municipalities: [Yes/No]
+    available_to_municipalities: "[Yes/No]"
   responding_to_bid_requirements:
-    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
+    response_format: "[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]"
 
 section_3_mandatory_specifications:
   technical_requirements:
-    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
+    response_format: "[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]"
   performance_and_support_requirements:
-    response_format: [INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]
+    response_format: "[INSERT TITLE OF ATTACHMENT OR OTHER INSTRUCTION]"
 
 section_4_special_terms_and_conditions:
-  orders: [PLACEHOLDER - Order terms and conditions]
+  orders: "[PLACEHOLDER - Order terms and conditions]"
   delivery_requirements:
-    timeframe: [ASAP/On or Before DATE/By DATE]
+    timeframe: "[ASAP/On or Before DATE/By DATE]"
   duplicates_and_over_shipments:
-    removal_timeframe: [DAYS]
-  return_policy: [PLACEHOLDER - Return policy for defective or damaged goods]
-  new_and_discontinued_items: [PLACEHOLDER - Policy for new and discontinued items]
-  random_product_sampling: [PLACEHOLDER - Random product sampling requirements]
-  acceptance_testing: [PLACEHOLDER - Acceptance testing requirements]
-  reporting: [PLACEHOLDER - Reporting requirements]
-  contract_audit_requirements: [PLACEHOLDER - Contract audit requirements]
-  liquidated_damages: [PLACEHOLDER - Liquidated damages for performance failures]
-  tobacco_free_environment: [PLACEHOLDER - Tobacco-free environment requirements]
+    removal_timeframe: "[DAYS]"
+  return_policy: "[PLACEHOLDER - Return policy for defective or damaged goods]"
+  new_and_discontinued_items: "[PLACEHOLDER - Policy for new and discontinued items]"
+  random_product_sampling: "[PLACEHOLDER - Random product sampling requirements]"
+  acceptance_testing: "[PLACEHOLDER - Acceptance testing requirements]"
+  reporting: "[PLACEHOLDER - Reporting requirements]"
+  contract_audit_requirements: "[PLACEHOLDER - Contract audit requirements]"
+  liquidated_damages: "[PLACEHOLDER - Liquidated damages for performance failures]"
+  tobacco_free_environment: "[PLACEHOLDER - Tobacco-free environment requirements]"
   payment_terms:
-    condition: [PRODUCT OR SERVICE], [PROCURING AGENCY]
+    condition: "[PRODUCT OR SERVICE], [PROCURING AGENCY]"
   safety_data_sheets:
     delivery_address:
-      agency: [Agency Name]
-      contact: [Agency Division, Bureau Program Manager Name, Title Agency Address]
-      address: [Agency Address]
-      city_state_zip: [City, State and Zip Code]
+      agency: "[Agency Name]"
+      contact: "[Agency Division, Bureau Program Manager Name, Title Agency Address]"
+      address: "[Agency Address]"
+      city_state_zip: "[City, State and Zip Code]"
   certificates_of_insurance:
     option_2_service:
-      timeframe: [NUMBER]
-      extension: [NUMBER]
+      timeframe: "[NUMBER]"
+      extension: "[NUMBER]"
       delivery_address:
-        agency: [Agency Name]
-        contact: [Agency Division, Bureau Program Manager Name, Title Agency Address]
-        address: [Agency Address]
-        city_state_zip: [City, State and Zip Code]
-  high_risk_certificates: [PLACEHOLDER - High risk insurance coverage requirements]
-  access_to_secure_facilities: [PLACEHOLDER - Access to secure facilities requirements]
+        agency: "[Agency Name]"
+        contact: "[Agency Division, Bureau Program Manager Name, Title Agency Address]"
+        address: "[Agency Address]"
+        city_state_zip: "[City, State and Zip Code]"
+  high_risk_certificates: "[PLACEHOLDER - High risk insurance coverage requirements]"
+  access_to_secure_facilities: "[PLACEHOLDER - Access to secure facilities requirements]"
 
 section_5_cost_structure:
-  cost_structure: [PLACEHOLDER - Cost structure details]
+  cost_structure: "[PLACEHOLDER - Cost structure details]"
   fob_destination_options:
     option_1_freight_prepaid:
-      delivery_location: [ADDRESS]
+      delivery_location: "[ADDRESS]"
     option_2_installed:
-      installation_locations: [ADDRESS/ADDRESSES]
-  requesting_price_adjustments: [PLACEHOLDER - Price adjustment request procedures]
+      installation_locations: "[ADDRESS/ADDRESSES]"
+  requesting_price_adjustments: "[PLACEHOLDER - Price adjustment request procedures]"
 
 section_6_bid_procedure:
-  bid_procedure: [PLACEHOLDER - General bid procedure instructions]
+  bid_procedure: "[PLACEHOLDER - General bid procedure instructions]"
   calendar_of_events:
     events:
-      - event: Date of Issue of the RFB
-        date_time: [DATE and TIME]
-      - event: Site Visit
-        date_time: [DATE and TIME]
-      - event: Bidder Conference
-        date_time: [DATE and TIME]
-      - event: Date Questions Due
-        date_time: [DATE and TIME]
-      - event: Responses to Questions Posted
-        date_time: [DATE and TIME]
-      - event: Bids Due from Bidders
-        date_time: [DATE and TIME]
-      - event: Anticipated Award Date
-        date_time: [DATE and TIME]
-      - event: Contract Start Date
-        date_time: [DATE and TIME]
+      - event: "Date of Issue of the RFB"
+        date_time: "[DATE and TIME]"
+      - event: "Site Visit"
+        date_time: "[DATE and TIME]"
+      - event: "Bidder Conference"
+        date_time: "[DATE and TIME]"
+      - event: "Date Questions Due"
+        date_time: "[DATE and TIME]"
+      - event: "Responses to Questions Posted"
+        date_time: "[DATE and TIME]"
+      - event: "Bids Due from Bidders"
+        date_time: "[DATE and TIME]"
+      - event: "Anticipated Award Date"
+        date_time: "[DATE and TIME]"
+      - event: "Contract Start Date"
+        date_time: "[DATE and TIME]"
   correspondence:
-    question_deadline: [DATE]
-    contact_method: [EMAIL ADDRESS]
+    question_deadline: "[DATE]"
+    contact_method: "[EMAIL ADDRESS]"
     contact_information:
       usps_address:
-        agency: [AGENCY NAME]
-        division: [AGENCY DIVISION]
-        address: [AGENCY ADDRESS]
+        agency: "[AGENCY NAME]"
+        division: "[AGENCY DIVISION]"
+        address: "[AGENCY ADDRESS]"
       common_carrier_address:
-        agency: [AGENCY NAME]
-        division: [AGENCY DIVISION]
-        address: [AGENCY ADDRESS]
-    reference_requirement: [RFB#], [CONTACT NAME]
+        agency: "[AGENCY NAME]"
+        division: "[AGENCY DIVISION]"
+        address: "[AGENCY ADDRESS]"
+    reference_requirement: "[RFB#], [CONTACT NAME]"
   reasonable_accommodations:
-    contact: [CONTACT NAME], [CONTACT PHONE NUMBER], [EMAIL]
+    contact: "[CONTACT NAME], [CONTACT PHONE NUMBER], [EMAIL]"
   pre_bid_site_visit:
-    requirement: [SHALL/ARE ENCOURAGED TO]
-    attendance_requirement: [SHALL/IS NOT REQUIRED TO]
-    dates: [DATE(S)]
-    contact: [CONTACT PERSON], [PHONE NUMBER]
+    requirement: "[SHALL/ARE ENCOURAGED TO]"
+    attendance_requirement: "[SHALL/IS NOT REQUIRED TO]"
+    dates: "[DATE(S)]"
+    contact: "[CONTACT PERSON], [PHONE NUMBER]"
   bidder_conference:
     details:
-      time: [TIME]
-      date: [DATE]
-      room: [ROOM]
-      location: [LOCATION]
-    attendance_requirement: [SHALL/IS NOT REQUIRED TO]
+      time: "[TIME]"
+      date: "[DATE]"
+      room: "[ROOM]"
+      location: "[LOCATION]"
+    attendance_requirement: "[SHALL/IS NOT REQUIRED TO]"
   bid_submission_options:
-    number_of_options: [NUMBER]
+    number_of_options: "[NUMBER]"
   hard_copy_submission:
-    requirement: [COPIES], [ELECTRONIC]
+    requirement: "[COPIES], [ELECTRONIC]"
     delivery_addresses:
       usps:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
       common_carrier:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
-    deadline: [DATE], [TIME]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
+    deadline: "[DATE], [TIME]"
   emailed_bids:
-    email_address: [EMAIL ADDRESS]
-    follow_up: [XXXX]
+    email_address: "[EMAIL ADDRESS]"
+    follow_up: "[XXXX]"
 
 section_7_bid_acceptance_and_award:
-  acceptance_and_award: [PLACEHOLDER - General acceptance and award information]
+  acceptance_and_award: "[PLACEHOLDER - General acceptance and award information]"
   bid_opening:
-    date: [DATE]
-    time: [TIME]
-    location: [LOCATION]
+    date: "[DATE]"
+    time: "[TIME]"
+    location: "[LOCATION]"
   bid_review:
-    reviewer: [PROCURING AGENCY]
-    compliance_determination: [PROCURING AGENCY]
+    reviewer: "[PROCURING AGENCY]"
+    compliance_determination: "[PROCURING AGENCY]"
   bid_acceptance:
-    agency_discretion: [PROCURING AGENCY]
+    agency_discretion: "[PROCURING AGENCY]"
   method_of_award:
-    award_type: [ONE/MULTIPLE; ONE OR MULTIPLE]
-    award_criteria: [LOW COST FACTOR], [VARIABLES]
-    notations: [NOTATIONS]
+    award_type: "[ONE/MULTIPLE; ONE OR MULTIPLE]"
+    award_criteria: "[LOW COST FACTOR], [VARIABLES]"
+    notations: "[NOTATIONS]"
   samples:
-    delivery_deadline: [TIME], [DATE]
+    delivery_deadline: "[TIME], [DATE]"
     delivery_address:
-      name: [NAME]
-      address: [ADDRESS]
+      name: "[NAME]"
+      address: "[ADDRESS]"
   bidder_references:
     option_1_form:
-      requirement: [XXXX]
-      number_of_references: [NUMBER]
-      timeframe: [NUMBER]
+      requirement: "[XXXX]"
+      number_of_references: "[NUMBER]"
+      timeframe: "[NUMBER]"
     option_2_client_list:
-      timeframe: [HISTORY]
-  supplier_diversity: [PLACEHOLDER - Supplier diversity requirements]
-  protest_and_appeals: [PLACEHOLDER - Protest and appeals process]
+      timeframe: "[HISTORY]"
+  supplier_diversity: "[PLACEHOLDER - Supplier diversity requirements]"
+  protest_and_appeals: "[PLACEHOLDER - Protest and appeals process]"
   protests:
     filing_addresses:
       primary_us_mail:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
       primary_delivery:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
       copy_us_mail:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
       copy_delivery:
-        name: [NAME]
-        agency: [AGENCY]
-        division: [DIVISION]
-        address: [ADDRESS]
-        city_state_zip: [CITY, STATE, ZIP]
+        name: "[NAME]"
+        agency: "[AGENCY]"
+        division: "[DIVISION]"
+        address: "[ADDRESS]"
+        city_state_zip: "[CITY, STATE, ZIP]"
 
 section_8_required_forms:
-  required_forms: [PLACEHOLDER - List of required forms]
+  required_forms: "[PLACEHOLDER - List of required forms]"
 
 attachments:
-  price_sheet: [Attachment letter]
-  bid_response_qualifications: [Attachment letter]
+  price_sheet: "[Attachment letter]"
+  bid_response_qualifications: "[Attachment letter]"

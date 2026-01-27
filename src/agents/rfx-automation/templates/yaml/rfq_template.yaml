@@ -1,144 +1,144 @@
 header:
-  agency_name: [Insert full legal name of government agency/buyer]
-  procurement_title: [Insert name of procurement]
-  reference_number: [Procurement reference number]
-  rfa_released_date: [DD MM YY]
-  deadline_questions: [TIME DD MM YY]
-  deadline_quotes: [TIME DD MM YY]
+  agency_name: "[Insert full legal name of government agency/buyer]"
+  procurement_title: "[Insert name of procurement]"
+  reference_number: "[Procurement reference number]"
+  rfa_released_date: "[DD MM YY]"
+  deadline_questions: "[TIME DD MM YY]"
+  deadline_quotes: "[TIME DD MM YY]"
   buyer_contact:
-    name: [Name of buyer contact]
-    website: [Website]
-    street_address: [Street address]
-    city: [City]
+    name: "[Name of buyer contact]"
+    website: "[Website]"
+    street_address: "[Street address]"
+    city: "[City]"
 
 section_1_opportunity:
-  summary: [Short, concise summary to help suppliers decide if they are the right fit. Keep to 1-2 pages maximum.]
+  summary: "[Short, concise summary to help suppliers decide if they are the right fit. Keep to 1-2 pages maximum.]"
   what_we_need:
-    description: [Summarize what you are looking to procure in 1-2 paragraphs. Include background if relevant.]
+    description: "[Summarize what you are looking to procure in 1-2 paragraphs. Include background if relevant.]"
   what_we_dont_want:
-    included: [Yes/No]
-    description: [Include only if there are outcomes or tasks you don't want]
+    included: "[Yes/No]"
+    description: "[Include only if there are outcomes or tasks you don't want]"
   timeframe:
-    description: [Approximate timeframe for delivery]
+    description: "[Approximate timeframe for delivery]"
   why_quote:
-    motivation: [Motivate suppliers to quote. What is the opportunity for the supplier?]
+    motivation: "[Motivate suppliers to quote. What is the opportunity for the supplier?]"
 
 section_2_key_information:
   timeline:
     events:
-      - event: Deadline for Questions from Respondents
-        date_time: [time] [DD MM YY]
-      - event: Deadline for us to answer questions
-        date: [DD MM YY]
-      - event: Deadline for Quotes
-        date_time: [time] [DD MM YY]
-      - event: Expected start date of Contract
-        date: [DD MM YY]
-    additional_items: [Add any other timeline items, clearly indicating which are indicative only]
+      - event: "Deadline for Questions from Respondents"
+        date_time: "[time] [DD MM YY]"
+      - event: "Deadline for us to answer questions"
+        date: "[DD MM YY]"
+      - event: "Deadline for Quotes"
+        date_time: "[time] [DD MM YY]"
+      - event: "Expected start date of Contract"
+        date: "[DD MM YY]"
+    additional_items: "[Add any other timeline items, clearly indicating which are indicative only]"
   contact_information:
-    method: [Contact through Point of Contact via email or Government Electronic Tenders Service (GETS)]
+    method: "[Contact through Point of Contact via email or Government Electronic Tenders Service (GETS)]"
     point_of_contact:
-      name: [Name of contact person]
-      title_role: [Title/role and unit they work in]
-      email: [Email address]
-      gets_note: [Delete if not applicable, e.g., if all contact is via GETS]
+      name: "[Name of contact person]"
+      title_role: "[Title/role and unit they work in]"
+      email: "[Email address]"
+      gets_note: "[Delete if not applicable, e.g., if all contact is via GETS]"
   submission_address:
-    method: [Email address or GETS in-box address]
-    two_envelope_system: [Optional: Include if using two-envelope system]
+    method: "[Email address or GETS in-box address]"
+    two_envelope_system: "[Optional: Include if using two-envelope system]"
   rfa_terms:
-    offer_validity_period: [Number]
+    offer_validity_period: "[Number]"
   changes_process:
-    method: [Placing notice on GETS or contacting Respondents by email]
+    method: "[Placing notice on GETS or contacting Respondents by email]"
 
 section_3_requirements:
   what_we_are_buying:
     items:
-      - type: [goods/services/both]
-        description: [Description with quantities if possible]
+      - type: "[goods/services/both]"
+        description: "[Description with quantities if possible]"
   supplier_requirements:
-    track_record: [Describe required experience or track record]
-    capability: [Describe required skills or capability]
-    capacity: [Describe required processes, timeline or capacity]
-    solution: [Describe specific solution(s) required]
-    timeframe: [Describe delivery timeframe]
-    economic_benefits: [Describe economic benefits required]
+    track_record: "[Describe required experience or track record]"
+    capability: "[Describe required skills or capability]"
+    capacity: "[Describe required processes, timeline or capacity]"
+    solution: "[Describe specific solution(s) required]"
+    timeframe: "[Describe delivery timeframe]"
+    economic_benefits: "[Describe economic benefits required]"
   key_deliverables:
     items:
-      - description: [First key deliverable/milestone/outcome]
-        indicative_date: [Delivery date]
+      - description: "[First key deliverable/milestone/outcome]"
+        indicative_date: "[Delivery date]"
   contract_term:
-    commencement: [Month and year]
+    commencement: "[Month and year]"
     terms:
-      - description: Initial term of the Contract
-        years: [Number of years]
-      - description: Options for us to extend the Contract
-        details: [e.g., up to two extensions of one year each]
-      - description: Maximum term of the Contract
-        years: [Number of years]
-    standing_arrangement: [Optional: Include if requiring standing arrangement for additional orders]
+      - description: "Initial term of the Contract"
+        years: "[Number of years]"
+      - description: "Options for us to extend the Contract"
+        details: "[e.g., up to two extensions of one year each]"
+      - description: "Maximum term of the Contract"
+        years: "[Number of years]"
+    standing_arrangement: "[Optional: Include if requiring standing arrangement for additional orders]"
   delivery_locations:
     locations:
-      - location: [Address]
-        delivery_details: [What is being delivered here?]
+      - location: "[Address]"
+        delivery_details: "[What is being delivered here?]"
 
 section_4_evaluation_approach:
   preconditions:
-    included: [Yes/No]
+    included: "[Yes/No]"
     conditions:
       - number: 1
-        description: [Pre-condition that must be met]
+        description: "[Pre-condition that must be met]"
   evaluation_model:
     options:
-      - name: Lowest price conforming
-        selected: [Yes/No]
-      - name: Simple score
-        selected: [Yes/No]
-      - name: Weighted attribute
-        selected: [Yes/No]
+      - name: "Lowest price conforming"
+        selected: "[Yes/No]"
+      - name: "Simple score"
+        selected: "[Yes/No]"
+      - name: "Weighted attribute"
+        selected: "[Yes/No]"
     two_envelope_system:
-      used: [Yes/No]
-      description: [Include if price could significantly vary and skew evaluation]
+      used: "[Yes/No]"
+      description: "[Include if price could significantly vary and skew evaluation]"
   economic_benefits_evaluation:
-    description: [Details of economic benefits sought in this procurement]
+    description: "[Details of economic benefits sought in this procurement]"
   evaluation_criteria:
     criteria:
-      - criterion: Price
-        weighting: [xx%]
-      - criterion: Suitability of goods/service
-        weighting: [xx%]
-      - criterion: Capability of the Respondent to deliver
-        weighting: [xx%]
-      - criterion: Capacity of the Respondent to deliver
-        weighting: [xx%]
-      - criterion: Timeframe
-        weighting: [xx%]
-      - criterion: Economic Benefits to New Zealand
-        weighting: [≥10%]
+      - criterion: "Price"
+        weighting: "[xx%]"
+      - criterion: "Suitability of goods/service"
+        weighting: "[xx%]"
+      - criterion: "Capability of the Respondent to deliver"
+        weighting: "[xx%]"
+      - criterion: "Capacity of the Respondent to deliver"
+        weighting: "[xx%]"
+      - criterion: "Timeframe"
+        weighting: "[xx%]"
+      - criterion: "Economic Benefits to New Zealand"
+        weighting: "[≥10%]"
   due_diligence:
     checks:
-      - [Reference check Respondent organization and named personnel]
-      - [Check against Companies Office, NZBN]
-      - [Interview Respondents]
-      - [Test products]
-      - [Inspect audited accounts for last three financial years]
-      - [Undertake credit check]
+      - "[Reference check Respondent organization and named personnel]"
+      - "[Check against Companies Office, NZBN]"
+      - "[Interview Respondents]"
+      - "[Test products]"
+      - "[Inspect audited accounts for last three financial years]"
+      - "[Undertake credit check]"
 
 section_5_proposed_contract:
-  contract_type: [Specify type of contract]
-  attachment_method: [Attached here or submitted via GETS]
+  contract_type: "[Specify type of contract]"
+  attachment_method: "[Attached here or submitted via GETS]"
 
 section_6_rfa_terms:
-  terms_document: RFQ Terms and Conditions
-  date: [Date]
-  url: [URL to RFQ Terms document]
+  terms_document: "RFQ Terms and Conditions"
+  date: "[Date]"
+  url: "[URL to RFQ Terms document]"
 
 section_8_government_policies:
   policies:
-    - name: Allocation of Risk - Liability
-      description: [multiple]
+    - name: "Allocation of Risk - Liability"
+      description: "[multiple]"
 
 appendix:
-  proposed_contract: [Attach Proposed Contract document]
+  proposed_contract: "[Attach Proposed Contract document]"
   additional_attachments:
-    - name: [Attachment 1 name]
-      description: [Description]
+    - name: "[Attachment 1 name]"
+      description: "[Description]"
