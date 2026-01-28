@@ -120,8 +120,8 @@ export class PlaceholderFiller {
   public validateRFBValues(
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const template = this.templateManager.getRFBTemplate();
-    if (!template) {
+    const templateData = this.templateManager.getRFBTemplateData();
+    if (!templateData) {
       return {
         valid: false,
         errors: ["RFB template not found"],
@@ -131,17 +131,17 @@ export class PlaceholderFiller {
 
     const errors: string[] = [];
     const suggestions: string[] = [];
-    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const templateKeyPaths = this.extractPlaceholdersFromData(templateData);
     const providedKeys = Object.keys(values);
 
-    // Check for missing placeholders
-    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    // Check for missing key paths
+    const missing = templateKeyPaths.filter(p => !providedKeys.includes(p));
     if (missing.length > 0) {
-      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+      errors.push(`Missing values for: ${missing.join(', ')}`);
     }
 
     // Check for extra values
-    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    const extra = providedKeys.filter(p => !templateKeyPaths.includes(p));
     if (extra.length > 0) {
       suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
     }
@@ -156,7 +156,7 @@ export class PlaceholderFiller {
       return false;
     });
     if (empty.length > 0) {
-      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+      errors.push(`Empty values for: ${empty.join(', ')}`);
     }
 
     return {
@@ -169,8 +169,8 @@ export class PlaceholderFiller {
   public validateRFIValues(
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const template = this.templateManager.getRFITemplate();
-    if (!template) {
+    const templateData = this.templateManager.getRFITemplateData();
+    if (!templateData) {
       return {
         valid: false,
         errors: ["RFI template not found"],
@@ -180,17 +180,17 @@ export class PlaceholderFiller {
 
     const errors: string[] = [];
     const suggestions: string[] = [];
-    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const templateKeyPaths = this.extractPlaceholdersFromData(templateData);
     const providedKeys = Object.keys(values);
 
-    // Check for missing placeholders
-    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    // Check for missing key paths
+    const missing = templateKeyPaths.filter(p => !providedKeys.includes(p));
     if (missing.length > 0) {
-      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+      errors.push(`Missing values for: ${missing.join(', ')}`);
     }
 
     // Check for extra values
-    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    const extra = providedKeys.filter(p => !templateKeyPaths.includes(p));
     if (extra.length > 0) {
       suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
     }
@@ -205,7 +205,7 @@ export class PlaceholderFiller {
       return false;
     });
     if (empty.length > 0) {
-      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+      errors.push(`Empty values for: ${empty.join(', ')}`);
     }
 
     return {
@@ -218,8 +218,8 @@ export class PlaceholderFiller {
   public validateRFPValues(
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const template = this.templateManager.getRFPTemplate();
-    if (!template) {
+    const templateData = this.templateManager.getRFPTemplateData();
+    if (!templateData) {
       return {
         valid: false,
         errors: ["RFP template not found"],
@@ -229,17 +229,17 @@ export class PlaceholderFiller {
 
     const errors: string[] = [];
     const suggestions: string[] = [];
-    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const templateKeyPaths = this.extractPlaceholdersFromData(templateData);
     const providedKeys = Object.keys(values);
 
-    // Check for missing placeholders
-    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    // Check for missing key paths
+    const missing = templateKeyPaths.filter(p => !providedKeys.includes(p));
     if (missing.length > 0) {
-      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+      errors.push(`Missing values for: ${missing.join(', ')}`);
     }
 
     // Check for extra values
-    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    const extra = providedKeys.filter(p => !templateKeyPaths.includes(p));
     if (extra.length > 0) {
       suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
     }
@@ -254,7 +254,7 @@ export class PlaceholderFiller {
       return false;
     });
     if (empty.length > 0) {
-      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+      errors.push(`Empty values for: ${empty.join(', ')}`);
     }
 
     return {
@@ -267,8 +267,8 @@ export class PlaceholderFiller {
   public validateRFQValues(
     values: PlaceholderValues
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const template = this.templateManager.getRFQTemplate();
-    if (!template) {
+    const templateData = this.templateManager.getRFQTemplateData();
+    if (!templateData) {
       return {
         valid: false,
         errors: ["RFQ template not found"],
@@ -278,17 +278,17 @@ export class PlaceholderFiller {
 
     const errors: string[] = [];
     const suggestions: string[] = [];
-    const templatePlaceholders = template.placeholders.map(p => p.replace(/[\[\]\{\}]/g, '').trim());
+    const templateKeyPaths = this.extractPlaceholdersFromData(templateData);
     const providedKeys = Object.keys(values);
 
-    // Check for missing placeholders
-    const missing = templatePlaceholders.filter(p => !providedKeys.includes(p));
+    // Check for missing key paths
+    const missing = templateKeyPaths.filter(p => !providedKeys.includes(p));
     if (missing.length > 0) {
-      errors.push(`Missing values for placeholders: ${missing.join(', ')}`);
+      errors.push(`Missing values for: ${missing.join(', ')}`);
     }
 
     // Check for extra values
-    const extra = providedKeys.filter(p => !templatePlaceholders.includes(p));
+    const extra = providedKeys.filter(p => !templateKeyPaths.includes(p));
     if (extra.length > 0) {
       suggestions.push(`Extra values provided (not in template): ${extra.join(', ')}`);
     }
@@ -303,7 +303,7 @@ export class PlaceholderFiller {
       return false;
     });
     if (empty.length > 0) {
-      errors.push(`Empty values for placeholders: ${empty.join(', ')}`);
+      errors.push(`Empty values for: ${empty.join(', ')}`);
     }
 
     return {
@@ -373,27 +373,31 @@ export class PlaceholderFiller {
   }
 
   private extractPlaceholdersFromData(data: unknown, placeholders: string[] = []): string[] {
+    return this.extractPlaceholdersFromDataRecursive(data, [], placeholders);
+  }
+
+  private extractPlaceholdersFromDataRecursive(
+    data: unknown, 
+    currentPath: string[], 
+    placeholders: string[]
+  ): string[] {
     if (typeof data === "string") {
       // Match both {{placeholder}} and [placeholder] formats
       const doubleBraceMatches = data.match(/\{\{([^}]+)\}\}/g);
       const singleBraceMatches = data.match(/\[([^\]]+)\]/g);
       
-      if (doubleBraceMatches) {
-        // Extract just the key without braces
-        const keys = doubleBraceMatches.map(match => match.slice(2, -2).trim());
-        placeholders.push(...keys);
-      }
-      
-      if (singleBraceMatches) {
-        // Extract just the key without brackets
-        const keys = singleBraceMatches.map(match => match.slice(1, -1).trim());
-        placeholders.push(...keys);
+      if (doubleBraceMatches || singleBraceMatches) {
+        // This string contains placeholders, add the full path to this location
+        const fullPath = currentPath.join('.');
+        placeholders.push(fullPath);
       }
     } else if (Array.isArray(data)) {
-      data.forEach((item) => this.extractPlaceholdersFromData(item, placeholders));
+      data.forEach((item, index) =>
+        this.extractPlaceholdersFromDataRecursive(item, [...currentPath, index.toString()], placeholders)
+      );
     } else if (typeof data === "object" && data !== null) {
-      Object.values(data).forEach((value) =>
-        this.extractPlaceholdersFromData(value, placeholders),
+      Object.entries(data).forEach(([key, value]) =>
+        this.extractPlaceholdersFromDataRecursive(value, [...currentPath, key], placeholders)
       );
     }
 
