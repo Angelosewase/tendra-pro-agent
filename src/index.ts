@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { logger } from './middleware/logger'
 import { errorHandler } from './middleware/errorHandler'
 import supplierSourcingRoutes from './routes/supplier-sourcing'
+import rfxAutomationRoutes from './routes/rfx-automation'
 
 const app = new Hono()
 
@@ -27,5 +28,6 @@ app.get('/health', (c) => {
 
 // API Routes
 app.route('/api/supplier-sourcing', supplierSourcingRoutes)
+app.route('/api/rfx-automation', rfxAutomationRoutes)
 
 export default app
