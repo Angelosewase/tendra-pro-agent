@@ -14,7 +14,13 @@ export class SpecsGenerator {
       z.object({
         id: z.string(),
         title: z.string(),
-        category: z.enum(["technical", "functional", "performance", "quality", "compliance"]),
+        category: z.enum([
+          "technical",
+          "functional",
+          "performance",
+          "quality",
+          "compliance",
+        ]),
         description: z.string(),
         requirements: z.array(z.string()),
         acceptanceCriteria: z.array(z.string()),
@@ -23,7 +29,7 @@ export class SpecsGenerator {
         measurable: z.boolean(),
         metrics: z.array(z.string()),
         references: z.array(z.string()),
-      })
+      }),
     ),
     deliverables: z.array(
       z.object({
@@ -34,7 +40,7 @@ export class SpecsGenerator {
         format: z.string(),
         deliverySchedule: z.string(),
         acceptanceCriteria: z.array(z.string()),
-      })
+      }),
     ),
     standards: z.array(
       z.object({
@@ -45,7 +51,7 @@ export class SpecsGenerator {
         category: z.string(),
         applicability: z.array(z.string()),
         complianceLevel: z.enum(["mandatory", "recommended", "reference"]),
-      })
+      }),
     ),
   });
 
@@ -58,7 +64,7 @@ export class SpecsGenerator {
 
     this.model = new ChatOpenAI({
       temperature: options?.temperature ?? 0,
-      model: "mistralai/devstral-2512:free",
+      model: "openai/gpt-oss-120b:free",
       configuration: {
         baseURL: "https://openrouter.ai/api/v1",
         defaultHeaders: {
@@ -116,18 +122,25 @@ export class SpecsGenerator {
       query += ` complying with standards: ${params.standards.join(", ")}`;
     }
 
-    query += ". Return structured JSON that strictly matches the schema with detailed specifications, deliverables, and applicable standards.";
+    query +=
+      ". Return structured JSON that strictly matches the schema with detailed specifications, deliverables, and applicable standards.";
 
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are a technical specifications expert. Always return valid JSON matching the schema. Generate comprehensive, measurable, and testable specifications."
+          "You are a technical specifications expert. Always return valid JSON matching the schema. Generate comprehensive, measurable, and testable specifications.",
         ),
         new HumanMessage(query),
       ],
     });
 
-    return result.structuredResponse || { specifications: [], deliverables: [], standards: [] };
+    return (
+      result.structuredResponse || {
+        specifications: [],
+        deliverables: [],
+        standards: [],
+      }
+    );
   }
 
   async generateFromRFXRequest(rfxRequest: any) {
@@ -151,16 +164,25 @@ export class SpecsGenerator {
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are an expert technical specifier and procurement specialist. Analyze the RFX request and generate comprehensive technical specifications that clearly define requirements, acceptance criteria, and testing methods."
+          "You are an expert technical specifier and procurement specialist. Analyze the RFX request and generate comprehensive technical specifications that clearly define requirements, acceptance criteria, and testing methods.",
         ),
         new HumanMessage(query),
       ],
     });
 
-    return result.structuredResponse || { specifications: [], deliverables: [], standards: [] };
+    return (
+      result.structuredResponse || {
+        specifications: [],
+        deliverables: [],
+        standards: [],
+      }
+    );
   }
 
-  async enhanceSpecifications(existingSpecs: string[], additionalRequirements: string[]) {
+  async enhanceSpecifications(
+    existingSpecs: string[],
+    additionalRequirements: string[],
+  ) {
     if (!this.executor) {
       throw new Error("Agent not initialized. Call initialize() first.");
     }
@@ -183,13 +205,19 @@ export class SpecsGenerator {
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are a specifications enhancement expert. Improve existing specifications by adding missing details, ensuring measurability, and incorporating best practices."
+          "You are a specifications enhancement expert. Improve existing specifications by adding missing details, ensuring measurability, and incorporating best practices.",
         ),
         new HumanMessage(query),
       ],
     });
 
-    return result.structuredResponse || { specifications: [], deliverables: [], standards: [] };
+    return (
+      result.structuredResponse || {
+        specifications: [],
+        deliverables: [],
+        standards: [],
+      }
+    );
   }
 
   async validateSpecification(spec: string, context: any) {
@@ -217,7 +245,7 @@ export class SpecsGenerator {
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are a specifications validation expert. Analyze specifications for quality, completeness, and compliance with best practices."
+          "You are a specifications validation expert. Analyze specifications for quality, completeness, and compliance with best practices.",
         ),
         new HumanMessage(query),
       ],
@@ -226,7 +254,10 @@ export class SpecsGenerator {
     return result.structuredResponse;
   }
 
-  async generateComplianceMatrix(specifications: string[], standards: string[]) {
+  async generateComplianceMatrix(
+    specifications: string[],
+    standards: string[],
+  ) {
     if (!this.executor) {
       throw new Error("Agent not initialized. Call initialize() first.");
     }
@@ -248,7 +279,7 @@ export class SpecsGenerator {
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are a compliance expert. Analyze specifications against standards and create comprehensive compliance matrices."
+          "You are a compliance expert. Analyze specifications against standards and create comprehensive compliance matrices.",
         ),
         new HumanMessage(query),
       ],
@@ -260,5 +291,13 @@ export class SpecsGenerator {
   async healthCheck(): Promise<boolean> {
     const res = await this.model.invoke("Say OK");
     return res.content.toString().includes("OK");
+  }
+
+  // Simple test method to check AI response
+  async testBasicResponse(): Promise<string> {
+    const result = await this.executor.invoke({
+      messages: [new SystemMessage("provide template values for dummy values for the given schema")],
+    });
+    return result.structuredResponse();
   }
 }
