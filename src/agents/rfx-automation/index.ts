@@ -11,6 +11,8 @@ import {
   PlaceholderFiller,
   PlaceholderValues,
 } from "./tools/fill-placeholders";
+import { ClausePolicyGenerator } from "./tools/clause-policy-generator";
+import { SpecsGenerator } from "./tools/specs-generator";
 
 export interface RFXRequest {
   documentType: "rfb" | "rfi" | "rfp" | "rfq";
@@ -28,6 +30,11 @@ export interface RFXRequest {
   };
   timeline?: string;
   location?: string;
+  generatedSpecifications?: any[];
+  generatedDeliverables?: any[];
+  applicableStandards?: any[];
+  generatedClauses?: any[];
+  generatedPolicies?: any[];
 }
 
 export interface RFXDocument {
@@ -60,12 +67,16 @@ export class RFXAutomationAgent {
   private templateManager: TemplateManager;
   private fileGenerator: FileGenerator;
   private placeholderFiller: PlaceholderFiller;
+  private clausePolicyGenerator: ClausePolicyGenerator;
+  private specsGenerator: SpecsGenerator;
 
   constructor() {
     this.graph = new StateGraph(RFXAutomationStateSchema);
     this.templateManager = new TemplateManager();
     this.fileGenerator = new FileGenerator();
     this.placeholderFiller = new PlaceholderFiller(this.templateManager);
+    this.clausePolicyGenerator = new ClausePolicyGenerator();
+    this.specsGenerator = new SpecsGenerator();
 
     this.setupNodes();
     this.setupEdges();
@@ -73,6 +84,8 @@ export class RFXAutomationAgent {
 
   private setupNodes() {
     this.graph.addNode("validate_request", this.validateRequest.bind(this));
+    this.graph.addNode("generate_specifications", this.generateSpecifications.bind(this));
+    this.graph.addNode("generate_clauses", this.generateClauses.bind(this));
     this.graph.addNode("prepare_template", this.prepareTemplate.bind(this));
     this.graph.addNode("generate_document", this.generateDocument.bind(this));
     this.graph.addNode("finalize_result", this.finalizeResult.bind(this));
@@ -80,7 +93,9 @@ export class RFXAutomationAgent {
 
   private setupEdges() {
     this.graph.addEdge(START, "validate_request" as any);
-    this.graph.addEdge("validate_request" as any, "prepare_template" as any);
+    this.graph.addEdge("validate_request" as any, "generate_specifications" as any);
+    this.graph.addEdge("generate_specifications" as any, "generate_clauses" as any);
+    this.graph.addEdge("generate_clauses" as any, "prepare_template" as any);
     this.graph.addEdge("prepare_template" as any, "generate_document" as any);
     this.graph.addEdge("generate_document" as any, "finalize_result" as any);
     this.graph.addEdge("finalize_result" as any, END);
@@ -158,6 +173,87 @@ export class RFXAutomationAgent {
         messages: [
           ...state.messages,
           new SystemMessage(`Error validating request: ${error}`),
+        ],
+      };
+    }
+  }
+
+  private async generateSpecifications(
+    state: RFXAutomationState,
+  ): Promise<Partial<RFXAutomationState>> {
+    const { request } = state;
+
+    try {
+      // Initialize the specs generator if not already done
+      await this.specsGenerator.initialize();
+
+      // Generate specifications based on the RFX request
+      const specsResult = await this.specsGenerator.generateFromRFXRequest(request);
+
+      // Update the request with generated specifications
+      const updatedRequest = {
+        ...request,
+        generatedSpecifications: specsResult.specifications,
+        generatedDeliverables: specsResult.deliverables,
+        applicableStandards: specsResult.standards,
+      };
+
+      const message = `Generated ${specsResult.specifications.length} specifications, ${specsResult.deliverables.length} deliverables, and ${specsResult.standards.length} standards`;
+
+      return {
+        request: updatedRequest,
+        messages: [...state.messages, new SystemMessage(message)],
+      };
+    } catch (error) {
+      return {
+        result: {
+          success: false,
+          errors: [`Specifications generation error: ${error}`],
+          warnings: [],
+        },
+        messages: [
+          ...state.messages,
+          new SystemMessage(`Error generating specifications: ${error}`),
+        ],
+      };
+    }
+  }
+
+  private async generateClauses(
+    state: RFXAutomationState,
+  ): Promise<Partial<RFXAutomationState>> {
+    const { request } = state;
+
+    try {
+      // Initialize the clause generator if not already done
+      await this.clausePolicyGenerator.initialize();
+
+      // Generate clauses based on the RFX request
+      const clausesResult = await this.clausePolicyGenerator.generateFromRFXRequest(request);
+
+      // Update the request with generated clauses and policies
+      const updatedRequest = {
+        ...request,
+        generatedClauses: clausesResult.clauses,
+        generatedPolicies: clausesResult.policies,
+      };
+
+      const message = `Generated ${clausesResult.clauses.length} clauses and ${clausesResult.policies.length} policies`;
+
+      return {
+        request: updatedRequest,
+        messages: [...state.messages, new SystemMessage(message)],
+      };
+    } catch (error) {
+      return {
+        result: {
+          success: false,
+          errors: [`Clause generation error: ${error}`],
+          warnings: [],
+        },
+        messages: [
+          ...state.messages,
+          new SystemMessage(`Error generating clauses: ${error}`),
         ],
       };
     }
@@ -289,19 +385,16 @@ export class RFXAutomationAgent {
   private convertRequestToPlaceholders(request: RFXRequest): PlaceholderValues {
     const placeholders: PlaceholderValues = {};
 
-    // Add all request properties as flattened placeholders
     const flattenObject = (obj: any, prefix: string = "") => {
       Object.entries(obj).forEach(([key, value]) => {
         const fullKey = prefix ? `${prefix}.${key}` : key;
 
         if (value && typeof value === "object" && !Array.isArray(value)) {
-          // Recursively flatten nested objects
+
           flattenObject(value, fullKey);
         } else if (Array.isArray(value)) {
-          // Convert arrays to comma-separated strings
           placeholders[fullKey] = value.join(", ");
         } else if (value !== null && value !== undefined) {
-          // Add primitive values directly
           placeholders[fullKey] = value;
         }
       });
@@ -409,6 +502,39 @@ export class RFXAutomationAgent {
       valid: errors.length === 0,
       errors,
       warnings,
+    };
+  }
+
+  // Public methods to access the AI agents
+  public async generateSpecificationsForRequest(request: RFXRequest) {
+    await this.specsGenerator.initialize();
+    return await this.specsGenerator.generateFromRFXRequest(request);
+  }
+
+  public async generateClausesForRequest(request: RFXRequest) {
+    await this.clausePolicyGenerator.initialize();
+    return await this.clausePolicyGenerator.generateFromRFXRequest(request);
+  }
+
+  public async validateClause(clauseContent: string, context: any) {
+    await this.clausePolicyGenerator.initialize();
+    return await this.clausePolicyGenerator.validateClause(clauseContent, context);
+  }
+
+  public async validateSpecification(spec: string, context: any) {
+    await this.specsGenerator.initialize();
+    return await this.specsGenerator.validateSpecification(spec, context);
+  }
+
+  public async healthCheck(): Promise<{ specs: boolean; clauses: boolean }> {
+    const [specsHealth, clausesHealth] = await Promise.all([
+      this.specsGenerator.healthCheck(),
+      this.clausePolicyGenerator.healthCheck(),
+    ]);
+
+    return {
+      specs: specsHealth,
+      clauses: clausesHealth,
     };
   }
 }
