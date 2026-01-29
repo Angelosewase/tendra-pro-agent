@@ -9,8 +9,9 @@ import { TemplateManager } from "./tools/template-manager";
 import { FileGenerator } from "./tools/file-generator";
 import {
   PlaceholderFiller,
-  PlaceholderValues,
+  PlaceholderValues as ValuesI,
 } from "./tools/fill-placeholders";
+import { TemplateCompleter } from "./tools/template-completer";
 
 export interface RFXRequest {
   documentType: "rfb" | "rfi" | "rfp" | "rfq";
@@ -28,6 +29,7 @@ export interface RFXRequest {
   };
   timeline?: string;
   location?: string;
+  completedValuesI?: Record<string, any>;
 }
 
 export interface RFXDocument {
@@ -60,28 +62,32 @@ export class RFXAutomationAgent {
   private templateManager: TemplateManager;
   private fileGenerator: FileGenerator;
   private placeholderFiller: PlaceholderFiller;
+  private templateCompleter: TemplateCompleter;
 
   constructor() {
     this.graph = new StateGraph(RFXAutomationStateSchema);
     this.templateManager = new TemplateManager();
     this.fileGenerator = new FileGenerator();
     this.placeholderFiller = new PlaceholderFiller(this.templateManager);
+    this.templateCompleter = new TemplateCompleter();
 
     this.setupNodes();
     this.setupEdges();
+    console.log("✅ [INIT] RFXAutomationAgent initialized successfully");
   }
 
   private setupNodes() {
     this.graph.addNode("validate_request", this.validateRequest.bind(this));
-    this.graph.addNode("prepare_template", this.prepareTemplate.bind(this));
+    this.graph.addNode("complete_template", this.completeTemplate.bind(this));
     this.graph.addNode("generate_document", this.generateDocument.bind(this));
     this.graph.addNode("finalize_result", this.finalizeResult.bind(this));
+    console.log("✅ [SETUP] All nodes configured");
   }
 
   private setupEdges() {
     this.graph.addEdge(START, "validate_request" as any);
-    this.graph.addEdge("validate_request" as any, "prepare_template" as any);
-    this.graph.addEdge("prepare_template" as any, "generate_document" as any);
+    this.graph.addEdge("validate_request" as any, "complete_template" as any);
+    this.graph.addEdge("complete_template" as any, "generate_document" as any);
     this.graph.addEdge("generate_document" as any, "finalize_result" as any);
     this.graph.addEdge("finalize_result" as any, END);
   }
@@ -89,49 +95,57 @@ export class RFXAutomationAgent {
   private async validateRequest(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
+    console.log("\n" + "=".repeat(60));
+    console.log("📋 [VALIDATE] Starting request validation");
+    console.log("=".repeat(60));
+
     const { request } = state;
 
     try {
       const errors: string[] = [];
       const warnings: string[] = [];
 
-      // Validate required fields
-      if (!request.documentType) {
-        errors.push("Document type is required");
-      }
-      if (!request.title) {
-        errors.push("Title is required");
-      }
-      if (!request.agencyName) {
-        errors.push("Agency name is required");
-      }
-      if (!request.issuedDate) {
-        errors.push("Issued date is required");
-      }
-      if (!request.responsesDue) {
-        errors.push("Responses due date is required");
-      }
-      if (
-        !request.requirements ||
-        Object.keys(request.requirements).length === 0
-      ) {
-        errors.push("Requirements are required");
-      }
-
       // Validate document type
       const validTypes = ["rfb", "rfi", "rfp", "rfq"];
       if (!validTypes.includes(request.documentType)) {
-        errors.push(
-          `Invalid document type. Must be one of: ${validTypes.join(", ")}`,
-        );
+        const error = `Invalid document type. Must be one of: ${validTypes.join(", ")}`;
+        console.log(`❌ [VALIDATE] ${error}`);
+        errors.push(error);
+      } else {
+        console.log(`✅ [VALIDATE] Document type is valid`);
       }
 
-      // Check if template exists for the document type
       const templateExists = this.checkTemplateExists(request.documentType);
+
       if (!templateExists) {
-        errors.push(
-          `Template not found for document type: ${request.documentType}`,
+        const error = `Template not found for document type: ${request.documentType}`;
+        console.log(`❌ [VALIDATE] ${error}`);
+        errors.push(error);
+      } else {
+        console.log(`✅ [VALIDATE] Template found for ${request.documentType}`);
+      }
+
+      // Use existing template validation logic
+      if (templateExists) {
+        const keyValuePairs = this.convertRequestToKeyobjectValue(request);
+        console.log(
+          `📊 [VALIDATE] request object values count: ${Object.keys(keyValuePairs).length}`,
         );
+
+        const validation = this.validateValues(
+          request.documentType,
+          keyValuePairs,
+        );
+
+        console.log(
+          `📊 [VALIDATE] Validation errors: ${validation.errors.length}`,
+        );
+        console.log(
+          `📊 [VALIDATE] Validation suggestions: ${validation.suggestions.length}`,
+        );
+
+        errors.push(...validation.errors);
+        warnings.push(...validation.suggestions);
       }
 
       const isValid = errors.length === 0;
@@ -149,6 +163,9 @@ export class RFXAutomationAgent {
         messages: [...state.messages, new SystemMessage(message)],
       };
     } catch (error) {
+      console.log(`❌ [VALIDATE] Exception occurred: ${error}`);
+      console.log("=".repeat(60) + "\n");
+
       return {
         result: {
           success: false,
@@ -163,38 +180,54 @@ export class RFXAutomationAgent {
     }
   }
 
-  private async prepareTemplate(
+  private async completeTemplate(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
+    console.log("\n" + "=".repeat(60));
+    console.log("🤖 [TEMPLATE-AI] Starting AI template completion");
+    console.log("=".repeat(60));
+
     const { request } = state;
 
     try {
-      // Convert request to placeholder values
-      const placeholderValues = this.convertRequestToPlaceholders(request);
+      await this.templateCompleter.initialize();
 
-      // Validate placeholder values against template
-      const validation = this.validatePlaceholderValues(
+      const keyValuePairs = this.convertRequestToKeyobjectValue(request);
+      const completionResult = await this.templateCompleter.completeTemplate(
+        keyValuePairs,
         request.documentType,
-        placeholderValues,
       );
 
-      const message = validation.valid
-        ? `Template preparation completed for ${request.documentType.toUpperCase()}`
-        : `Template preparation has validation issues`;
+      // Merge completed fields with original data
+      const completedKeyValuePairs = {
+        ...keyValuePairs,
+        ...completionResult.completedFields,
+      };
+
+      const message = `Completed template with ${Object.keys(completionResult.completedFields).length} filled fields using AI`;
 
       return {
+        request: {
+          ...request,
+          completedValuesI: completedKeyValuePairs,
+        },
         messages: [...state.messages, new SystemMessage(message)],
       };
     } catch (error) {
+      console.log(
+        `❌ [TEMPLATE-AI] Error during template completion: ${error}`,
+      );
+      console.log("=".repeat(60) + "\n");
+
       return {
         result: {
           success: false,
-          errors: [`Template preparation error: ${error}`],
+          errors: [`Template completion error: ${error}`],
           warnings: [],
         },
         messages: [
           ...state.messages,
-          new SystemMessage(`Error preparing template: ${error}`),
+          new SystemMessage(`Error completing template: ${error}`),
         ],
       };
     }
@@ -203,22 +236,68 @@ export class RFXAutomationAgent {
   private async generateDocument(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
+    console.log("\n" + "=".repeat(60));
+    console.log("📄 [DOCUMENT] Starting document generation");
+    console.log("=".repeat(60));
+
     const { request } = state;
 
     try {
-      // Convert request to placeholder values
-      const placeholderValues = this.convertRequestToPlaceholders(request);
+      // Use completed key-value pairs from template completion step
+      const keyValuePairs =
+        (request as any).completedValuesI ||
+        this.convertRequestToKeyobjectValue(request);
 
-      // Generate filename
+      console.log(
+        `📊 [DOCUMENT] Key-value count: ${Object.keys(keyValuePairs).length}`,
+      );
+
+      console.log(`📝 [DOCUMENT] Generating filename`);
       const filename = `${request.documentType}_${request.title.replace(/[^a-zA-Z0-9]/g, "_")}_${new Date().toISOString().split("T")[0]}.pdf`;
+      console.log(`📝 [DOCUMENT] Filename: ${filename}`);
 
-      // Generate PDF using file generator
+      console.log(`🔨 [DOCUMENT] Calling file generator to create PDF`);
+      console.log(`   📄 Document type: ${request.documentType}`);
+      console.log(
+        `   📊 Key-value count: ${Object.keys(keyValuePairs).length}`,
+      );
+
       const generationResult =
         await this.fileGenerator.generatePDFFromUserInput(
           request.documentType,
-          placeholderValues,
+          keyValuePairs,
           filename,
         );
+
+      console.log(`📊 [DOCUMENT] Generation result received:`);
+      console.log(`   ✅ Success: ${generationResult.success}`);
+      console.log(`   📁 File path: ${generationResult.filePath || "N/A"}`);
+      console.log(
+        `   ❌ Errors: ${generationResult.fillResult?.errors?.length || 0}`,
+      );
+      console.log(
+        `   ⚠️  Warnings: ${generationResult.fillResult?.warnings?.length || 0}`,
+      );
+
+      if (
+        generationResult.fillResult?.errors &&
+        generationResult.fillResult.errors.length > 0
+      ) {
+        console.log(`❌ [DOCUMENT] Generation errors:`);
+        generationResult.fillResult.errors.forEach((err: Error) =>
+          console.log(`   ❌ ${err}`),
+        );
+      }
+
+      if (
+        generationResult.fillResult?.warnings &&
+        generationResult.fillResult.warnings.length > 0
+      ) {
+        console.log(`⚠️  [DOCUMENT] Generation warnings:`);
+        generationResult.fillResult.warnings.forEach((warn: any) =>
+          console.log(`   ⚠️  ${warn}`),
+        );
+      }
 
       const document: RFXDocument = {
         documentType: request.documentType,
@@ -232,6 +311,9 @@ export class RFXAutomationAgent {
         ? `${request.documentType.toUpperCase()} document generated successfully: ${filename}`
         : `Failed to generate ${request.documentType.toUpperCase()} document`;
 
+      console.log(`📋 [DOCUMENT] ${message}`);
+      console.log("=".repeat(60) + "\n");
+
       return {
         document,
         result: {
@@ -243,6 +325,11 @@ export class RFXAutomationAgent {
         messages: [...state.messages, new SystemMessage(message)],
       };
     } catch (error) {
+      console.log(
+        `❌ [DOCUMENT] Exception during document generation: ${error}`,
+      );
+      console.log("=".repeat(60) + "\n");
+
       return {
         result: {
           success: false,
@@ -260,11 +347,39 @@ export class RFXAutomationAgent {
   private async finalizeResult(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
+    console.log("\n" + "=".repeat(60));
+    console.log("🏁 [FINALIZE] Finalizing automation results");
+    console.log("=".repeat(60));
+
     const { result, document } = state;
 
     const summaryMessage = result?.success
       ? `RFX automation completed successfully. Generated ${document?.documentType?.toUpperCase()} document: ${document?.title}`
       : `RFX automation completed with errors`;
+
+    console.log(
+      `📊 [FINALIZE] Final status: ${result?.success ? "SUCCESS" : "FAILED"}`,
+    );
+
+    if (document) {
+      console.log(`📄 [FINALIZE] Document type: ${document.documentType}`);
+      console.log(`📄 [FINALIZE] Document title: ${document.title}`);
+      console.log(`📁 [FINALIZE] File path: ${document.filePath || "N/A"}`);
+      console.log(`📅 [FINALIZE] Generated at: ${document.generatedAt}`);
+    }
+
+    if (result?.errors && result.errors.length > 0) {
+      console.log(`❌ [FINALIZE] Total errors: ${result.errors.length}`);
+      result.errors.forEach((err) => console.log(`   ❌ ${err}`));
+    }
+
+    if (result?.warnings && result.warnings.length > 0) {
+      console.log(`⚠️  [FINALIZE] Total warnings: ${result.warnings.length}`);
+      result.warnings.forEach((warn) => console.log(`   ⚠️  ${warn}`));
+    }
+
+    console.log(`\n📋 [FINALIZE] ${summaryMessage}`);
+    console.log("=".repeat(60) + "\n");
 
     return {
       messages: [...state.messages, new SystemMessage(summaryMessage)],
@@ -272,73 +387,104 @@ export class RFXAutomationAgent {
   }
 
   private checkTemplateExists(documentType: string): boolean {
+    console.log(`🔍 [CHECK] Checking template existence for: ${documentType}`);
+    let exists = false;
+
     switch (documentType) {
       case "rfb":
-        return !!this.templateManager.getRFBTemplate();
+        exists = !!this.templateManager.getRFBTemplate();
+        break;
       case "rfi":
-        return !!this.templateManager.getRFITemplate();
+        exists = !!this.templateManager.getRFITemplate();
+        break;
       case "rfp":
-        return !!this.templateManager.getRFPTemplate();
+        exists = !!this.templateManager.getRFPTemplate();
+        break;
       case "rfq":
-        return !!this.templateManager.getRFQTemplate();
+        exists = !!this.templateManager.getRFQTemplate();
+        break;
       default:
-        return false;
+        exists = false;
     }
+
+    console.log(
+      `${exists ? "✅" : "❌"} [CHECK] Template ${exists ? "found" : "not found"} for ${documentType}`,
+    );
+    return exists;
   }
 
-  private convertRequestToPlaceholders(request: RFXRequest): PlaceholderValues {
-    const placeholders: PlaceholderValues = {};
+  private convertRequestToKeyobjectValue(request: RFXRequest): ValuesI {
+    console.log(`🔄 [CONVERT] Converting request to key-value pairs`);
+    const keyValuePairs: ValuesI = {};
 
-    // Add all request properties as flattened placeholders
     const flattenObject = (obj: any, prefix: string = "") => {
       Object.entries(obj).forEach(([key, value]) => {
         const fullKey = prefix ? `${prefix}.${key}` : key;
 
         if (value && typeof value === "object" && !Array.isArray(value)) {
-          // Recursively flatten nested objects
           flattenObject(value, fullKey);
         } else if (Array.isArray(value)) {
-          // Convert arrays to comma-separated strings
-          placeholders[fullKey] = value.join(", ");
+          keyValuePairs[fullKey] = value.join(", ");
+          console.log(
+            `   📝 [CONVERT] Array ${fullKey}: ${value.length} items`,
+          );
         } else if (value !== null && value !== undefined) {
-          // Add primitive values directly
-          placeholders[fullKey] = value;
+          keyValuePairs[fullKey] = value;
+          console.log(`   📝 [CONVERT] ${fullKey}: ${typeof value}`);
         }
       });
     };
 
-    // Flatten the entire request object
     flattenObject(request);
 
-    return placeholders;
+    console.log(
+      `✅ [CONVERT] Converted ${Object.keys(keyValuePairs).length} key-value pairs`,
+    );
+    return keyValuePairs;
   }
 
-  private validatePlaceholderValues(
+  private validateValues(
     documentType: string,
-    values: PlaceholderValues,
+    values: ValuesI,
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
+    console.log(`🔍 [VALIDATE-PH] Validating values for ${documentType}`);
+
+    let result;
     switch (documentType) {
       case "rfb":
-        return this.placeholderFiller.validateRFBValues(values);
+        result = this.placeholderFiller.validateRFBValues(values);
+        break;
       case "rfi":
-        return this.placeholderFiller.validateRFIValues(values);
+        result = this.placeholderFiller.validateRFIValues(values);
+        break;
       case "rfp":
-        return this.placeholderFiller.validateRFPValues(values);
+        result = this.placeholderFiller.validateRFPValues(values);
+        break;
       case "rfq":
-        return this.placeholderFiller.validateRFQValues(values);
+        result = this.placeholderFiller.validateRFQValues(values);
+        break;
       default:
-        return {
+        result = {
           valid: false,
           errors: [`Unknown document type: ${documentType}`],
           suggestions: [],
         };
     }
+
+    console.log(
+      `${result.valid ? "✅" : "❌"} [VALIDATE-PH] Validation ${result.valid ? "passed" : "failed"}`,
+    );
+    return result;
   }
 
   public async run(input: {
     request: RFXRequest;
     messages?: BaseMessage[];
   }): Promise<RFXAutomationState> {
+    console.log("\n" + "=".repeat(80));
+    console.log("🚀 [RUN] STARTING RFX AUTOMATION WORKFLOW");
+    console.log("=".repeat(80));
+
     const compiledGraph = this.graph.compile();
 
     const initialState: RFXAutomationState = {
@@ -351,64 +497,30 @@ export class RFXAutomationAgent {
     };
 
     const result = await compiledGraph.invoke(initialState);
+
+    console.log("\n" + "=".repeat(80));
+    console.log("🏁 [RUN] RFX AUTOMATION WORKFLOW COMPLETED");
+    console.log("=".repeat(80));
+    console.log(`✅ [RUN] Success: ${(result as any).result?.success}`);
+    console.log(
+      `📄 [RUN] Document Generated: ${result.document ? "YES" : "NO"}`,
+    );
+    console.log(
+      `❌ [RUN] Errors: ${(result as any).result?.errors?.length || 0}`,
+    );
+    console.log(
+      `⚠️  [RUN] Warnings: ${(result as any).result?.warnings?.length || 0}`,
+    );
+    console.log("=".repeat(80) + "\n");
+
     return result as RFXAutomationState;
   }
 
-  // Utility methods for external access
-  public getAvailableTemplates(): string[] {
-    return this.templateManager.getAllTemplates().map((t) => t.templateId);
-  }
-
-  public getTemplatePlaceholders(documentType: string): string[] {
-    switch (documentType) {
-      case "rfb":
-        return this.placeholderFiller.getRFBPlaceholders();
-      case "rfi":
-        return this.placeholderFiller.getRFIPlaceholders();
-      case "rfp":
-        return this.placeholderFiller.getRFPPlaceholders();
-      case "rfq":
-        return this.placeholderFiller.getRFQPlaceholders();
-      default:
-        return [];
-    }
-  }
-
-  public validateRFXRequest(request: RFXRequest): {
-    valid: boolean;
-    errors: string[];
-    warnings: string[];
-  } {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-
-    if (!request.documentType) {
-      errors.push("Document type is required");
-    }
-    if (!request.title) {
-      errors.push("Title is required");
-    }
-    if (!request.agencyName) {
-      errors.push("Agency name is required");
-    }
-    if (!request.issuedDate) {
-      errors.push("Issued date is required");
-    }
-    if (!request.responsesDue) {
-      errors.push("Responses due date is required");
-    }
-
-    const validTypes = ["rfb", "rfi", "rfp", "rfq"];
-    if (request.documentType && !validTypes.includes(request.documentType)) {
-      errors.push(
-        `Invalid document type. Must be one of: ${validTypes.join(", ")}`,
-      );
-    }
+  public async healthCheck(): Promise<{ template: boolean }> {
+    const templateHealth = await this.templateCompleter.healthCheck();
 
     return {
-      valid: errors.length === 0,
-      errors,
-      warnings,
+      template: templateHealth,
     };
   }
 }

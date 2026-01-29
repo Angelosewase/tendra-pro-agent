@@ -37,7 +37,7 @@ export class SearchAgent {
 
     this.model = new ChatOpenAI({
       temperature: options?.temperature ?? 0,
-      model: "mistralai/devstral-2512:free",
+      model: "openai/gpt-oss-120b:free",
       configuration: {
         baseURL: "https://openrouter.ai/api/v1",
         defaultHeaders: {
