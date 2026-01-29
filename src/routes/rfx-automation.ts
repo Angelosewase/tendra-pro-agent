@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 import { rfxAutomationAgent, RFXRequest } from '../agents/rfx-automation'
+import * as fs from 'fs'
+import * as path from 'path'
 
 const rfxRoutes = new Hono()
 
@@ -24,80 +26,26 @@ const RFXRequestSchema = z.object({
   location: z.string().optional()
 })
 
-// Get available templates
-rfxRoutes.get('/templates', async (c) => {
-  try {
-    const templates = rfxAutomationAgent.getAvailableTemplates()
-    return c.json({
-      success: true,
-      data: {
-        templates,
-        count: templates.length
-      }
-    })
-  } catch (error) {
-    return c.json({
-      success: false,
-      error: 'Failed to fetch templates',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, 500)
-  }
-})
 
-// Get placeholders for a specific document type
-rfxRoutes.get('/placeholders/:documentType', async (c) => {
-  const documentType = c.req.param('documentType')
-  
-  try {
-    const placeholders = rfxAutomationAgent.getTemplatePlaceholders(documentType)
-    return c.json({
-      success: true,
-      data: {
-        documentType,
-        placeholders,
-        count: placeholders.length
-      }
-    })
-  } catch (error) {
-    return c.json({
-      success: false,
-      error: 'Failed to fetch placeholders',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, 500)
-  }
-})
-
-// Validate RFX request
-rfxRoutes.post('/validate', zValidator('json', RFXRequestSchema), async (c) => {
-  const request = c.req.valid('json') as RFXRequest
-  
-  try {
-    const validation = rfxAutomationAgent.validateRFXRequest(request)
-    return c.json({
-      success: true,
-      data: validation
-    })
-  } catch (error) {
-    return c.json({
-      success: false,
-      error: 'Validation failed',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, 500)
-  }
-})
-
-// Generate RFX document
 rfxRoutes.post('/generate', zValidator('json', RFXRequestSchema), async (c) => {
   const request = c.req.valid('json') as RFXRequest
   
   try {
     const result = await rfxAutomationAgent.run({ request })
     
+    // Generate PDF URL if document was created successfully
+    let pdfUrl = null
+    if (result.result?.success && result.document?.filePath) {
+      const filename = path.basename(result.document.filePath)
+      pdfUrl = `/rfx-automation/pdf/${filename}`
+    }
+    
     return c.json({
       success: result.result?.success || false,
       data: {
         document: result.document,
         result: result.result,
+        pdfUrl,
         messages: result.messages.map(msg => ({
           type: msg.constructor.name,
           content: msg.content
@@ -113,26 +61,49 @@ rfxRoutes.post('/generate', zValidator('json', RFXRequestSchema), async (c) => {
   }
 })
 
-// Health check for RFX automation
-rfxRoutes.get('/health', async (c) => {
+
+// Serve generated PDF files
+rfxRoutes.get('/pdf/:filename', async (c) => {
+  const filename = c.req.param('filename')
+  const outputDir = './output'
+  const filePath = path.join(outputDir, filename)
+  
   try {
-    const templates = rfxAutomationAgent.getAvailableTemplates()
-    return c.json({
-      success: true,
-      status: 'healthy',
-      data: {
-        availableTemplates: templates.length,
-        timestamp: new Date().toISOString()
+    // Validate that the file exists and is a PDF
+    if (!fs.existsSync(filePath)) {
+      return c.json({
+        success: false,
+        error: 'PDF file not found',
+        details: `File ${filename} does not exist`
+      }, 404)
+    }
+    
+    if (!filename.toLowerCase().endsWith('.pdf')) {
+      return c.json({
+        success: false,
+        error: 'Invalid file type',
+        details: 'Only PDF files are allowed'
+      }, 400)
+    }
+    
+    // Read the file and serve it
+    const fileBuffer = fs.readFileSync(filePath)
+    
+    return new Response(fileBuffer, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="${filename}"`,
+        'Content-Length': fileBuffer.length.toString()
       }
     })
   } catch (error) {
     return c.json({
       success: false,
-      status: 'unhealthy',
-      error: 'RFX automation service unavailable',
+      error: 'Failed to serve PDF file',
       details: error instanceof Error ? error.message : 'Unknown error'
-    }, 503)
+    }, 500)
   }
 })
+
 
 export default rfxRoutes
