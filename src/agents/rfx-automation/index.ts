@@ -110,29 +110,6 @@ export class RFXAutomationAgent {
       const errors: string[] = [];
       const warnings: string[] = [];
 
-      // Validate required fields
-      if (!request.documentType) {
-        errors.push("Document type is required");
-      }
-      if (!request.title) {
-        errors.push("Title is required");
-      }
-      if (!request.agencyName) {
-        errors.push("Agency name is required");
-      }
-      if (!request.issuedDate) {
-        errors.push("Issued date is required");
-      }
-      if (!request.responsesDue) {
-        errors.push("Responses due date is required");
-      }
-      if (
-        !request.requirements ||
-        Object.keys(request.requirements).length === 0
-      ) {
-        errors.push("Requirements are required");
-      }
-
       // Validate document type
       const validTypes = ["rfb", "rfi", "rfp", "rfq"];
       if (!validTypes.includes(request.documentType)) {
@@ -147,6 +124,18 @@ export class RFXAutomationAgent {
         errors.push(
           `Template not found for document type: ${request.documentType}`,
         );
+      }
+
+      // Use existing template validation logic
+      if (templateExists) {
+        const placeholderValues = this.convertRequestToPlaceholders(request);
+        const validation = this.validatePlaceholderValues(
+          request.documentType,
+          placeholderValues,
+        );
+        
+        errors.push(...validation.errors);
+        warnings.push(...validation.suggestions);
       }
 
       const isValid = errors.length === 0;
