@@ -1,7 +1,7 @@
 {
   "name": "tendra-pro-agent",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "node init && bun run --hot src/index.ts",
     "test": "bun test"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "duck-duck-scrape": "^2.2.7",
     "hono": "^4.11.4",
     "langchain": "^1.2.8",
+    "node-fetch": "^3.3.2",
     "pg": "^8.16.3",
     "puppeteer": "^24.36.0",
     "yaml": "^2.8.2",

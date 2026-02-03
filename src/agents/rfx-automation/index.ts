@@ -73,7 +73,6 @@ export class RFXAutomationAgent {
 
     this.setupNodes();
     this.setupEdges();
-    console.log("✅ [INIT] RFXAutomationAgent initialized successfully");
   }
 
   private setupNodes() {
@@ -81,7 +80,6 @@ export class RFXAutomationAgent {
     this.graph.addNode("complete_template", this.completeTemplate.bind(this));
     this.graph.addNode("generate_document", this.generateDocument.bind(this));
     this.graph.addNode("finalize_result", this.finalizeResult.bind(this));
-    console.log("✅ [SETUP] All nodes configured");
   }
 
   private setupEdges() {
@@ -95,9 +93,6 @@ export class RFXAutomationAgent {
   private async validateRequest(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
-    console.log("\n" + "=".repeat(60));
-    console.log("📋 [VALIDATE] Starting request validation");
-    console.log("=".repeat(60));
 
     const { request } = state;
 
@@ -183,10 +178,6 @@ export class RFXAutomationAgent {
   private async completeTemplate(
     state: RFXAutomationState,
   ): Promise<Partial<RFXAutomationState>> {
-    console.log("\n" + "=".repeat(60));
-    console.log("🤖 [TEMPLATE-AI] Starting AI template completion");
-    console.log("=".repeat(60));
-
     const { request } = state;
 
     try {
