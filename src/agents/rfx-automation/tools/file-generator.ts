@@ -47,7 +47,7 @@ export class FileGenerator {
     placeholderValues: PlaceholderValues,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Use PlaceholderFiller to fill the RFB template
@@ -63,7 +63,7 @@ export class FileGenerator {
       // Generate PDF from filled template data
       const filePath = await this.generatePDF(
         fillResult.filledData,
-        'rfb_template.html',
+        "rfb_template.html",
         filename,
         pdfOptions,
       );
@@ -84,7 +84,7 @@ export class FileGenerator {
     placeholderValues: PlaceholderValues,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Use PlaceholderFiller to fill the RFI template
@@ -100,7 +100,7 @@ export class FileGenerator {
       // Generate PDF from filled template data
       const filePath = await this.generatePDF(
         fillResult.filledData,
-        'rfi_template.html',
+        "rfi_template.html",
         filename,
         pdfOptions,
       );
@@ -121,7 +121,7 @@ export class FileGenerator {
     placeholderValues: PlaceholderValues,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Use PlaceholderFiller to fill the RFP template
@@ -137,7 +137,7 @@ export class FileGenerator {
       // Generate PDF from filled template data
       const filePath = await this.generatePDF(
         fillResult.filledData,
-        'rfp_template.html',
+        "rfp_template.html",
         filename,
         pdfOptions,
       );
@@ -158,7 +158,7 @@ export class FileGenerator {
     placeholderValues: PlaceholderValues,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Use PlaceholderFiller to fill the RFQ template
@@ -174,7 +174,7 @@ export class FileGenerator {
       // Generate PDF from filled template data
       const filePath = await this.generatePDF(
         fillResult.filledData,
-        'rfq_template.html',
+        "rfq_template.html",
         filename,
         pdfOptions,
       );
@@ -207,42 +207,57 @@ export class FileGenerator {
     return this.placeholderFiller.getRFQPlaceholders();
   }
 
-  public validateRFBData(
-    values: PlaceholderValues
-  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+  public validateRFBData(values: PlaceholderValues): {
+    valid: boolean;
+    errors: string[];
+    suggestions: string[];
+  } {
     return this.placeholderFiller.validateRFBValues(values);
   }
 
-  public validateRFIData(
-    values: PlaceholderValues
-  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+  public validateRFIData(values: PlaceholderValues): {
+    valid: boolean;
+    errors: string[];
+    suggestions: string[];
+  } {
     return this.placeholderFiller.validateRFIValues(values);
   }
 
-  public validateRFPData(
-    values: PlaceholderValues
-  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+  public validateRFPData(values: PlaceholderValues): {
+    valid: boolean;
+    errors: string[];
+    suggestions: string[];
+  } {
     return this.placeholderFiller.validateRFPValues(values);
   }
 
-  public validateRFQData(
-    values: PlaceholderValues
-  ): { valid: boolean; errors: string[]; suggestions: string[] } {
+  public validateRFQData(values: PlaceholderValues): {
+    valid: boolean;
+    errors: string[];
+    suggestions: string[];
+  } {
     return this.placeholderFiller.validateRFQValues(values);
   }
-
   private async generatePDF(
     templateData: TemplateData,
     templateFile: string,
     filename: string,
     options: PDFOptions = {},
   ): Promise<string> {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Add these for stability
+    });
     const page = await browser.newPage();
 
     try {
       const html = this.loadTemplate(templateFile, templateData);
-      await page.setContent(html, { waitUntil: "networkidle0" });
+
+      // FIX: Use domcontentloaded instead of networkidle0
+      await page.setContent(html, {
+        waitUntil: "domcontentloaded", // ✓ Faster, doesn't wait for network
+        timeout: 60000, // ✓ Increase timeout to 60 seconds
+      });
 
       const pdfOptions = {
         path: path.join(this.outputDir, filename),
@@ -275,14 +290,21 @@ export class FileGenerator {
 
     // Use PlaceholderFiller to replace placeholders
     const flatData = this.flattenTemplateData(data);
-    
+
     // Create a simple template structure for the HTML content
     const htmlTemplateData = {
       content: html,
       metadata: { document_type: "", purpose: "", usage_notes: [] },
-      header: { title: "", number: "", issued_date: "", responses_due: "", agency_logo: "", agency_name: "" }
+      header: {
+        title: "",
+        number: "",
+        issued_date: "",
+        responses_due: "",
+        agency_logo: "",
+        agency_name: "",
+      },
     } as unknown as TemplateData;
-    
+
     const fillResult = this.placeholderFiller.fillTemplateData(
       htmlTemplateData,
       flatData,
@@ -338,26 +360,47 @@ export class FileGenerator {
   }
 
   public async generatePDFFromUserInput(
-    templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq',
+    templateType: "rfb" | "rfi" | "rfp" | "rfq",
     userInputValues: any,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Convert user input to flat placeholder values
-      const placeholderValues = this.convertUserInputToPlaceholders(userInputValues);
-      
+      const placeholderValues =
+        this.convertUserInputToPlaceholders(userInputValues);
+
       // Use the appropriate generation method based on template type
       switch (templateType) {
-        case 'rfb':
-          return this.generateRFBPDF(placeholderValues, filename, pdfOptions, fillOptions);
-        case 'rfi':
-          return this.generateRFIPDF(placeholderValues, filename, pdfOptions, fillOptions);
-        case 'rfp':
-          return this.generateRFPPDF(placeholderValues, filename, pdfOptions, fillOptions);
-        case 'rfq':
-          return this.generateRFQPDF(placeholderValues, filename, pdfOptions, fillOptions);
+        case "rfb":
+          return this.generateRFBPDF(
+            placeholderValues,
+            filename,
+            pdfOptions,
+            fillOptions,
+          );
+        case "rfi":
+          return this.generateRFIPDF(
+            placeholderValues,
+            filename,
+            pdfOptions,
+            fillOptions,
+          );
+        case "rfp":
+          return this.generateRFPPDF(
+            placeholderValues,
+            filename,
+            pdfOptions,
+            fillOptions,
+          );
+        case "rfq":
+          return this.generateRFQPDF(
+            placeholderValues,
+            filename,
+            pdfOptions,
+            fillOptions,
+          );
         default:
           return {
             success: false,
@@ -385,7 +428,11 @@ export class FileGenerator {
       Object.entries(obj).forEach(([key, value]) => {
         const newKey = prefix ? `${prefix}.${key}` : key;
 
-        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+        if (
+          typeof value === "string" ||
+          typeof value === "number" ||
+          typeof value === "boolean"
+        ) {
           flattened[newKey] = value;
         } else if (Array.isArray(value)) {
           flattened[newKey] = value
@@ -404,38 +451,41 @@ export class FileGenerator {
   }
 
   public validateUserInput(
-    templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq',
-    userInputValues: any
+    templateType: "rfb" | "rfi" | "rfp" | "rfq",
+    userInputValues: any,
   ): { valid: boolean; errors: string[]; suggestions: string[] } {
-    const placeholderValues = this.convertUserInputToPlaceholders(userInputValues);
-    
+    const placeholderValues =
+      this.convertUserInputToPlaceholders(userInputValues);
+
     switch (templateType) {
-      case 'rfb':
+      case "rfb":
         return this.validateRFBData(placeholderValues);
-      case 'rfi':
+      case "rfi":
         return this.validateRFIData(placeholderValues);
-      case 'rfp':
+      case "rfp":
         return this.validateRFPData(placeholderValues);
-      case 'rfq':
+      case "rfq":
         return this.validateRFQData(placeholderValues);
       default:
         return {
           valid: false,
           errors: [`Unknown template type: ${templateType}`],
-          suggestions: []
+          suggestions: [],
         };
     }
   }
 
-  public getTemplateStructure(templateType: 'rfb' | 'rfi' | 'rfp' | 'rfq'): any {
+  public getTemplateStructure(
+    templateType: "rfb" | "rfi" | "rfp" | "rfq",
+  ): any {
     switch (templateType) {
-      case 'rfb':
+      case "rfb":
         return this.placeholderFiller.getRFBStructure();
-      case 'rfi':
+      case "rfi":
         return this.placeholderFiller.getRFIStructure();
-      case 'rfp':
+      case "rfp":
         return this.placeholderFiller.getRFPStructure();
-      case 'rfq':
+      case "rfq":
         return this.placeholderFiller.getRFQStructure();
       default:
         return null;
@@ -448,11 +498,15 @@ export class FileGenerator {
     values: PlaceholderValues,
     filename: string,
     pdfOptions: PDFOptions = {},
-    fillOptions: FillOptions = {}
+    fillOptions: FillOptions = {},
   ): Promise<{ success: boolean; filePath?: string; fillResult: any }> {
     try {
       // Use PlaceholderFiller to fill the template
-      const fillResult = this.placeholderFiller.fillTemplate(templateId, values, fillOptions);
+      const fillResult = this.placeholderFiller.fillTemplate(
+        templateId,
+        values,
+        fillOptions,
+      );
 
       if (!fillResult.success || !fillResult.filledData) {
         return { success: false, fillResult };
