@@ -82,12 +82,8 @@ export class TemplateCompleter {
     const template = this.getTemplateOrThrow(rfxType);
     const placeholders = this.extractPlaceholdersFromTemplate(template);
 
-    console.log("sample placeholder --> ", placeholders[0]);
-    console.log("sample partial data --> ", partialData);
-
-    // FIX #1: Extract field path before checking against partialData
     const missingFields = placeholders.filter((p) => {
-      const fieldPath = p.split(":")[0]; // Extract "bidder.name" from "bidder.name:{{company_name}}"
+      const fieldPath = p.split(":")[0];
       return !(fieldPath in partialData);
     });
 

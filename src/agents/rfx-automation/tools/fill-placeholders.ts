@@ -313,6 +313,7 @@ export class PlaceholderFiller {
     };
   }
 
+  // FIXED: Path-based filling instead of placeholder content matching
   public fillTemplateData(
     templateData: TemplateData,
     values: PlaceholderValues,
@@ -335,21 +336,28 @@ export class PlaceholderFiller {
     // Create a deep copy of the template data
     const filledData = JSON.parse(JSON.stringify(templateData));
     
-    // Fill placeholders recursively
-    const fillRecursive = (obj: any): any => {
+    // Fill placeholders recursively with path tracking
+    const fillRecursive = (obj: any, currentPath: string[] = []): any => {
       if (typeof obj === 'string') {
-        return this.fillStringPlaceholders(
-          obj, 
-          values, 
-          { preserveUnknown: options.preserveUnknownPlaceholders },
-          unfilledPlaceholders
-        );
+        const path = currentPath.join('.');
+        // Check if we have a value for this exact path
+        if (values.hasOwnProperty(path)) {
+          // Replace the entire string with the value
+          return this.convertValueToString(values[path]);
+        }
+        // Track unfilled placeholder if it contains placeholder syntax
+        if (/\{\{.*?\}\}/.test(obj) || /\[.*?\]/.test(obj)) {
+          if (!options.preserveUnknownPlaceholders) {
+            unfilledPlaceholders.push(obj);
+          }
+        }
+        return obj;
       } else if (Array.isArray(obj)) {
-        return obj.map(item => fillRecursive(item));
+        return obj.map((item, index) => fillRecursive(item, [...currentPath, index.toString()]));
       } else if (typeof obj === 'object' && obj !== null) {
         const result: any = {};
         Object.entries(obj).forEach(([key, value]) => {
-          result[key] = fillRecursive(value);
+          result[key] = fillRecursive(value, [...currentPath, key]);
         });
         return result;
       }
@@ -475,7 +483,7 @@ export class PlaceholderFiller {
       try {
         return JSON.stringify(value);
       } catch {
-        return Object.toString();
+        return String(value);
       }
     }
     
