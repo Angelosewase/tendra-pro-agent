@@ -57,7 +57,7 @@ export class TemplateCompleter {
 
     this.executor = createAgent({
       model: this.model,
-      tools: [new DuckDuckGoSearch({ maxResults: 1000 })],
+      tools: [new DuckDuckGoSearch({ maxResults: 5 })],
       responseFormat: this.responseSchema,
     });
   }
@@ -82,16 +82,30 @@ export class TemplateCompleter {
     const template = this.getTemplateOrThrow(rfxType);
     const placeholders = this.extractPlaceholdersFromTemplate(template);
 
-    const missingFields = placeholders.filter((p) => !(p in partialData));
+    console.log("sample placeholder --> ", placeholders[0]);
+    console.log("sample partial data --> ", partialData);
+
+    // FIX #1: Extract field path before checking against partialData
+    const missingFields = placeholders.filter((p) => {
+      const fieldPath = p.split(":")[0]; // Extract "bidder.name" from "bidder.name:{{company_name}}"
+      return !(fieldPath in partialData);
+    });
+
     if (missingFields.length === 0) {
-      console.log(`✅ [TEMPLATE] No missing fields for ${rfxType.toUpperCase()} template`);
+      console.log(
+        `✅ [TEMPLATE] No missing fields for ${rfxType.toUpperCase()} template`,
+      );
       return { completedFields: {}, missingFields: [] };
     }
 
-    console.log(`🔄 [TEMPLATE] Starting template completion for ${rfxType.toUpperCase()}`);
+    console.log(
+      `🔄 [TEMPLATE] Starting template completion for ${rfxType.toUpperCase()}`,
+    );
     console.log(`📊 [TEMPLATE] Total placeholders: ${placeholders.length}`);
     console.log(`🔍 [TEMPLATE] Missing fields: ${missingFields.length}`);
-    console.log(`📝 [TEMPLATE] Missing: ${missingFields.join(', ')}`);
+    console.log(
+      `📝 [TEMPLATE] Missing: ${missingFields.map((f) => f.split(":")[0]).join(", ")}`,
+    );
 
     const chunkOptions = {
       ...this.defaultChunkOptions,
@@ -99,15 +113,19 @@ export class TemplateCompleter {
     };
     const chunks = this.chunkFields(missingFields, chunkOptions);
 
-    console.log(`🔧 [TEMPLATE] Created ${chunks.length} chunks (max ${chunkOptions.maxFieldsPerChunk} fields per chunk)`);
+    console.log(
+      `🔧 [TEMPLATE] Created ${chunks.length} chunks (max ${chunkOptions.maxFieldsPerChunk} fields per chunk)`,
+    );
 
     let completed: Record<string, string> = {};
     let unresolved = new Set<string>();
 
     for (let i = 0; i < chunks.length; i++) {
       const fields = chunks[i];
-      console.log(`🚀 [CHUNK] Processing chunk ${i + 1}/${chunks.length} with ${fields.length} fields`);
-      
+      console.log(
+        `🚀 [CHUNK] Processing chunk ${i + 1}/${chunks.length} with ${fields.length} fields`,
+      );
+
       const result = await this.runChunk({
         rfxType,
         fields,
@@ -119,16 +137,24 @@ export class TemplateCompleter {
       result.missingFields.forEach((f) => unresolved.add(f));
     }
 
-    console.log(`✅ [TEMPLATE] Completed template processing for ${rfxType.toUpperCase()}`);
-    console.log(`📊 [TEMPLATE] Total completed fields: ${Object.keys(completed).length}`);
+    console.log(
+      `✅ [TEMPLATE] Completed template processing for ${rfxType.toUpperCase()}`,
+    );
+    console.log(
+      `📊 [TEMPLATE] Total completed fields: ${Object.keys(completed).length}`,
+    );
     console.log(`❌ [TEMPLATE] Total missing fields: ${unresolved.size}`);
-    
+
     if (Object.keys(completed).length > 0) {
-      console.log(`🔧 [TEMPLATE] All completed: ${Object.keys(completed).join(', ')}`);
+      console.log(
+        `🔧 [TEMPLATE] All completed: ${Object.keys(completed).join(", ")}`,
+      );
     }
-    
+
     if (unresolved.size > 0) {
-      console.log(`⚠️ [TEMPLATE] All missing: ${Array.from(unresolved).join(', ')}`);
+      console.log(
+        `⚠️ [TEMPLATE] All missing: ${Array.from(unresolved).join(", ")}`,
+      );
     }
 
     return {
@@ -158,30 +184,91 @@ export class TemplateCompleter {
       ],
     });
 
-    const completionResult = (
-      result.structuredResponse ?? {
-        completedFields: {},
-        missingFields: [],
-      }
+    const rawResult = result.structuredResponse ?? {
+      completedFields: {},
+      missingFields: [],
+    };
+
+    // FIX #4: Validate and normalize the AI response
+    const completionResult = this.validateAndNormalizeResponse(
+      rawResult,
+      params.fields,
     );
 
     // Log chunk completion
-    console.log(`✅ [CHUNK] Completed chunk processing for ${params.rfxType.toUpperCase()}`);
+    console.log(
+      `✅ [CHUNK] Completed chunk processing for ${params.rfxType.toUpperCase()}`,
+    );
     console.log(`📊 [CHUNK] Fields processed: ${params.fields.length}`);
-    console.log(`📝 [CHUNK] Completed fields: ${Object.keys(completionResult.completedFields).length}`);
-    console.log(`❌ [CHUNK] Missing fields: ${completionResult.missingFields.length}`);
-    
+    console.log(
+      `📝 [CHUNK] Completed fields: ${Object.keys(completionResult.completedFields).length}`,
+    );
+    console.log(
+      `❌ [CHUNK] Missing fields: ${completionResult.missingFields.length}`,
+    );
+
     if (Object.keys(completionResult.completedFields).length > 0) {
-      console.log(`🔧 [CHUNK] Completed: ${Object.keys(completionResult.completedFields).join(', ')}`);
+      console.log(
+        `🔧 [CHUNK] Completed: ${Object.keys(completionResult.completedFields).join(", ")}`,
+      );
     }
-    
+
     if (completionResult.missingFields.length > 0) {
-      console.log(`⚠️ [CHUNK] Missing: ${completionResult.missingFields.join(', ')}`);
+      console.log(
+        `⚠️ [CHUNK] Missing: ${completionResult.missingFields.join(", ")}`,
+      );
     }
 
     return completionResult;
   }
 
+  // FIX #4: Validate that AI returns correct field paths as keys
+  private validateAndNormalizeResponse(
+    rawResult: {
+      completedFields: Record<string, string>;
+      missingFields: string[];
+    },
+    expectedFields: string[],
+  ): CompletionResult {
+    const expectedPaths = new Set(expectedFields.map((f) => f.split(":")[0]));
+    const normalized: Record<string, string> = {};
+    const missing: string[] = [];
+
+    // Validate completed fields have correct keys
+    for (const [key, value] of Object.entries(rawResult.completedFields)) {
+      // If the AI returned the full template string as key, extract the path
+      const fieldPath = key.includes(":") ? key.split(":")[0] : key;
+
+      if (expectedPaths.has(fieldPath)) {
+        normalized[fieldPath] = value;
+      } else {
+        console.warn(`⚠️ [VALIDATION] AI returned unexpected key: ${key}`);
+      }
+    }
+
+    // Validate missing fields
+    for (const field of rawResult.missingFields) {
+      const fieldPath = field.includes(":") ? field.split(":")[0] : field;
+      if (expectedPaths.has(fieldPath)) {
+        missing.push(fieldPath);
+      }
+    }
+
+    // Check if any expected fields are neither completed nor marked as missing
+    for (const expectedField of expectedFields) {
+      const fieldPath = expectedField.split(":")[0];
+      if (!normalized[fieldPath] && !missing.includes(fieldPath)) {
+        missing.push(fieldPath);
+      }
+    }
+
+    return {
+      completedFields: normalized,
+      missingFields: missing,
+    };
+  }
+
+  // FIX #2: Improved prompt with clearer instructions
   private buildPrompt({
     rfxType,
     fields,
@@ -196,20 +283,33 @@ export class TemplateCompleter {
     return `
 Complete missing fields for a ${rfxType.toUpperCase()} procurement document.
 
-KNOWN DATA:
+KNOWN DATA (already provided):
 ${JSON.stringify({ ...baseData, ...context }, null, 2)}
 
-FIELDS TO COMPLETE:
+FIELDS TO COMPLETE (format is "fieldPath:templateContext"):
 ${fields.join("\n")}
 
-RULES:
-- Only return values for the listed fields
-- Use professional procurement language
-- Dates: YYYY-MM-DD
-- Currency: realistic, explicit
-- If a field cannot be inferred, list it as missing
+IMPORTANT INSTRUCTIONS:
+- Each field above shows the path (before colon) and context (after colon)
+- Return an object where keys are the FIELD PATHS ONLY (the part before the colon)
+- Example: For "bidder.name:Company is {{company_name}}", return {"bidder.name": "Acme Corporation"}
+- Use the template context to understand what value is needed
+- Use the KNOWN DATA to infer values when possible
+- Only complete fields that you can reasonably infer or generate
+- If a field cannot be completed, add its field path to the missingFields array
 
-Return JSON only.
+RULES:
+- Use professional procurement language
+- Dates: YYYY-MM-DD format
+- Currency: Use realistic values with currency symbols (e.g., "$50,000")
+- Be specific and concrete, avoid placeholders or generic text
+- Keys in completedFields must match the field paths exactly
+
+Return a JSON object with this structure:
+{
+  "completedFields": { "field.path": "actual value", ... },
+  "missingFields": ["field.path", ...]
+}
 `;
   }
 
@@ -245,27 +345,30 @@ Return JSON only.
     return fn() as TemplateData;
   }
 
-  private extractPlaceholdersFromTemplate(template: TemplateData): string[] {
-    const found = new Set<string>();
+  private extractPlaceholdersFromTemplate(template: any): string[] {
+    const results: string[] = [];
 
-    const walk = (value: any) => {
+    const walk = (value: any, path: string[] = []) => {
       if (typeof value === "string") {
-        const matches = value.match(/\{\{([^}]+)\}\}|\[([^\]]+)\]/g) ?? [];
-        matches.forEach((m) => found.add(m.replace(/[{}\[\]]/g, "")));
-      } else if (Array.isArray(value)) {
-        value.forEach(walk);
-      } else if (value && typeof value === "object") {
-        Object.values(value).forEach(walk);
+        results.push(`${path.join(".")}:${value}`);
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => walk(item, [...path, index.toString()]));
+        return;
+      }
+
+      if (value && typeof value === "object") {
+        Object.entries(value).forEach(([key, val]) => {
+          walk(val, [...path, key]);
+        });
       }
     };
 
     walk(template);
-    return Array.from(found);
+    return results;
   }
-
-  /* =======================
-     Utilities
-  ======================= */
 
   async healthCheck(): Promise<boolean> {
     const res = await this.model.invoke("Say OK");
