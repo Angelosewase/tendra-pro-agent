@@ -6,22 +6,32 @@ import { z } from "zod";
 import { TemplateManager, TemplateData } from "./template-manager";
 import { PlaceholderValues as ValuesI } from "./fill-placeholders";
 
+export interface ChunkOptions {
+  maxFieldsPerChunk?: number;
+}
+
+export interface CompletionResult {
+  completedFields: Record<string, string>;
+  missingFields: string[];
+}
+
 export class TemplateCompleter {
   private model: ChatOpenAI;
   private executor: any;
-  private templateManager: TemplateManager;
+  private templateManager = new TemplateManager();
 
-  private templateResponseSchema = z.object({
+  private defaultChunkOptions: ChunkOptions = {
+    maxFieldsPerChunk: 20,
+  };
+
+  private responseSchema = z.object({
     completedFields: z.record(z.string(), z.string()),
     missingFields: z.array(z.string()),
   });
 
   constructor(options?: { temperature?: number }) {
     const apiKey = process.env.OPEN_ROUTER_API_KEY;
-
-    if (apiKey) {
-      process.env.OPENAI_API_KEY = apiKey;
-    }
+    if (apiKey) process.env.OPENAI_API_KEY = apiKey;
 
     this.model = new ChatOpenAI({
       temperature: options?.temperature ?? 0.3,
@@ -34,127 +44,239 @@ export class TemplateCompleter {
         },
       },
     });
-
-    this.templateManager = new TemplateManager();
   }
 
-  async initialize() {
+  /* =======================
+     Init
+  ======================= */
+
+  async initialize(): Promise<void> {
     if (!process.env.OPEN_ROUTER_API_KEY) {
-      throw new Error("OPEN_ROUTER_API_KEY environment variable is required");
+      throw new Error("OPEN_ROUTER_API_KEY is required");
     }
 
-    const tools = [
-      new DuckDuckGoSearch({ maxResults: 1000 }),
-    ];
-
     this.executor = createAgent({
-      tools,
       model: this.model,
-      responseFormat: this.templateResponseSchema,
+      tools: [new DuckDuckGoSearch({ maxResults: 1000 })],
+      responseFormat: this.responseSchema,
     });
   }
 
-  async completeTemplate(partialData: ValuesI, rfxType: string): Promise<{
-    completedFields: Record<string, string>;
-    missingFields: string[];
-  }> {
+  private ensureInitialized() {
     if (!this.executor) {
       throw new Error("Agent not initialized. Call initialize() first.");
     }
+  }
 
-    // Get template structure to understand expected fields
-    const templateData = this.getTemplateData(rfxType);
-    if (!templateData) {
-      throw new Error(`Template not found for type: ${rfxType}`);
+  /* =======================
+     Public API
+  ======================= */
+
+  async completeTemplate(
+    partialData: ValuesI,
+    rfxType: string,
+    options?: { chunkOptions?: ChunkOptions },
+  ): Promise<CompletionResult> {
+    this.ensureInitialized();
+
+    const template = this.getTemplateOrThrow(rfxType);
+    const placeholders = this.extractPlaceholdersFromTemplate(template);
+
+    const missingFields = placeholders.filter((p) => !(p in partialData));
+    if (missingFields.length === 0) {
+      console.log(`✅ [TEMPLATE] No missing fields for ${rfxType.toUpperCase()} template`);
+      return { completedFields: {}, missingFields: [] };
     }
 
-    const expectedPlaceholders = this.extractPlaceholdersFromTemplate(templateData);
+    console.log(`🔄 [TEMPLATE] Starting template completion for ${rfxType.toUpperCase()}`);
+    console.log(`📊 [TEMPLATE] Total placeholders: ${placeholders.length}`);
+    console.log(`🔍 [TEMPLATE] Missing fields: ${missingFields.length}`);
+    console.log(`📝 [TEMPLATE] Missing: ${missingFields.join(', ')}`);
+
+    const chunkOptions = {
+      ...this.defaultChunkOptions,
+      ...options?.chunkOptions,
+    };
+    const chunks = this.chunkFields(missingFields, chunkOptions);
+
+    console.log(`🔧 [TEMPLATE] Created ${chunks.length} chunks (max ${chunkOptions.maxFieldsPerChunk} fields per chunk)`);
+
+    let completed: Record<string, string> = {};
+    let unresolved = new Set<string>();
+
+    for (let i = 0; i < chunks.length; i++) {
+      const fields = chunks[i];
+      console.log(`🚀 [CHUNK] Processing chunk ${i + 1}/${chunks.length} with ${fields.length} fields`);
+      
+      const result = await this.runChunk({
+        rfxType,
+        fields,
+        baseData: partialData,
+        context: completed,
+      });
+
+      Object.assign(completed, result.completedFields);
+      result.missingFields.forEach((f) => unresolved.add(f));
+    }
+
+    console.log(`✅ [TEMPLATE] Completed template processing for ${rfxType.toUpperCase()}`);
+    console.log(`📊 [TEMPLATE] Total completed fields: ${Object.keys(completed).length}`);
+    console.log(`❌ [TEMPLATE] Total missing fields: ${unresolved.size}`);
     
-    const query = `Complete missing template data for this ${rfxType.toUpperCase()} document:
+    if (Object.keys(completed).length > 0) {
+      console.log(`🔧 [TEMPLATE] All completed: ${Object.keys(completed).join(', ')}`);
+    }
+    
+    if (unresolved.size > 0) {
+      console.log(`⚠️ [TEMPLATE] All missing: ${Array.from(unresolved).join(', ')}`);
+    }
 
-    CURRENT DATA:
-    ${JSON.stringify(partialData, null, 2)}
+    return {
+      completedFields: completed,
+      missingFields: Array.from(unresolved),
+    };
+  }
 
-    EXPECTED FIELDS (from template):
-    ${expectedPlaceholders.join('\n')}
+  /* =======================
+     Chunk execution
+  ======================= */
 
-    INSTRUCTIONS:
-    1. Analyze the provided data and identify missing fields
-    2. Fill missing fields with realistic, professional values based on:
-       - Context from existing data
-       - Industry standards for ${rfxType.toUpperCase()} documents
-       - Best practices for government/procurement documents
-    3. Use appropriate formats:
-       - Dates: YYYY-MM-DD format
-       - Currency: Use appropriate currency symbols
-       - Contact info: Professional format
-       - Addresses: Complete, realistic addresses
-       - Descriptions: Professional, detailed text
-    4. Return ONLY the completed missing fields as key-value pairs
-    5. List any fields that cannot be reasonably inferred
-    6. Provide suggestions for improving the data quality
-
-    Focus on creating professional, procurement-ready content that would be acceptable in a real RFX process.`;
+  private async runChunk(params: {
+    rfxType: string;
+    fields: string[];
+    baseData: ValuesI;
+    context: Record<string, string>;
+  }): Promise<CompletionResult> {
+    const prompt = this.buildPrompt(params);
 
     const result = await this.executor.invoke({
       messages: [
         new SystemMessage(
-          "You are an expert in procurement and RFX document completion. Generate realistic, professional values for missing template fields based on context and industry standards."
+          "You are an expert in procurement and RFX document completion.",
         ),
-        new HumanMessage(query),
+        new HumanMessage(prompt),
       ],
     });
 
-    return result.structuredResponse || {
-      completedFields: {},
-      missingFields: [],
-    };
-  }
+    const completionResult = (
+      result.structuredResponse ?? {
+        completedFields: {},
+        missingFields: [],
+      }
+    );
 
-  private getTemplateData(rfxType: string): TemplateData | undefined {
-    switch (rfxType.toLowerCase()) {
-      case 'rfb':
-        return this.templateManager.getRFBTemplateData();
-      case 'rfi':
-        return this.templateManager.getRFITemplateData();
-      case 'rfp':
-        return this.templateManager.getRFPTemplateData();
-      case 'rfq':
-        return this.templateManager.getRFQTemplateData();
-      default:
-        return undefined;
-    }
-  }
-
-  private extractPlaceholdersFromTemplate(templateData: TemplateData): string[] {
-    const placeholders: string[] = [];
+    // Log chunk completion
+    console.log(`✅ [CHUNK] Completed chunk processing for ${params.rfxType.toUpperCase()}`);
+    console.log(`📊 [CHUNK] Fields processed: ${params.fields.length}`);
+    console.log(`📝 [CHUNK] Completed fields: ${Object.keys(completionResult.completedFields).length}`);
+    console.log(`❌ [CHUNK] Missing fields: ${completionResult.missingFields.length}`);
     
-    const extractFromObject = (obj: any, prefix: string = '') => {
-      if (typeof obj === 'string') {
-        const doubleBracePlaceholders = obj.match(/\{\{([^}]+)\}\}/g) || [];
-        const singleBracePlaceholders = obj.match(/\[([^\]]+)\]/g) || [];
-        
-        [...doubleBracePlaceholders, ...singleBracePlaceholders].forEach(placeholder => {
-          const cleanName = placeholder.replace(/[{}[\]]/g, '');
-          placeholders.push(prefix ? `${prefix}.${cleanName}` : cleanName);
-        });
-      } else if (Array.isArray(obj)) {
-        obj.forEach((item, index) => {
-          extractFromObject(item, prefix ? `${prefix}[${index}]` : `[${index}]`);
-        });
-      } else if (typeof obj === 'object' && obj !== null) {
-        Object.entries(obj).forEach(([key, value]) => {
-          extractFromObject(value, prefix ? `${prefix}.${key}` : key);
-        });
+    if (Object.keys(completionResult.completedFields).length > 0) {
+      console.log(`🔧 [CHUNK] Completed: ${Object.keys(completionResult.completedFields).join(', ')}`);
+    }
+    
+    if (completionResult.missingFields.length > 0) {
+      console.log(`⚠️ [CHUNK] Missing: ${completionResult.missingFields.join(', ')}`);
+    }
+
+    return completionResult;
+  }
+
+  private buildPrompt({
+    rfxType,
+    fields,
+    baseData,
+    context,
+  }: {
+    rfxType: string;
+    fields: string[];
+    baseData: ValuesI;
+    context: Record<string, string>;
+  }): string {
+    return `
+Complete missing fields for a ${rfxType.toUpperCase()} procurement document.
+
+KNOWN DATA:
+${JSON.stringify({ ...baseData, ...context }, null, 2)}
+
+FIELDS TO COMPLETE:
+${fields.join("\n")}
+
+RULES:
+- Only return values for the listed fields
+- Use professional procurement language
+- Dates: YYYY-MM-DD
+- Currency: realistic, explicit
+- If a field cannot be inferred, list it as missing
+
+Return JSON only.
+`;
+  }
+
+  /* =======================
+     Chunking
+  ======================= */
+
+  private chunkFields(fields: string[], options: ChunkOptions): string[][] {
+    const max = options.maxFieldsPerChunk ?? fields.length;
+    const chunks: string[][] = [];
+
+    for (let i = 0; i < fields.length; i += max) {
+      chunks.push(fields.slice(i, i + max));
+    }
+
+    return chunks;
+  }
+
+  /* =======================
+     Template helpers
+  ======================= */
+
+  private getTemplateOrThrow(type: string): TemplateData {
+    const map: Record<string, () => TemplateData | undefined> = {
+      rfb: () => this.templateManager.getRFBTemplateData(),
+      rfi: () => this.templateManager.getRFITemplateData(),
+      rfp: () => this.templateManager.getRFPTemplateData(),
+      rfq: () => this.templateManager.getRFQTemplateData(),
+    };
+
+    const fn = map[type.toLowerCase()];
+    if (!fn) throw new Error(`Unknown RFX type: ${type}`);
+    return fn() as TemplateData;
+  }
+
+  private extractPlaceholdersFromTemplate(template: TemplateData): string[] {
+    const found = new Set<string>();
+
+    const walk = (value: any) => {
+      if (typeof value === "string") {
+        const matches = value.match(/\{\{([^}]+)\}\}|\[([^\]]+)\]/g) ?? [];
+        matches.forEach((m) => found.add(m.replace(/[{}\[\]]/g, "")));
+      } else if (Array.isArray(value)) {
+        value.forEach(walk);
+      } else if (value && typeof value === "object") {
+        Object.values(value).forEach(walk);
       }
     };
 
-    extractFromObject(templateData);
-    return placeholders;
+    walk(template);
+    return Array.from(found);
   }
+
+  /* =======================
+     Utilities
+  ======================= */
 
   async healthCheck(): Promise<boolean> {
     const res = await this.model.invoke("Say OK");
     return res.content.toString().includes("OK");
+  }
+
+  updateDefaultChunkOptions(options: Partial<ChunkOptions>) {
+    this.defaultChunkOptions = { ...this.defaultChunkOptions, ...options };
+  }
+
+  getDefaultChunkOptions(): ChunkOptions {
+    return { ...this.defaultChunkOptions };
   }
 }
